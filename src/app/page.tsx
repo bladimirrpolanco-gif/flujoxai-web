@@ -10,6 +10,8 @@ import { ChatbotSimulator } from "@/components/chatbot";
 import { AutomationFlow } from "@/components/automation-flow";
 import { IntegrationsHub } from "@/components/integrations-hub";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import { Marquee } from "@/components/marquee";
+import { FAQ } from "@/components/faq";
 
 import { useEffect } from "react";
 import { trackEvent } from "@/lib/metrics";
@@ -25,10 +27,12 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero />
+        <Marquee />
         <Services />
         <AutomationFlow />
         <IntegrationsHub />
         <ChatbotSimulator />
+        <FAQ />
         <Contact />
 
       </main>

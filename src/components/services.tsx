@@ -1,8 +1,40 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import { MessageSquare, Workflow, CalendarCheck, CheckCircle2, Bot, Zap, AreaChart, Sparkles } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+
+function useCounter(target: number, duration = 2000, inView = false) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    let start = 0;
+    const step = target / (duration / 16);
+    const timer = setInterval(() => {
+      start += step;
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(Math.floor(start));
+    }, 16);
+    return () => clearInterval(timer);
+  }, [inView, target, duration]);
+  return count;
+}
+
+function AnimatedStat({ value, label }: { value: string; label: string }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true });
+  const numericMatch = value.match(/\d+/);
+  const numeric = numericMatch ? parseInt(numericMatch[0]) : 0;
+  const prefix = value.replace(/[\d]+.*/, "");
+  const suffix = value.replace(/^[\d]*/, "");
+  const count = useCounter(numeric, 2000, inView);
+  return (
+    <div ref={ref} className="text-center">
+      <p className="text-5xl font-extrabold gradient-text mb-2">{prefix}{count}{suffix}</p>
+      <p className="text-sm text-muted-foreground font-medium">{label}</p>
+    </div>
+  );
+}
 import { supabase } from "@/lib/supabase";
 
 const ICON_MAP: Record<string, any> = {
@@ -164,18 +196,9 @@ export function Services() {
           <p className="text-center text-sm font-semibold uppercase tracking-widest text-primary mb-8 opacity-80">
             Resultados Comprobados
           </p>
-          <div className="grid grid-cols-3 gap-8 text-center">
+          <div className="grid grid-cols-3 gap-8">
             {stats.map(({ value, label }: { value: string; label: string }, i: number) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.4 + i * 0.1 }}
-              >
-                <p className="text-5xl font-extrabold gradient-text mb-2">{value}</p>
-                <p className="text-sm text-muted-foreground font-medium">{label}</p>
-              </motion.div>
+              <AnimatedStat key={i} value={value} label={label} />
             ))}
           </div>
 
