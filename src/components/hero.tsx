@@ -182,7 +182,7 @@ export function Hero() {
                 </div>
               ))}
             </div>
-            <span><strong className="text-foreground">+50</strong> negocios ya automatizados en <span className="text-primary font-medium">Invivienda</span></span>
+            <span><strong className="text-foreground">+50</strong> negocios ya automatizados en <span className="text-primary font-medium">República Dominicana</span></span>
           </motion.div>
 
         </div>
