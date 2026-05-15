@@ -7,7 +7,7 @@ import {
   Bot, Users, TrendingUp, LogOut, LayoutDashboard,
   Mail, Phone, Building2, MessageSquare, ChevronRight,
   Calendar, RefreshCw, Search, X, BarChart3, MousePointer2,
-  Download, Kanban
+  Download, Kanban, Menu
 } from 'lucide-react';
 
 type Estado = 'nuevo' | 'contactado' | 'propuesta' | 'cerrado' | 'perdido';
@@ -57,6 +57,7 @@ const ESTADO_STYLES: Record<Estado, string> = {
 
 export function AdminDashboard({ user, leads }: AdminDashboardProps) {
   const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'leads' | 'analytics'>('overview');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
   const [metrics, setMetrics] = useState<Metrica[]>([]);
@@ -143,8 +144,13 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
 
   return (
     <div className="min-h-screen bg-zinc-950 flex">
+      {/* Mobile sidebar overlay */}
+      {sidebarOpen && (
+        <div className="fixed inset-0 bg-black/60 z-40 md:hidden" onClick={() => setSidebarOpen(false)} />
+      )}
+
       {/* Sidebar */}
-      <aside className="w-60 bg-zinc-900 border-r border-zinc-800 flex flex-col flex-shrink-0">
+      <aside className={`fixed md:static inset-y-0 left-0 z-50 w-60 bg-zinc-900 border-r border-zinc-800 flex flex-col flex-shrink-0 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         <div className="flex items-center gap-3 px-5 py-5 border-b border-zinc-800">
           <div className="bg-blue-600 p-2 rounded-xl">
             <Bot className="h-5 w-5 text-white" />
@@ -161,7 +167,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
           ].map(({ id, icon: Icon, label, badge, onClick }) => (
             <button
               key={id}
-              onClick={() => { setActiveTab(id as any); onClick?.(); }}
+              onClick={() => { setActiveTab(id as any); onClick?.(); setSidebarOpen(false); }}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition ${
                 activeTab === id ? 'bg-blue-600 text-white' : 'text-zinc-400 hover:bg-zinc-800 hover:text-white'
               }`}
@@ -197,10 +203,15 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
 
       {/* Main */}
       <main className="flex-1 overflow-auto">
-        <div className="sticky top-0 z-10 bg-zinc-950/90 backdrop-blur-sm border-b border-zinc-800 px-8 py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-xl font-bold text-white">{TAB_TITLES[activeTab]?.title}</h1>
-            <p className="text-sm text-zinc-500">{TAB_TITLES[activeTab]?.sub}</p>
+        <div className="sticky top-0 z-10 bg-zinc-950/90 backdrop-blur-sm border-b border-zinc-800 px-4 md:px-8 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button onClick={() => setSidebarOpen(!sidebarOpen)} className="md:hidden p-2 text-zinc-400 hover:text-white transition">
+              <Menu className="h-5 w-5" />
+            </button>
+            <div>
+              <h1 className="text-lg md:text-xl font-bold text-white">{TAB_TITLES[activeTab]?.title}</h1>
+              <p className="text-xs md:text-sm text-zinc-500">{TAB_TITLES[activeTab]?.sub}</p>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             {activeTab === 'leads' && (

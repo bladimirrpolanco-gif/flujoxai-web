@@ -2,46 +2,40 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import {
-  Mail, Sheet, MessageSquare, Database, Globe, FileText,
-  CreditCard, Server, Zap, Bot
-} from "lucide-react";
+import { Mail, Sheet, MessageSquare, Database, Globe, FileText, CreditCard, Server, Bot } from "lucide-react";
 
-const LEFT_TOOLS = [
-  { icon: Mail,         label: "Gmail",          color: "bg-red-500",     glow: "shadow-red-500/40"    },
-  { icon: MessageSquare,label: "Slack",           color: "bg-purple-500",  glow: "shadow-purple-500/40" },
-  { icon: Globe,        label: "Formulario Web",  color: "bg-blue-500",    glow: "shadow-blue-500/40"   },
-  { icon: CreditCard,   label: "Stripe",          color: "bg-indigo-500",  glow: "shadow-indigo-500/40" },
+const ALL_TOOLS = [
+  { icon: Mail,          label: "Gmail",          color: "bg-red-500",     glow: "shadow-red-500/40"    },
+  { icon: MessageSquare, label: "Slack",           color: "bg-purple-500",  glow: "shadow-purple-500/40" },
+  { icon: Globe,         label: "Formulario Web",  color: "bg-blue-500",    glow: "shadow-blue-500/40"   },
+  { icon: CreditCard,    label: "Stripe",          color: "bg-indigo-500",  glow: "shadow-indigo-500/40" },
+  { icon: Sheet,         label: "Google Sheets",   color: "bg-emerald-500", glow: "shadow-emerald-500/40"},
+  { icon: Database,      label: "Base de Datos",   color: "bg-orange-500",  glow: "shadow-orange-500/40" },
+  { icon: FileText,      label: "Notion",          color: "bg-zinc-500",    glow: "shadow-zinc-500/40"   },
+  { icon: Server,        label: "ERP / CRM",       color: "bg-pink-500",    glow: "shadow-pink-500/40"   },
 ];
 
-const RIGHT_TOOLS = [
-  { icon: Sheet,        label: "Google Sheets",   color: "bg-emerald-500", glow: "shadow-emerald-500/40"},
-  { icon: Database,     label: "Base de Datos",   color: "bg-orange-500",  glow: "shadow-orange-500/40" },
-  { icon: FileText,     label: "Notion",          color: "bg-zinc-500",    glow: "shadow-zinc-500/40"   },
-  { icon: Server,       label: "ERP / CRM",       color: "bg-pink-500",    glow: "shadow-pink-500/40"   },
-];
+const LEFT_TOOLS  = ALL_TOOLS.slice(0, 4);
+const RIGHT_TOOLS = ALL_TOOLS.slice(4);
 
 export function IntegrationsHub() {
-  const [activeLeft, setActiveLeft] = useState<number[]>([]);
+  const [activeLeft,  setActiveLeft]  = useState<number[]>([]);
   const [activeRight, setActiveRight] = useState<number[]>([]);
-  const [hubPulse, setHubPulse] = useState(false);
+  const [hubPulse,    setHubPulse]    = useState(false);
 
   useEffect(() => {
     let step = 0;
-
     const cycle = () => {
       step = (step + 1) % 8;
-
-      if (step === 0) { setActiveLeft([]); setActiveRight([]); setHubPulse(false); }
-      if (step === 1) setActiveLeft([0]);
-      if (step === 2) setActiveLeft([0, 2]);
-      if (step === 3) { setActiveLeft([0, 1, 2, 3]); setHubPulse(true); }
-      if (step === 4) setActiveRight([0]);
-      if (step === 5) setActiveRight([0, 1]);
-      if (step === 6) setActiveRight([0, 1, 2]);
-      if (step === 7) { setActiveRight([0, 1, 2, 3]); }
+      if (step === 0) { setActiveLeft([]);          setActiveRight([]); setHubPulse(false); }
+      if (step === 1)   setActiveLeft([0]);
+      if (step === 2)   setActiveLeft([0, 2]);
+      if (step === 3) { setActiveLeft([0,1,2,3]);   setHubPulse(true); }
+      if (step === 4)   setActiveRight([0]);
+      if (step === 5)   setActiveRight([0,1]);
+      if (step === 6)   setActiveRight([0,1,2]);
+      if (step === 7)   setActiveRight([0,1,2,3]);
     };
-
     const id = setInterval(cycle, 800);
     return () => clearInterval(id);
   }, []);
@@ -74,102 +68,78 @@ export function IntegrationsHub() {
           </p>
         </motion.div>
 
-        {/* Hub Diagram */}
+        {/* Hub diagram */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass border border-border/50 rounded-3xl p-8 md:p-12 max-w-5xl mx-auto"
+          className="glass border border-border/50 rounded-3xl p-6 md:p-12 max-w-5xl mx-auto"
         >
-          <div className="flex items-center justify-between gap-4">
-
-            {/* Left tools */}
+          {/* DESKTOP layout */}
+          <div className="hidden md:flex items-center justify-between gap-4">
             <div className="flex flex-col gap-4 flex-shrink-0">
               {LEFT_TOOLS.map((tool, i) => (
-                <ToolNode
-                  key={i}
-                  icon={tool.icon}
-                  label={tool.label}
-                  color={tool.color}
-                  glow={tool.glow}
-                  active={activeLeft.includes(i)}
-                  side="left"
-                />
+                <ToolNode key={i} {...tool} active={activeLeft.includes(i)} side="left" />
               ))}
             </div>
-
-            {/* Left connectors */}
             <div className="flex flex-col gap-4 flex-shrink-0">
               {LEFT_TOOLS.map((_, i) => (
-                <HorizontalLine key={i} active={activeLeft.includes(i)} direction="right" />
+                <HorizontalLine key={i} active={activeLeft.includes(i)} />
               ))}
             </div>
-
-            {/* Central Hub */}
-            <div className="flex flex-col items-center gap-3 flex-shrink-0">
-              <div className="relative">
-                {/* Outer glow rings */}
-                {hubPulse && (
-                  <>
-                    <motion.div
-                      className="absolute inset-0 rounded-full bg-primary/20"
-                      animate={{ scale: [1, 2, 1], opacity: [0.4, 0, 0.4] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    <motion.div
-                      className="absolute inset-0 rounded-full bg-primary/10"
-                      animate={{ scale: [1, 2.8, 1], opacity: [0.3, 0, 0.3] }}
-                      transition={{ duration: 2, repeat: Infinity, delay: 0.4 }}
-                    />
-                  </>
-                )}
-                {/* Rotating border */}
-                <motion.div
-                  className="absolute -inset-2 rounded-full"
-                  style={{
-                    background: "conic-gradient(from 0deg, transparent 0%, oklch(0.65 0.22 255) 30%, transparent 60%)",
-                    opacity: hubPulse ? 0.6 : 0.2,
-                  }}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                />
-                <div className="relative h-20 w-20 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center shadow-2xl shadow-primary/40">
-                  <Bot className="h-10 w-10 text-white" />
-                </div>
-              </div>
-              <div className="text-center">
-                <p className="text-sm font-bold text-foreground">FlujoXAI</p>
-                <p className="text-xs text-primary font-medium">IA Central</p>
-              </div>
-            </div>
-
-            {/* Right connectors */}
+            <HubCenter hubPulse={hubPulse} />
             <div className="flex flex-col gap-4 flex-shrink-0">
               {RIGHT_TOOLS.map((_, i) => (
-                <HorizontalLine key={i} active={activeRight.includes(i)} direction="right" />
+                <HorizontalLine key={i} active={activeRight.includes(i)} />
               ))}
             </div>
-
-            {/* Right tools */}
             <div className="flex flex-col gap-4 flex-shrink-0">
               {RIGHT_TOOLS.map((tool, i) => (
-                <ToolNode
-                  key={i}
-                  icon={tool.icon}
-                  label={tool.label}
-                  color={tool.color}
-                  glow={tool.glow}
-                  active={activeRight.includes(i)}
-                  side="right"
-                />
+                <ToolNode key={i} {...tool} active={activeRight.includes(i)} side="right" />
+              ))}
+            </div>
+          </div>
+
+          {/* MOBILE layout */}
+          <div className="flex md:hidden flex-col items-center gap-6">
+            {/* Top tools grid */}
+            <div className="grid grid-cols-2 gap-3 w-full">
+              {LEFT_TOOLS.map((tool, i) => (
+                <ToolNode key={i} {...tool} active={activeLeft.includes(i)} side="left" />
               ))}
             </div>
 
+            {/* Vertical connector up */}
+            <div className="w-px h-6 bg-border/50 relative flex justify-center">
+              <AnimatePresence>
+                {hubPulse && (
+                  <motion.div
+                    className="absolute top-0 w-2 h-2 rounded-full bg-primary"
+                    style={{ boxShadow: "0 0 6px 2px hsl(var(--primary) / 0.7)" }}
+                    initial={{ top: 0 }} animate={{ top: "100%" }}
+                    transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 0.3 }}
+                  />
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Hub */}
+            <HubCenter hubPulse={hubPulse} />
+
+            {/* Vertical connector down */}
+            <div className="w-px h-6 bg-border/50" />
+
+            {/* Bottom tools grid */}
+            <div className="grid grid-cols-2 gap-3 w-full">
+              {RIGHT_TOOLS.map((tool, i) => (
+                <ToolNode key={i} {...tool} active={activeRight.includes(i)} side="left" />
+              ))}
+            </div>
           </div>
 
-          {/* Bottom label */}
-          <div className="mt-10 pt-6 border-t border-border/50 flex flex-wrap justify-center gap-3">
+          {/* Tags */}
+          <div className="mt-10 pt-6 border-t border-border/50 flex flex-wrap justify-center gap-2">
             {["Gmail", "Slack", "Stripe", "Google Sheets", "Notion", "MySQL", "HubSpot", "WhatsApp", "ERP", "+ más"].map((tag) => (
               <span key={tag} className="text-xs bg-muted/50 text-muted-foreground px-3 py-1 rounded-full border border-border/50">
                 {tag}
@@ -182,20 +152,48 @@ export function IntegrationsHub() {
   );
 }
 
-/* ── Sub-components ── */
+function HubCenter({ hubPulse }: { hubPulse: boolean }) {
+  return (
+    <div className="flex flex-col items-center gap-3 flex-shrink-0">
+      <div className="relative">
+        {hubPulse && (
+          <>
+            <motion.div className="absolute inset-0 rounded-full bg-primary/20"
+              animate={{ scale: [1, 2, 1], opacity: [0.4, 0, 0.4] }}
+              transition={{ duration: 2, repeat: Infinity }} />
+            <motion.div className="absolute inset-0 rounded-full bg-primary/10"
+              animate={{ scale: [1, 2.8, 1], opacity: [0.3, 0, 0.3] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.4 }} />
+          </>
+        )}
+        <motion.div
+          className="absolute -inset-2 rounded-full"
+          style={{ background: "conic-gradient(from 0deg, transparent 0%, oklch(0.65 0.22 255) 30%, transparent 60%)", opacity: hubPulse ? 0.6 : 0.2 }}
+          animate={{ rotate: 360 }}
+          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+        />
+        <div className="relative h-20 w-20 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center shadow-2xl shadow-primary/40">
+          <Bot className="h-10 w-10 text-white" />
+        </div>
+      </div>
+      <div className="text-center">
+        <p className="text-sm font-bold text-foreground">FlujoXAI</p>
+        <p className="text-xs text-primary font-medium">IA Central</p>
+      </div>
+    </div>
+  );
+}
 
-function ToolNode({
-  icon: Icon, label, color, glow, active, side,
-}: {
+function ToolNode({ icon: Icon, label, color, glow, active, side }: {
   icon: any; label: string; color: string; glow: string; active: boolean; side: "left" | "right";
 }) {
   return (
     <motion.div
       animate={active ? { scale: 1.05 } : { scale: 1 }}
       transition={{ duration: 0.3 }}
-      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-2xl glass border transition-all duration-400 ${
+      className={`flex items-center gap-2 px-3 py-2.5 rounded-2xl glass border transition-all duration-300 ${
         active ? `border-white/20 shadow-lg ${glow}` : "border-border/30 opacity-50"
-      } ${side === "right" ? "flex-row-reverse" : ""}`}
+      } ${side === "right" ? "md:flex-row-reverse" : ""}`}
     >
       <div className={`h-8 w-8 rounded-xl ${color} flex items-center justify-center flex-shrink-0 shadow-md`}>
         <Icon className="h-4 w-4 text-white" />
@@ -205,7 +203,7 @@ function ToolNode({
   );
 }
 
-function HorizontalLine({ active, direction }: { active: boolean; direction: "right" | "left" }) {
+function HorizontalLine({ active }: { active: boolean }) {
   return (
     <div className="relative h-8 w-16 flex items-center">
       <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 h-px bg-border/40" />
@@ -215,8 +213,7 @@ function HorizontalLine({ active, direction }: { active: boolean; direction: "ri
             key="packet"
             className="absolute top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-primary"
             style={{ boxShadow: "0 0 6px 2px hsl(var(--primary) / 0.7)" }}
-            initial={{ left: direction === "right" ? "0%" : "100%" }}
-            animate={{ left: direction === "right" ? "100%" : "0%" }}
+            initial={{ left: "0%" }} animate={{ left: "100%" }}
             transition={{ duration: 0.5, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.3 }}
           />
         )}

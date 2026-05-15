@@ -76,7 +76,7 @@ export function AutomationFlow() {
           transition={{ duration: 0.6 }}
           className="glass border border-border/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto"
         >
-          <div className="flex flex-col md:flex-row items-center gap-4 md:gap-0">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0 overflow-x-auto">
 
             {/* Trigger Node — WhatsApp */}
             <MainNode
@@ -192,7 +192,7 @@ function MainNode({
 
 function FlowConnector({ active }: { active: boolean }) {
   return (
-    <div className="flex items-center justify-center mx-2 md:mx-4 rotate-90 md:rotate-0">
+    <div className="flex items-center justify-center mx-2 md:mx-4 rotate-90 md:rotate-0 flex-shrink-0">
       <div className="relative w-16 h-0.5 bg-border/50 overflow-visible flex items-center">
         {/* Static dashed base */}
         <div className="absolute inset-0 border-t-2 border-dashed border-border/30" />
