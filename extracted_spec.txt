@@ -1,0 +1,169 @@
+Documento de EspecificacionesPlataforma Web – FlujoXAI
+1. Información General
+Nombre del Proyecto: FlujoXAI Web Platform
+Empresa: FlujoXAI
+Tipo de Producto: Aplicación Web SaaS para promoción y demostración de automatizaciones con Inteligencia Artificial.
+Objetivo:
+Crear una plataforma web moderna que permita mostrar los servicios de automatización con IA de FlujoXAI, permitir a los usuarios probar chatbots simulados de WhatsApp y convertir visitantes en clientes potenciales.
+2. Objetivos del Sistema
+• Posicionar a FlujoXAI como especialista en automatización con inteligencia artificial.
+• Permitir que los visitantes prueben un chatbot de WhatsApp en tiempo real.
+• Convertir visitantes en leads.
+• Mostrar ejemplos de automatización empresarial.
+• Demostrar integraciones con IA, WhatsApp y sistemas empresariales.
+3. Tecnologías Propuestas
+Frontend:
+• Next.js
+• React
+• Tailwind CSS
+• Framer Motion
+• Shadcn UI
+Backend:
+• Supabase
+• API REST / Server Actions
+• Edge Functions
+Infraestructura:
+• Hosting: Vercel
+• Base de datos: PostgreSQL (Supabase)
+Inteligencia Artificial:
+• OpenAI API u otro proveedor LLM
+4. Arquitectura del Sistema
+Frontend (Next.js)
+↓
+API Backend
+↓
+Supabase Database
+↓
+Servicios de Inteligencia Artificial
+Componentes:
+• Interfaz Web
+• Motor de simulación de chatbot
+• Base de datos
+• Sistema de leads
+• Panel administrativo
+5. Módulos del Sistema
+Landing Page:
+• Hero principal
+• Explicación de servicios
+• Beneficios de automatización
+• Demostración interactiva
+• Casos de uso
+• Testimonios
+• Llamado a la acción (CTA)
+Sección Servicios:
+• Chatbots para WhatsApp con IA
+• Automatización de procesos empresariales
+• Integraciones con CRM, calendarios y APIs
+6. Simulador de Chatbot de WhatsApp
+Objetivo:
+Permitir que los visitantes interactúen con un chatbot que simula una conversación real en WhatsApp.
+Características:
+• Interfaz similar a WhatsApp
+• Burbujas de conversación
+• Indicador "escribiendo..."
+• Retraso realista en respuestas
+• Mensajes del usuario y del bot
+• Scroll de conversación
+• Botón para reiniciar chat
+Flujo:
+Usuario escribe un mensaje → el mensaje se envía al motor de IA → la IA genera respuesta → la respuesta aparece en la interfaz simulada.
+7. Base de Datos (Supabase)
+Tabla: leads
+• id
+• nombre
+• telefono
+• email
+• empresa
+• mensaje
+• fecha
+Tabla: conversaciones_demo
+• id
+• session_id
+• mensaje_usuario
+• respuesta_bot
+• timestamp
+Tabla: servicios
+• id
+• nombre
+• descripcion
+• precio_base
+• activo
+Tabla: usuarios_admin
+• id
+• nombre
+• email
+• rol
+8. Captura de Leads
+La plataforma debe capturar información de clientes potenciales mediante:
+• Formulario de contacto
+• Uso del simulador de chatbot
+• Botón de agendar llamada
+Datos capturados:
+• Nombre
+• Empresa
+• Teléfono
+• Email
+• Mensaje
+9. Panel de Administración
+Funciones del panel:
+Gestión de Leads:
+• Ver clientes potenciales
+• Información de contacto
+• Mensajes recibidos
+Analítica:
+• Número de visitantes
+• Uso del simulador
+• Leads generados
+• Conversión
+Gestión de contenido:
+• Editar servicios
+• Editar textos de la web
+• Actualizar FAQs
+10. Experiencia de Usuario (UX)
+La plataforma debe ofrecer una experiencia moderna y dinámica.
+Características:
+• Diseño minimalista
+• Animaciones suaves
+• Interacciones dinámicas
+• Interfaz rápida
+• Diseño responsivo para móviles y escritorio
+11. Funciones Avanzadas (Opcional)
+Generador de Chatbot Demo:
+El usuario puede introducir su tipo de negocio y el sistema generará un chatbot de demostración personalizado.
+Ejemplos de negocios:
+• Restaurantes
+• Clínicas
+• Iglesias
+• Ecommerce
+Simulación de automatización:
+Mostrar visualmente cómo un cliente escribe, la IA responde, se guarda el lead y se agenda una cita automáticamente.
+12. Seguridad
+• Autenticación mediante Supabase
+• Protección de APIs
+• Protección contra spam
+• Limitación de solicitudes (rate limiting)
+13. SEO
+Optimización para motores de búsqueda con palabras clave como:
+• chatbot para WhatsApp
+• automatización con inteligencia artificial
+• chatbot empresarial
+• bots para negocios
+14. Métricas Clave
+• Visitantes del sitio
+• Uso del simulador
+• Leads generados
+• Tasa de conversión
+15. Roadmap de Desarrollo
+Fase 1:
+• Landing page
+• Sección servicios
+• Formulario de leads
+Fase 2:
+• Simulador de chatbot WhatsApp
+• Integración con IA
+Fase 3:
+• Panel administrativo
+• Analítica
+• Optimización UX
+16. Resultado Esperado
+Una plataforma moderna que demuestre el poder de los chatbots con inteligencia artificial, genere clientes potenciales para FlujoXAI y posicione la empresa como un proveedor avanzado de automatización empresarial.
