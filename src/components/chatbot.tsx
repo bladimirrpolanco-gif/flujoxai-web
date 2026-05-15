@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Bot, CheckCircle2, Zap, Clock, Users } from "lucide-react";
 import Link from "next/link";
 
-const CONVERSATION = [
+const CONVERSATION: { role: "bot" | "user"; text: string; delay: number }[] = [
   { role: "bot",  text: "¡Hola! 👋 Soy el asistente de FlujoXAI. ¿En qué puedo ayudarte hoy?", delay: 800 },
   { role: "user", text: "Hola, tengo una clínica y quiero automatizar las citas.", delay: 2200 },
   { role: "bot",  text: "¡Perfecto! 🏥 Para clínicas implementamos agendamiento automático 24/7, recordatorios por WhatsApp y captación de nuevos pacientes. Todo sin intervención humana.", delay: 4000 },
