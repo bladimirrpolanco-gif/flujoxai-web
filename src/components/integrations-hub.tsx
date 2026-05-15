@@ -1,5 +1,8 @@
 "use client";
 
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
+import { Bot } from "lucide-react";
 import { BrandIcon } from "./brand-icon";
 
 const ALL_TOOLS = [
