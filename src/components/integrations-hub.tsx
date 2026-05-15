@@ -1,18 +1,16 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Mail, Sheet, MessageSquare, Database, Globe, FileText, CreditCard, Server, Bot } from "lucide-react";
+import { BrandIcon } from "./brand-icon";
 
 const ALL_TOOLS = [
-  { icon: Mail,          label: "Gmail",          color: "bg-red-500",     glow: "shadow-red-500/40"    },
-  { icon: MessageSquare, label: "Slack",           color: "bg-purple-500",  glow: "shadow-purple-500/40" },
-  { icon: Globe,         label: "Formulario Web",  color: "bg-blue-500",    glow: "shadow-blue-500/40"   },
-  { icon: CreditCard,    label: "Stripe",          color: "bg-indigo-500",  glow: "shadow-indigo-500/40" },
-  { icon: Sheet,         label: "Google Sheets",   color: "bg-emerald-500", glow: "shadow-emerald-500/40"},
-  { icon: Database,      label: "Base de Datos",   color: "bg-orange-500",  glow: "shadow-orange-500/40" },
-  { icon: FileText,      label: "Notion",          color: "bg-zinc-500",    glow: "shadow-zinc-500/40"   },
-  { icon: Server,        label: "ERP / CRM",       color: "bg-pink-500",    glow: "shadow-pink-500/40"   },
+  { slug: "gmail",        label: "Gmail",          color: "bg-[#EA4335]", glow: "shadow-[#EA4335]/40" },
+  { slug: "slack",        label: "Slack",          color: "bg-[#4A154B]", glow: "shadow-[#4A154B]/40" },
+  { slug: "whatsapp",     label: "WhatsApp",       color: "bg-[#25D366]", glow: "shadow-[#25D366]/40" },
+  { slug: "stripe",       label: "Stripe",         color: "bg-[#635BFF]", glow: "shadow-[#635BFF]/40" },
+  { slug: "googlesheets", label: "Google Sheets",  color: "bg-[#34A853]", glow: "shadow-[#34A853]/40" },
+  { slug: "mysql",        label: "Base de Datos",  color: "bg-[#4479A1]", glow: "shadow-[#4479A1]/40" },
+  { slug: "notion",       label: "Notion",         color: "bg-[#000000]", glow: "shadow-[#000000]/40" },
+  { slug: "hubspot",      label: "HubSpot / CRM",  color: "bg-[#FF7A59]", glow: "shadow-[#FF7A59]/40" },
 ];
 
 const LEFT_TOOLS  = ALL_TOOLS.slice(0, 4);
@@ -184,8 +182,8 @@ function HubCenter({ hubPulse }: { hubPulse: boolean }) {
   );
 }
 
-function ToolNode({ icon: Icon, label, color, glow, active, side }: {
-  icon: any; label: string; color: string; glow: string; active: boolean; side: "left" | "right";
+function ToolNode({ slug, label, color, glow, active, side }: {
+  slug: string; label: string; color: string; glow: string; active: boolean; side: "left" | "right";
 }) {
   return (
     <motion.div
@@ -196,7 +194,7 @@ function ToolNode({ icon: Icon, label, color, glow, active, side }: {
       } ${side === "right" ? "md:flex-row-reverse" : ""}`}
     >
       <div className={`h-8 w-8 rounded-xl ${color} flex items-center justify-center flex-shrink-0 shadow-md`}>
-        <Icon className="h-4 w-4 text-white" />
+        <BrandIcon slug={slug} className="h-4 w-4" />
       </div>
       <span className="text-xs font-semibold text-foreground whitespace-nowrap">{label}</span>
     </motion.div>

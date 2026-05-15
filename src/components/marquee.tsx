@@ -1,20 +1,20 @@
 "use client";
 
-import { Mail, MessageSquare, Database, Calendar, Globe, FileText, CreditCard, Server, Cpu, Zap, BarChart3, Bot } from "lucide-react";
+import { BrandIcon } from "./brand-icon";
 
 const TOOLS = [
-  { icon: MessageSquare, label: "WhatsApp",      color: "bg-emerald-500" },
-  { icon: Mail,          label: "Gmail",          color: "bg-red-500"     },
-  { icon: MessageSquare, label: "Slack",          color: "bg-purple-500"  },
-  { icon: CreditCard,    label: "Stripe",         color: "bg-indigo-500"  },
-  { icon: Database,      label: "HubSpot",        color: "bg-orange-500"  },
-  { icon: FileText,      label: "Notion",         color: "bg-zinc-600"    },
-  { icon: Globe,         label: "Shopify",        color: "bg-green-600"   },
-  { icon: Server,        label: "Salesforce",     color: "bg-blue-500"    },
-  { icon: Cpu,           label: "OpenAI",         color: "bg-teal-500"    },
-  { icon: Zap,           label: "Make",           color: "bg-violet-500"  },
-  { icon: BarChart3,     label: "Google Sheets",  color: "bg-emerald-600" },
-  { icon: Bot,           label: "Zapier",         color: "bg-orange-600"  },
+  { slug: "whatsapp",      label: "WhatsApp",      color: "bg-[#25D366]" },
+  { slug: "gmail",         label: "Gmail",         color: "bg-[#EA4335]" },
+  { slug: "slack",         label: "Slack",         color: "bg-[#4A154B]" },
+  { slug: "stripe",        label: "Stripe",        color: "bg-[#635BFF]" },
+  { slug: "hubspot",       label: "HubSpot",       color: "bg-[#FF7A59]" },
+  { slug: "notion",        label: "Notion",        color: "bg-[#000000]" },
+  { slug: "shopify",       label: "Shopify",       color: "bg-[#7AB55C]" },
+  { slug: "salesforce",    label: "Salesforce",    color: "bg-[#00A1E0]" },
+  { slug: "openai",        label: "OpenAI",        color: "bg-[#412991]" },
+  { slug: "make",          label: "Make",          color: "bg-[#EA178C]" },
+  { slug: "googlesheets",  label: "Google Sheets", color: "bg-[#34A853]" },
+  { slug: "zapier",        label: "Zapier",        color: "bg-[#FF4F00]" },
 ];
 
 export function Marquee() {
@@ -27,13 +27,13 @@ export function Marquee() {
         {/* First strip */}
         <div className="flex gap-6 animate-marquee whitespace-nowrap">
           {[...TOOLS, ...TOOLS].map((tool, i) => (
-            <ToolChip key={i} icon={tool.icon} label={tool.label} color={tool.color} />
+            <ToolChip key={i} slug={tool.slug} label={tool.label} color={tool.color} />
           ))}
         </div>
         {/* Duplicate for seamless loop */}
         <div className="flex gap-6 animate-marquee whitespace-nowrap absolute top-0 left-0" aria-hidden>
           {[...TOOLS, ...TOOLS].map((tool, i) => (
-            <ToolChip key={i} icon={tool.icon} label={tool.label} color={tool.color} />
+            <ToolChip key={i} slug={tool.slug} label={tool.label} color={tool.color} />
           ))}
         </div>
       </div>
@@ -51,11 +51,11 @@ export function Marquee() {
   );
 }
 
-function ToolChip({ icon: Icon, label, color }: { icon: any; label: string; color: string }) {
+function ToolChip({ slug, label, color }: { slug: string; label: string; color: string }) {
   return (
     <div className="flex items-center gap-2.5 glass border border-border/50 rounded-2xl px-4 py-2.5 flex-shrink-0">
       <div className={`h-7 w-7 rounded-lg ${color} flex items-center justify-center flex-shrink-0`}>
-        <Icon className="h-3.5 w-3.5 text-white" />
+        <BrandIcon slug={slug} className="h-4 w-4" />
       </div>
       <span className="text-sm font-semibold text-foreground">{label}</span>
     </div>
