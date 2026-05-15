@@ -153,10 +153,6 @@ export function Footer() {
       <div className="border-t border-zinc-800/60">
         <div className="container max-w-6xl mx-auto px-4 md:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-600">
           <p>&copy; {new Date().getFullYear()} FlujoXAI — Antonio Polanco Ramírez · RNC 402-34117-048</p>
-          <div className="flex items-center gap-1.5">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Todos los sistemas operativos</span>
-          </div>
         </div>
       </div>
     </footer>
