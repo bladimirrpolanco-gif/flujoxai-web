@@ -9,7 +9,6 @@ import { Contact } from "@/components/contact";
 import { ChatbotSimulator } from "@/components/chatbot";
 import { AutomationFlow } from "@/components/automation-flow";
 import { IntegrationsHub } from "@/components/integrations-hub";
-import { ScrollToTop } from "@/components/scroll-to-top";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 
 import { useEffect } from "react";
@@ -34,7 +33,6 @@ export default function Home() {
 
       </main>
       <Footer />
-      <ScrollToTop />
       <WhatsAppButton />
     </div>
   );
