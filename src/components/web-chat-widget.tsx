@@ -42,7 +42,7 @@ export function WebChatWidget() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: userText,
-          subdomain: "flujobot", // Tu subdominio configurado
+          subdomain: "flujoxai", // Probamos con el nombre anterior para verificar la conexión
           contactId: contactId,
           history: messages.map(m => ({
             role: m.role === "bot" ? "assistant" : "user",
