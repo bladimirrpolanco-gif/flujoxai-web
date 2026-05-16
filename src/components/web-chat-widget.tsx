@@ -42,7 +42,7 @@ export function WebChatWidget() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           message: userText,
-          subdomain: "flujoxai", // Probamos con el nombre anterior para verificar la conexión
+          subdomain: "flujoxai", 
           contactId: contactId,
           history: messages.map(m => ({
             role: m.role === "bot" ? "assistant" : "user",
@@ -50,6 +50,10 @@ export function WebChatWidget() {
           }))
         }),
       });
+
+      if (!response.ok) {
+        throw new Error(`Server responded with ${response.status}`);
+      }
 
       const data = await response.json();
 
