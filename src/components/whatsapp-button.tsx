@@ -20,11 +20,11 @@ export function WhatsAppButton() {
 
   // Reemplaza con tu número de WhatsApp real
   const whatsappNumber = "18492597719";
-  const message = encodeURIComponent("¡Hola! Me interesa saber más sobre los chatbots de IA de Flujobot 🤖");
+  const message = encodeURIComponent("¡Hola! Me interesa saber más sobre los servicios de IA de FlujoxAI 🤖");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+    <div className="fixed bottom-6 left-6 z-50 flex flex-col items-start gap-3">
       
       {/* Tooltip message */}
       <AnimatePresence>
