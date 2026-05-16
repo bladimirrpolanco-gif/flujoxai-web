@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import { WebChatWidget } from "@/components/web-chat-widget";
 
 const font = Inter({ subsets: ["latin"] });
 
@@ -43,7 +42,6 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
-          <WebChatWidget />
         </ThemeProvider>
       </body>
     </html>

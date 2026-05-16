@@ -18,6 +18,20 @@ export function WebChatWidget() {
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [contactId, setContactId] = useState<string | null>(null);
+
+  // Recuperar contactId de localStorage al cargar
+  useEffect(() => {
+    const savedId = localStorage.getItem("flujoxai_contact_id");
+    if (savedId) setContactId(savedId);
+  }, []);
+
+  // Guardar contactId en localStorage cuando cambie
+  useEffect(() => {
+    if (contactId) {
+      localStorage.setItem("flujoxai_contact_id", contactId);
+    }
+  }, [contactId]);
+  
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll al final de los mensajes
