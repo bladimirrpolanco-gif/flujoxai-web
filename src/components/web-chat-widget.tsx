@@ -57,7 +57,8 @@ export function WebChatWidget() {
         setMessages((prev) => [...prev, { role: "bot", text: data.response }]);
         if (data.contactId) setContactId(data.contactId);
       } else {
-        setMessages((prev) => [...prev, { role: "bot", text: "Lo siento, tuve un problema al procesar tu solicitud. 😕" }]);
+        const errorMsg = data.error || "Lo siento, tuve un problema al procesar tu solicitud. 😕";
+        setMessages((prev) => [...prev, { role: "bot", text: errorMsg }]);
       }
     } catch (error) {
       console.error("Error sending message:", error);
