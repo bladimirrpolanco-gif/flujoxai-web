@@ -7,7 +7,18 @@ import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
 import { useTheme } from "next-themes";
 
-const navLinks = [
+interface NavLink {
+  href?: string;
+  label: string;
+  isExternal?: boolean;
+  subLinks?: {
+    href: string;
+    label: string;
+    isExternal?: boolean;
+  }[];
+}
+
+const navLinks: NavLink[] = [
   { href: '#servicios', label: 'Servicios' },
   { 
     label: 'Producto', 
@@ -116,13 +127,13 @@ export function Navbar() {
               );
             }
 
-            const id = link.href.startsWith('#') ? link.href.substring(1) : '';
+            const id = link.href?.startsWith('#') ? link.href.substring(1) : '';
             const isActive = activeSection === id && id !== '';
             
             return (
               <Link
-                key={link.href}
-                href={link.href}
+                key={link.href || link.label}
+                href={link.href || '#'}
                 target={link.isExternal ? "_blank" : undefined}
                 rel={link.isExternal ? "noopener noreferrer" : undefined}
                 className={`transition-all duration-300 relative py-1.5 px-1 ${
@@ -204,7 +215,7 @@ export function Navbar() {
                     </div>
                   ) : (
                     <Link
-                      href={link.href!}
+                      href={link.href || '#'}
                       onClick={() => setIsMenuOpen(false)}
                       target={link.isExternal ? "_blank" : undefined}
                       rel={link.isExternal ? "noopener noreferrer" : undefined}
