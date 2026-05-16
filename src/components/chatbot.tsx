@@ -6,7 +6,7 @@ import { Bot, CheckCircle2, Zap, Clock, Users } from "lucide-react";
 import Link from "next/link";
 
 const CONVERSATION: { role: "bot" | "user"; text: string; delay: number }[] = [
-  { role: "bot",  text: "¡Hola! 👋 Soy el asistente de Flujobot. ¿En qué puedo ayudarte hoy?", delay: 800 },
+  { role: "bot",  text: "¡Hola! 👋 Soy el asistente de FlujoxAI. ¿En qué puedo ayudarte hoy?", delay: 800 },
   { role: "user", text: "Hola, tengo una clínica y quiero automatizar las citas.", delay: 2200 },
   { role: "bot",  text: "¡Perfecto! 🏥 Para clínicas implementamos agendamiento automático 24/7, recordatorios por WhatsApp y captación de nuevos pacientes. Todo sin intervención humana.", delay: 4000 },
   { role: "user", text: "¿Y cuánto tiempo tarda la implementación?", delay: 6800 },
@@ -96,7 +96,7 @@ export function ChatbotSimulator() {
                   <Bot className="h-5 w-5 text-white" />
                 </div>
                 <div>
-                  <p className="font-bold text-sm leading-none">IA Flujobot</p>
+                  <p className="font-bold text-sm leading-none">IA FlujoxAI</p>
                   <p className="text-[11px] text-white/70 mt-0.5 flex items-center gap-1">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 inline-block" />
                     En línea

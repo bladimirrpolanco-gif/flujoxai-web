@@ -7,22 +7,22 @@ import { WebChatWidget } from "@/components/web-chat-widget";
 const font = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Flujobot - Automatización Empresarial con Inteligencia Artificial",
+  title: "FlujoxAI - Automatización Empresarial con Inteligencia Artificial",
   description: "Potencia tu negocio con agentes de IA especializados en WhatsApp, Instagram y procesos empresariales.",
-  keywords: ["automatización con IA", "chatbots WhatsApp", "inteligencia artificial empresarial", "automatización de procesos", "agentes IA", "República Dominicana", "Flujobot"],
-  authors: [{ name: "Flujobot" }],
+  keywords: ["automatización con IA", "chatbots WhatsApp", "inteligencia artificial empresarial", "automatización de procesos", "agentes IA", "República Dominicana", "FlujoxAI"],
+  authors: [{ name: "FlujoxAI" }],
   openGraph: {
-    title: "Flujobot - Automatización Empresarial con IA",
+    title: "FlujoxAI - Automatización Empresarial con IA",
     description: "Agentes de IA que atienden tu negocio 24/7.",
-    url: "https://flujobot.flujoxai.com",
-    siteName: "Flujobot",
+    url: "https://flujoxai.com",
+    siteName: "FlujoxAI",
     locale: "es_DO",
     type: "website",
     images: ["/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Flujobot - IA para tu Negocio",
+    title: "FlujoxAI - IA para tu Negocio",
     description: "Chatbots y automatización de procesos con Inteligencia Artificial.",
   },
 };

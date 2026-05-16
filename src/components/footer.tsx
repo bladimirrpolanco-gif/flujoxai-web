@@ -75,18 +75,18 @@ export function Footer() {
                 <Bot className="h-5 w-5 text-white" />
               </div>
               <span className="font-bold text-xl text-white">
-                Flujo<span className="text-primary">bot</span>
+                Flujo<span className="text-primary">xAI</span>
               </span>
             </Link>
             <p className="text-sm text-zinc-500 leading-relaxed">
               Automatizamos empresas con Inteligencia Artificial. Chatbots, procesos e integraciones que trabajan 24/7 por ti.
             </p>
             <div className="flex flex-col gap-2 text-sm">
-              <a href="mailto:soporte@flujobot.com" className="flex items-center gap-2 text-zinc-500 hover:text-primary transition-colors">
+              <a href="mailto:soporte@flujoxai.com" className="flex items-center gap-2 text-zinc-500 hover:text-primary transition-colors">
                 <div className="h-8 w-8 rounded-lg bg-zinc-900 flex items-center justify-center border border-white/5">
                   <Mail className="h-4 w-4" />
                 </div>
-                soporte@flujobot.com
+                soporte@flujoxai.com
               </a>
               <span className="flex items-center gap-2 text-zinc-500">
                 <MapPin className="h-3.5 w-3.5 flex-shrink-0" />
@@ -97,9 +97,9 @@ export function Footer() {
             {/* Social links */}
             <div className="flex items-center gap-2 pt-1">
               {[
-                { href: "https://instagram.com/flujobot", icon: <InstagramIcon />, label: "Instagram" },
-                { href: "https://facebook.com/flujobot", icon: <FacebookIcon />,  label: "Facebook"  },
-                { href: "https://tiktok.com/@flujobot",  icon: <TikTokIcon />,    label: "TikTok"    },
+                { href: "https://instagram.com/flujoxai", icon: <InstagramIcon />, label: "Instagram" },
+                { href: "https://facebook.com/flujoxai", icon: <FacebookIcon />,  label: "Facebook"  },
+                { href: "https://tiktok.com/@flujoxai",  icon: <TikTokIcon />,    label: "TikTok"    },
               ].map(({ href, icon, label }) => (
                 <a
                   key={label}
@@ -154,7 +154,7 @@ export function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-zinc-800/60">
         <div className="container max-w-6xl mx-auto px-4 md:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-600">
-          <p>&copy; {new Date().getFullYear()} Flujobot — Antonio Polanco Ramírez · RNC 402-34117-048</p>
+          <p>&copy; {new Date().getFullYear()} FlujoxAI — Antonio Polanco Ramírez · RNC 402-34117-048</p>
         </div>
       </div>
     </footer>

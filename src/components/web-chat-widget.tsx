@@ -14,7 +14,7 @@ export function WebChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([
-    { role: "bot", text: "¡Hola! 👋 Bienvenido a Flujobot. ¿En qué puedo ayudarte hoy?" }
+    { role: "bot", text: "¡Hola! 👋 Bienvenido a FlujoxAI. ¿En qué puedo ayudarte hoy?" }
   ]);
   const [isLoading, setIsLoading] = useState(false);
   const [contactId, setContactId] = useState<string | null>(null);
@@ -85,7 +85,7 @@ export function WebChatWidget() {
                   <Bot className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-bold text-sm leading-none">Asistente Flujobot</p>
+                  <p className="font-bold text-sm leading-none">Asistente FlujoxAI</p>
                   <p className="text-[11px] opacity-80 mt-1 flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> En línea ahora
                   </p>
