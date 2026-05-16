@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Admin | FlujoXAI',
-  description: 'Panel de administración de FlujoXAI',
+  title: 'Admin | Flujobot',
+  description: 'Panel de administración de Flujobot',
   robots: 'noindex, nofollow',
 };
 

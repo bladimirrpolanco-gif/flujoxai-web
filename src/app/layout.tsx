@@ -2,26 +2,27 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { WebChatWidget } from "@/components/web-chat-widget";
 
 const font = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "FlujoXAI - Automatización Empresarial con Inteligencia Artificial",
-  description: "Diseñamos chatbots inteligentes, automatizamos procesos y conectamos tus herramientas con IA. Soluciones para empresas en República Dominicana y Latinoamérica.",
-  keywords: ["automatización con IA", "chatbots WhatsApp", "inteligencia artificial empresarial", "automatización de procesos", "agentes IA", "República Dominicana", "FlujoXAI"],
-  authors: [{ name: "FlujoXAI" }],
+  title: "Flujobot - Automatización Empresarial con Inteligencia Artificial",
+  description: "Potencia tu negocio con agentes de IA especializados en WhatsApp, Instagram y procesos empresariales.",
+  keywords: ["automatización con IA", "chatbots WhatsApp", "inteligencia artificial empresarial", "automatización de procesos", "agentes IA", "República Dominicana", "Flujobot"],
+  authors: [{ name: "Flujobot" }],
   openGraph: {
-    title: "FlujoXAI - Automatización Empresarial con IA",
-    description: "Chatbots inteligentes, automatización de procesos e integraciones para que tu negocio opere solo.",
-    url: "https://flujoxai.com",
-    siteName: "FlujoXAI",
+    title: "Flujobot - Automatización Empresarial con IA",
+    description: "Agentes de IA que atienden tu negocio 24/7.",
+    url: "https://flujobot.flujoxai.com",
+    siteName: "Flujobot",
     locale: "es_DO",
     type: "website",
     images: ["/og-image.png"],
   },
   twitter: {
     card: "summary_large_image",
-    title: "FlujoXAI - IA para tu Negocio",
+    title: "Flujobot - IA para tu Negocio",
     description: "Chatbots y automatización de procesos con Inteligencia Artificial.",
   },
 };
@@ -42,6 +43,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <WebChatWidget />
         </ThemeProvider>
       </body>
     </html>

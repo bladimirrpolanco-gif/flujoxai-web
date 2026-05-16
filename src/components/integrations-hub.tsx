@@ -65,7 +65,7 @@ export function IntegrationsHub() {
             <span className="gradient-text">herramientas</span>
           </h2>
           <p className="text-lg text-muted-foreground">
-            FlujoXAI actúa como el cerebro central que recibe, procesa y distribuye información entre todos los sistemas de tu empresa — en tiempo real.
+            Flujobot actúa como el cerebro central que recibe, procesa y distribuye información entre todos los sistemas de tu empresa — en tiempo real.
           </p>
         </motion.div>
 
@@ -178,7 +178,7 @@ function HubCenter({ hubPulse }: { hubPulse: boolean }) {
         </div>
       </div>
       <div className="text-center">
-        <p className="text-sm font-bold text-foreground">FlujoXAI</p>
+        <p className="text-sm font-bold text-foreground">Flujobot</p>
         <p className="text-xs text-primary font-medium">IA Central</p>
       </div>
     </div>

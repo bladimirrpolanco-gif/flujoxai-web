@@ -89,7 +89,7 @@ export function AutomationFlow() {
             {/* AI Node */}
             <MainNode
               icon={Cpu}
-              label="IA FlujoXAI"
+              label="IA Flujobot"
               sub={phase >= 2 ? "Analizando..." : "En espera"}
               gradient="from-blue-600 to-blue-400"
               glow="shadow-blue-600/40"

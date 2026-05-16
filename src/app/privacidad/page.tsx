@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Bot, ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Política de Privacidad | FlujoXAI",
-  description: "Política de privacidad y tratamiento de datos personales de FlujoXAI.",
+  title: "Política de Privacidad | Flujobot",
+  description: "Política de privacidad y tratamiento de datos personales de Flujobot.",
 };
 
 export default function PrivacidadPage() {
@@ -49,7 +49,7 @@ export default function PrivacidadPage() {
 
           <Section title="2. Datos que procesamos">
             <p>
-              A través de WhatsApp Business API, procesamos los siguientes datos cuando usted interactúa con una empresa que usa FLUJOXAI:
+              A través de WhatsApp Business API, procesamos los siguientes datos cuando usted interactúa con una empresa que usa FLUJOBOT:
             </p>
             <ul>
               <li>Número de teléfono</li>
@@ -61,18 +61,18 @@ export default function PrivacidadPage() {
 
           <Section title="3. Finalidad">
             <p>
-              Automatizar respuestas de atención al cliente para las empresas que usted contacta. Solo procesamos datos bajo instrucción directa de la empresa que contrata FLUJOXAI. Actuamos como encargados del tratamiento, no como responsables de los datos de los usuarios finales.
+              Automatizar respuestas de atención al cliente para las empresas que usted contacta. Solo procesamos datos bajo instrucción directa de la empresa que contrata FLUJOBOT. Actuamos como encargados del tratamiento, no como responsables de los datos de los usuarios finales.
             </p>
           </Section>
 
           <Section title="4. Base legal">
             <p>
-              Consentimiento. Usted acepta el tratamiento al iniciar una conversación con una empresa que usa FLUJOXAI. Puede solicitar su exclusión en cualquier momento escribiendo <strong>"SALIR"</strong> al número de WhatsApp de la empresa con la que interactúa.
+              Consentimiento. Usted acepta el tratamiento al iniciar una conversación con una empresa que usa FLUJOBOT. Puede solicitar su exclusión en cualquier momento escribiendo <strong>"SALIR"</strong> al número de WhatsApp de la empresa con la que interactúa.
             </p>
           </Section>
 
           <Section title="5. Cumplimiento normativo">
-            <p>FLUJOXAI cumple con:</p>
+            <p>FLUJOBOT cumple con:</p>
             <ul>
               <li>Ley 172-13 de Protección de Datos Personales de República Dominicana</li>
               <li>Reglamento General de Protección de Datos (GDPR)</li>
@@ -86,8 +86,8 @@ export default function PrivacidadPage() {
           <Section title="6. Sus derechos">
             <p>
               Usted tiene derecho a acceder, rectificar y solicitar la eliminación de sus datos. Para ejercer cualquiera de estos derechos, escríbanos a{" "}
-              <a href="mailto:privacidad@flujoxai.com" className="text-primary hover:underline">
-                privacidad@flujoxai.com
+              <a href="mailto:privacidad@flujobot.com" className="text-primary hover:underline">
+                privacidad@flujobot.com
               </a>.
             </p>
             <p>También puede consultar nuestra página de eliminación de datos para instrucciones detalladas.</p>
@@ -99,7 +99,7 @@ export default function PrivacidadPage() {
       {/* Footer */}
       <footer className="border-t border-border/50 py-8 mt-16">
         <div className="container max-w-3xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} FlujoXAI — Antonio Polanco Ramírez. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} Flujobot — Antonio Polanco Ramírez. Todos los derechos reservados.</p>
           <div className="flex gap-4">
             <Link href="/privacidad" className="text-primary font-medium">Privacidad</Link>
             <Link href="/terminos" className="hover:text-foreground transition-colors">Términos</Link>

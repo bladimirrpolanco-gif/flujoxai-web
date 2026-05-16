@@ -20,7 +20,7 @@ export function WhatsAppButton() {
 
   // Reemplaza con tu número de WhatsApp real
   const whatsappNumber = "18492597719";
-  const message = encodeURIComponent("¡Hola! Me interesa saber más sobre los chatbots de IA de FlujoXAI 🤖");
+  const message = encodeURIComponent("¡Hola! Me interesa saber más sobre los chatbots de IA de Flujobot 🤖");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${message}`;
 
   return (

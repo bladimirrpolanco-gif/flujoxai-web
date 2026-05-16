@@ -92,7 +92,7 @@ export function Navbar() {
             <Bot className="h-4.5 w-4.5 text-primary-foreground" />
           </motion.div>
           <span className="font-bold text-lg tracking-tight text-foreground hidden sm:block">
-            Flujo<span className="gradient-text">XAI</span>
+            Flujo<span className="gradient-text">bot</span>
           </span>
         </Link>
 

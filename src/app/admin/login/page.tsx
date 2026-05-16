@@ -47,13 +47,13 @@ export default function AdminLoginPage() {
               <Bot className="h-6 w-6 text-white" />
             </div>
             <div>
-              <h1 className="font-bold text-white text-lg leading-none">FlujoXAI</h1>
+              <h1 className="font-bold text-white text-lg leading-none">Flujobot</h1>
               <p className="text-zinc-400 text-xs">Panel de Administración</p>
             </div>
           </div>
 
           <h2 className="text-2xl font-bold text-white mb-1">Iniciar Sesión</h2>
-          <p className="text-zinc-400 text-sm mb-6">Accede al panel de control de FlujoXAI.</p>
+          <p className="text-zinc-400 text-sm mb-6">Accede al panel de control de Flujobot.</p>
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
@@ -66,7 +66,7 @@ export default function AdminLoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="admin@flujoxai.com"
+                placeholder="admin@flujobot.com"
                 className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-4 py-2.5 text-white text-sm placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"
               />
             </div>
@@ -115,7 +115,7 @@ export default function AdminLoginPage() {
           </form>
 
           <p className="text-center text-xs text-zinc-600 mt-6">
-            Acceso restringido al equipo de FlujoXAI
+            Acceso restringido al equipo de Flujobot
           </p>
         </div>
       </div>

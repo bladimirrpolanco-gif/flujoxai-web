@@ -2,8 +2,8 @@ import Link from "next/link";
 import { Bot, ArrowLeft } from "lucide-react";
 
 export const metadata = {
-  title: "Términos de Servicio | FlujoXAI",
-  description: "Términos y condiciones de uso de los servicios de FlujoXAI.",
+  title: "Términos de Servicio | Flujobot",
+  description: "Términos y condiciones de uso de los servicios de Flujobot.",
 };
 
 export default function TerminosPage() {
@@ -43,12 +43,12 @@ export default function TerminosPage() {
 
           <Section title="1. Descripción del servicio">
             <p>
-              FLUJOXAI es una plataforma de software que permite a empresas automatizar su atención al cliente a través de WhatsApp Business API, Instagram y Facebook Messenger, utilizando inteligencia artificial. FLUJOXAI actúa como proveedor tecnológico intermediario entre la empresa cliente y las plataformas de mensajería de Meta Platforms, Inc.
+              FLUJOBOT es una plataforma de software que permite a empresas automatizar su atención al cliente a través de WhatsApp Business API, Instagram y Facebook Messenger, utilizando inteligencia artificial. FLUJOBOT actúa como proveedor tecnológico intermediario entre la empresa cliente y las plataformas de mensajería de Meta Platforms, Inc.
             </p>
           </Section>
 
           <Section title="2. Uso aceptable">
-            <p>Está estrictamente prohibido usar FLUJOXAI para:</p>
+            <p>Está estrictamente prohibido usar FLUJOBOT para:</p>
             <ul>
               <li>Envío de spam o mensajes no solicitados masivos</li>
               <li>Distribución de contenido ilegal o fraudulento</li>
@@ -62,7 +62,7 @@ export default function TerminosPage() {
           </Section>
 
           <Section title="3. Responsabilidades del cliente">
-            <p>La empresa que contrata FLUJOXAI se compromete a:</p>
+            <p>La empresa que contrata FLUJOBOT se compromete a:</p>
             <ul>
               <li>Obtener el opt-in explícito de los usuarios finales antes de iniciar conversaciones de marketing o ventas</li>
               <li>Respetar la ventana de atención al cliente de 24 horas de WhatsApp Business</li>
@@ -74,13 +74,13 @@ export default function TerminosPage() {
 
           <Section title="4. Limitación de responsabilidad">
             <p>
-              FLUJOXAI es un intermediario tecnológico. No somos responsables del contenido enviado por nuestros clientes a través de la plataforma, ni de las decisiones comerciales que estos tomen basándose en los datos procesados. La responsabilidad de FLUJOXAI se limita al correcto funcionamiento técnico de la plataforma conforme al acuerdo de nivel de servicio (SLA) correspondiente.
+              FLUJOBOT es un intermediario tecnológico. No somos responsables del contenido enviado por nuestros clientes a través de la plataforma, ni de las decisiones comerciales que estos tomen basándose en los datos procesados. La responsabilidad de FLUJOBOT se limita al correcto funcionamiento técnico de la plataforma conforme al acuerdo de nivel de servicio (SLA) correspondiente.
             </p>
           </Section>
 
           <Section title="5. Propiedad intelectual">
             <p>
-              La plataforma FLUJOXAI, su código, diseño, marca y contenidos son propiedad de Antonio Polanco Ramírez. El cliente recibe una licencia de uso no exclusiva, intransferible y revocable durante la vigencia del contrato de servicio.
+              La plataforma FLUJOBOT, su código, diseño, marca y contenidos son propiedad de Antonio Polanco Ramírez. El cliente recibe una licencia de uso no exclusiva, intransferible y revocable durante la vigencia del contrato de servicio.
             </p>
           </Section>
 
@@ -90,7 +90,7 @@ export default function TerminosPage() {
                 { label: "Nombre",    value: "Antonio Polanco Ramírez" },
                 { label: "RNC",       value: "402-34117-048" },
                 { label: "Domicilio", value: "Calle Corazón de Jesús #7, Almirante II, San Luis, Santo Domingo Este, República Dominicana" },
-                { label: "Email",     value: "antonio@flujoxai.com" },
+                { label: "Email",     value: "soporte@flujobot.com" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4 text-sm">
                   <span className="font-semibold text-foreground min-w-[100px]">{label}:</span>
@@ -106,7 +106,7 @@ export default function TerminosPage() {
       {/* Footer */}
       <footer className="border-t border-border/50 py-8 mt-16">
         <div className="container max-w-3xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
-          <p>&copy; {new Date().getFullYear()} FlujoXAI — Antonio Polanco Ramírez. Todos los derechos reservados.</p>
+          <p>&copy; {new Date().getFullYear()} Flujobot — Antonio Polanco Ramírez. Todos los derechos reservados.</p>
           <div className="flex gap-4">
             <Link href="/privacidad" className="hover:text-foreground transition-colors">Privacidad</Link>
             <Link href="/terminos" className="text-primary font-medium">Términos</Link>

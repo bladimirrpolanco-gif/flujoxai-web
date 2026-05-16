@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
 
     const dynamicContext = knowledge?.valor || '';
 
-    const SYSTEM_PROMPT = `Eres el Asistente Virtual Inteligente de FlujoXAI (una agencia de soluciones de automatización con Inteligencia Artificial ubicada en Santo Domingo Este, República Dominicana). 
+    const SYSTEM_PROMPT = `Eres el Asistente Virtual Inteligente de Flujobot (una agencia de soluciones de automatización con Inteligencia Artificial ubicada en Santo Domingo Este, República Dominicana). 
 Tu objetivo es atender a los clientes de forma amable, profesional y concisa, resolviendo sus dudas sobre nuestros servicios.
 
 CONOCIMIENTO BASE ESPECÍFICO:
