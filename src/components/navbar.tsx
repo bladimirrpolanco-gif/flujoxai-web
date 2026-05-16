@@ -9,6 +9,7 @@ import { useTheme } from "next-themes";
 
 const navLinks = [
   { href: '#servicios', label: 'Servicios' },
+  { href: 'https://flujobot.flujoxai.com/', label: 'Flujobot', isExternal: true },
   { href: '#simulador', label: 'Probar Chatbot' },
   { href: '#contacto', label: 'Contacto' },
 ];
@@ -82,14 +83,16 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-          {navLinks.map(({ href, label }) => {
-            const id = href.substring(1);
-            const isActive = activeSection === id;
+          {navLinks.map(({ href, label, isExternal }) => {
+            const id = href.startsWith('#') ? href.substring(1) : '';
+            const isActive = activeSection === id && id !== '';
             
             return (
               <Link
                 key={href}
                 href={href}
+                target={isExternal ? "_blank" : undefined}
+                rel={isExternal ? "noopener noreferrer" : undefined}
                 className={`transition-all duration-300 relative py-1.5 px-1 ${
                   isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 }`}
@@ -140,7 +143,7 @@ export function Navbar() {
             className="md:hidden overflow-hidden bg-background/98 backdrop-blur-3xl rounded-3xl border border-border mt-2 shadow-2xl"
           >
             <div className="p-6 space-y-4">
-              {navLinks.map(({ href, label }, i) => (
+              {navLinks.map(({ href, label, isExternal }, i) => (
                 <motion.div
                   key={href}
                   initial={{ x: -10, opacity: 0 }}
@@ -150,6 +153,8 @@ export function Navbar() {
                   <Link
                     href={href}
                     onClick={() => setIsMenuOpen(false)}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
                     className="block text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
                   >
                     {label}
