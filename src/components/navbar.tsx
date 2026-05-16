@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bot, Menu, X } from "lucide-react";
+import { Bot, Menu, X, ChevronDown } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
@@ -9,8 +9,12 @@ import { useTheme } from "next-themes";
 
 const navLinks = [
   { href: '#servicios', label: 'Servicios' },
-  { href: 'https://flujobot.flujoxai.com/', label: 'Flujobot', isExternal: true },
-  { href: '#simulador', label: 'Probar Chatbot' },
+  { 
+    label: 'Producto', 
+    subLinks: [
+      { href: 'https://flujobot.flujoxai.com/', label: 'Flujobot', isExternal: true },
+    ]
+  },
   { href: '#contacto', label: 'Contacto' },
 ];
 
@@ -83,21 +87,49 @@ export function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-          {navLinks.map(({ href, label, isExternal }) => {
-            const id = href.startsWith('#') ? href.substring(1) : '';
+          {navLinks.map((link) => {
+            if (link.subLinks) {
+              return (
+                <div key={link.label} className="relative group">
+                  <button className="flex items-center gap-1 py-1.5 px-1 text-muted-foreground hover:text-foreground transition-colors">
+                    {link.label}
+                    <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
+                  </button>
+                  
+                  {/* Dropdown Menu */}
+                  <div className="absolute top-full left-0 pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
+                    <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-2xl shadow-2xl p-2 min-w-[160px]">
+                      {link.subLinks.map((sub) => (
+                        <Link
+                          key={sub.href}
+                          href={sub.href}
+                          target={sub.isExternal ? "_blank" : undefined}
+                          rel={sub.isExternal ? "noopener noreferrer" : undefined}
+                          className="flex items-center px-4 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors"
+                        >
+                          {sub.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+
+            const id = link.href.startsWith('#') ? link.href.substring(1) : '';
             const isActive = activeSection === id && id !== '';
             
             return (
               <Link
-                key={href}
-                href={href}
-                target={isExternal ? "_blank" : undefined}
-                rel={isExternal ? "noopener noreferrer" : undefined}
+                key={link.href}
+                href={link.href}
+                target={link.isExternal ? "_blank" : undefined}
+                rel={link.isExternal ? "noopener noreferrer" : undefined}
                 className={`transition-all duration-300 relative py-1.5 px-1 ${
                   isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {label}
+                {link.label}
                 {isActive && (
                   <motion.span 
                     layoutId="activeNav"
@@ -143,22 +175,44 @@ export function Navbar() {
             className="md:hidden overflow-hidden bg-background/98 backdrop-blur-3xl rounded-3xl border border-border mt-2 shadow-2xl"
           >
             <div className="p-6 space-y-4">
-              {navLinks.map(({ href, label, isExternal }, i) => (
+              {navLinks.map((link, i) => (
                 <motion.div
-                  key={href}
+                  key={link.label}
                   initial={{ x: -10, opacity: 0 }}
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: i * 0.05 }}
                 >
-                  <Link
-                    href={href}
-                    onClick={() => setIsMenuOpen(false)}
-                    target={isExternal ? "_blank" : undefined}
-                    rel={isExternal ? "noopener noreferrer" : undefined}
-                    className="block text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    {label}
-                  </Link>
+                  {link.subLinks ? (
+                    <div className="space-y-3">
+                      <span className="block text-xs font-bold text-primary tracking-widest uppercase px-1">
+                        {link.label}
+                      </span>
+                      <div className="space-y-2 pl-2 border-l-2 border-primary/20 ml-1">
+                        {link.subLinks.map((sub) => (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            onClick={() => setIsMenuOpen(false)}
+                            target={sub.isExternal ? "_blank" : undefined}
+                            rel={sub.isExternal ? "noopener noreferrer" : undefined}
+                            className="block text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <Link
+                      href={link.href!}
+                      onClick={() => setIsMenuOpen(false)}
+                      target={link.isExternal ? "_blank" : undefined}
+                      rel={link.isExternal ? "noopener noreferrer" : undefined}
+                      className="block text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  )}
                 </motion.div>
               ))}
               <div className="pt-4 border-t border-border xs:hidden">
