@@ -86,8 +86,8 @@ export default function PrivacidadPage() {
           <Section title="6. Sus derechos">
             <p>
               Usted tiene derecho a acceder, rectificar y solicitar la eliminación de sus datos. Para ejercer cualquiera de estos derechos, escríbanos a{" "}
-              <a href="mailto:privacidad@flujobot.com" className="text-primary hover:underline">
-                privacidad@flujobot.com
+              <a href="mailto:soporte@flujoxai.com" className="text-primary hover:underline">
+                soporte@flujoxai.com
               </a>.
             </p>
             <p>También puede consultar nuestra página de eliminación de datos para instrucciones detalladas.</p>

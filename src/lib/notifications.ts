@@ -17,7 +17,7 @@ export async function sendLeadNotification(leadData: {
 
   const notificationLog = {
     tipo: 'email',
-    destinatario: 'admin@flujoxai.com',
+    destinatario: 'soporte@flujoxai.com',
     estado: 'enviado_simulado',
     metadata: {
       lead_name: leadData.nombre,

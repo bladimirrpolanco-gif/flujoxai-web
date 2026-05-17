@@ -90,7 +90,7 @@ export default function TerminosPage() {
                 { label: "Nombre",    value: "Antonio Polanco Ramírez" },
                 { label: "RNC",       value: "402-34117-048" },
                 { label: "Domicilio", value: "Calle Corazón de Jesús #7, Almirante II, San Luis, Santo Domingo Este, República Dominicana" },
-                { label: "Email",     value: "soporte@flujobot.com" },
+                { label: "Email",     value: "soporte@flujoxai.com" },
               ].map(({ label, value }) => (
                 <div key={label} className="flex flex-col sm:flex-row sm:items-start gap-1 sm:gap-4 text-sm">
                   <span className="font-semibold text-foreground min-w-[100px]">{label}:</span>

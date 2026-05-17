@@ -24,7 +24,8 @@ export default function AdminLoginPage() {
     setError('');
 
     const targetEmail = email.trim();
-    const isMainAdmin = targetEmail.toLowerCase() === 'flujoxai@gmail.com';
+    const targetEmailLower = targetEmail.toLowerCase();
+    const isMainAdmin = targetEmailLower === 'flujoxai@gmail.com' || targetEmailLower === 'soporte@flujoxai.com';
 
     try {
       // 1. Intentar iniciar sesión normalmente
