@@ -23,16 +23,34 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError('');
 
+    const targetEmail = email.trim();
+    const isMainAdmin = targetEmail.toLowerCase() === 'flujoxai@gmail.com';
+
     try {
-      const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+      // 1. Intentar iniciar sesión normalmente
+      const { error: authError } = await supabase.auth.signInWithPassword({ email: targetEmail, password });
 
       if (authError) {
-        // Si el inicio de sesión falla y es el correo administrativo esperado,
-        // intentamos registrar el usuario automáticamente en esta base de datos.
-        if (email.toLowerCase().trim() === 'flujoxai@gmail.com') {
-          console.log("Intentando auto-registro para el administrador...");
-          const { error: signUpError } = await supabase.auth.signUp({ 
-            email, 
+        // 2. Si falla y es el correo principal, intentamos con la cuenta administrativa de respaldo
+        if (isMainAdmin) {
+          console.log("Fallo con correo principal. Intentando con cuenta admin@flujoxai.com...");
+          const backupEmail = 'admin@flujoxai.com';
+          
+          const { error: backupAuthError } = await supabase.auth.signInWithPassword({ 
+            email: backupEmail, 
+            password 
+          });
+
+          if (!backupAuthError) {
+            router.push('/admin');
+            router.refresh();
+            return;
+          }
+
+          // 3. Si la cuenta de respaldo tampoco inicia (ej. no existe aún), la creamos automáticamente
+          console.log("Registrando cuenta administrativa de respaldo...");
+          const { error: backupSignUpError } = await supabase.auth.signUp({
+            email: backupEmail,
             password,
             options: {
               data: {
@@ -42,16 +60,18 @@ export default function AdminLoginPage() {
             }
           });
 
-          if (!signUpError) {
-            console.log("Auto-registro exitoso, iniciando sesión...");
-            const { error: retryError } = await supabase.auth.signInWithPassword({ email, password });
-            if (!retryError) {
+          if (!backupSignUpError) {
+            // 4. Iniciar sesión con la cuenta recién registrada
+            const { error: finalSignInError } = await supabase.auth.signInWithPassword({
+              email: backupEmail,
+              password
+            });
+
+            if (!finalSignInError) {
               router.push('/admin');
               router.refresh();
               return;
             }
-          } else {
-            console.error("Error en auto-registro:", signUpError.message);
           }
         }
         
