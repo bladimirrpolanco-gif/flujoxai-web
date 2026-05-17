@@ -186,7 +186,7 @@ export function Navbar() {
                         transition={{ duration: 0.15 }}
                         className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 w-[560px]"
                       >
-                        <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-3xl shadow-2xl p-4 grid grid-cols-2 gap-3 overflow-hidden">
+                        <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-3xl shadow-2xl p-4 grid grid-cols-2 gap-3">
                           {subLinks.map((sub, index) => {
                             const SubIcon = sub.icon;
                             const isLastOdd = subLinks.length % 2 !== 0 && index === subLinks.length - 1;
@@ -213,23 +213,6 @@ export function Navbar() {
                               </Link>
                             );
                           })}
-                          
-                          {/* Banner de Conversión SaaS */}
-                          <div className="col-span-2 mt-2 pt-3 border-t border-white/10 dark:border-white/5 flex items-center justify-between text-xs">
-                            <span className="text-muted-foreground flex items-center gap-1.5 pl-2 font-medium">
-                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0" />
-                              ¿Quieres crear tus propios agentes de IA?
-                            </span>
-                            <a 
-                              href="https://flujobot.flujoxai.com/" 
-                              target="_blank" 
-                              rel="noopener noreferrer" 
-                              className="inline-flex items-center gap-1 py-1 px-3 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary font-bold transition-all duration-300 group/banner"
-                            >
-                              Probar Flujobot gratis
-                              <span className="transition-transform duration-300 group-hover/banner:translate-x-0.5 ml-0.5">&rarr;</span>
-                            </a>
-                          </div>
                         </div>
                       </motion.div>
                     )}
