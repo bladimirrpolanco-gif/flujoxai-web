@@ -142,7 +142,7 @@ export function Services() {
         </motion.div>
 
         {/* Service cards */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className={`grid md:grid-cols-2 ${displayServices.length === 3 ? 'lg:grid-cols-3 max-w-5xl mx-auto' : 'lg:grid-cols-4'} gap-6 w-full`}>
           {displayServices.map((service, i) => {
             const Icon = ICON_MAP[service.icono] || Bot;
             const gradient = service.gradient || (
