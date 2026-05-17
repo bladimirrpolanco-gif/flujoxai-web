@@ -34,8 +34,20 @@ const navLinks: NavLink[] = [
 export function Navbar() {
   const [activeSection, setActiveSection] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { theme } = useTheme();
   const { scrollY } = useScroll();
+  
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".relative-dropdown")) {
+        setOpenDropdown(null);
+      }
+    };
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, []);
   
   // Use CSS variables for colors that adapt to theme
   const backgroundColor = useTransform(
@@ -102,29 +114,47 @@ export function Navbar() {
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           {navLinks.map((link) => {
             if (link.subLinks) {
+              const isOpen = openDropdown === link.label;
               return (
-                <div key={link.label} className="relative group">
-                  <button className="flex items-center gap-1 py-1.5 px-1 text-muted-foreground hover:text-foreground transition-colors">
+                <div key={link.label} className="relative relative-dropdown">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setOpenDropdown(isOpen ? null : link.label);
+                    }}
+                    className="flex items-center gap-1 py-1.5 px-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  >
                     {link.label}
-                    <ChevronDown className="h-3.5 w-3.5 transition-transform group-hover:rotate-180" />
+                    <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
                   </button>
                   
                   {/* Dropdown Menu */}
-                  <div className="absolute top-full left-0 pt-2 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
-                    <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-2xl shadow-2xl p-2 min-w-[160px]">
-                      {link.subLinks.map((sub) => (
-                        <Link
-                          key={sub.href}
-                          href={sub.href}
-                          target={sub.isExternal ? "_blank" : undefined}
-                          rel={sub.isExternal ? "noopener noreferrer" : undefined}
-                          className="flex items-center px-4 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors"
-                        >
-                          {sub.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div 
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.15 }}
+                        className="absolute top-full left-0 pt-2 z-50 min-w-[200px]"
+                      >
+                        <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-2xl shadow-2xl p-2">
+                          {link.subLinks.map((sub) => (
+                            <Link
+                              key={sub.href}
+                              href={sub.href}
+                              onClick={() => setOpenDropdown(null)}
+                              target={sub.isExternal ? "_blank" : undefined}
+                              rel={sub.isExternal ? "noopener noreferrer" : undefined}
+                              className="flex items-center px-4 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors"
+                            >
+                              {sub.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             }

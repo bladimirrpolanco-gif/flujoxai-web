@@ -115,8 +115,23 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Spacer on desktop */}
-          <div className="hidden md:block" />
+          {/* Producto */}
+          <div className="flex flex-col gap-5">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-300">Producto</h4>
+            <ul className="flex flex-col gap-3">
+              <li>
+                <a 
+                  href="https://flujobot.flujoxai.com/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="text-sm text-zinc-500 hover:text-white transition-colors flex items-center gap-1.5 group"
+                >
+                  <span className="h-px w-3 bg-zinc-700 group-hover:bg-primary group-hover:w-4 transition-all" />
+                  Flujobot
+                </a>
+              </li>
+            </ul>
+          </div>
 
           {/* Services */}
           <div className="flex flex-col gap-5">
@@ -155,18 +170,6 @@ export function Footer() {
       <div className="border-t border-zinc-800/60">
         <div className="container max-w-6xl mx-auto px-4 md:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-600">
           <p>&copy; {new Date().getFullYear()} FlujoxAI — Antonio Polanco Ramírez · RNC 402-34117-048</p>
-          <div className="flex items-center gap-4">
-            <span className="text-zinc-500">¿Buscas nuestra plataforma SaaS?</span>
-            <a 
-              href="https://flujobot.flujoxai.com/" 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 text-primary hover:text-primary transition-all duration-300 font-bold border border-primary/20"
-            >
-              Acceder a Flujobot
-              <span className="text-xs">&rarr;</span>
-            </a>
-          </div>
         </div>
       </div>
     </footer>
