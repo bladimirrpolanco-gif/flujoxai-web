@@ -5,7 +5,7 @@ import { BrandIcon } from "./brand-icon";
 const TOOLS = [
   { slug: "whatsapp",      label: "WhatsApp",      color: "bg-[#25D366]" },
   { slug: "gmail",         label: "Gmail",         color: "bg-[#EA4335]" },
-  { slug: "slack",         label: "Slack",         color: "bg-[#4A154B]" },
+  { slug: "telegram",      label: "Telegram",      color: "bg-[#26A5E4]" },
   { slug: "stripe",        label: "Stripe",        color: "bg-[#635BFF]" },
   { slug: "hubspot",       label: "HubSpot",       color: "bg-[#FF7A59]" },
   { slug: "notion",        label: "Notion",        color: "bg-[#000000]" },
