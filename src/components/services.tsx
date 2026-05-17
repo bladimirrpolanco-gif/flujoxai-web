@@ -100,6 +100,28 @@ export function Services() {
   const [dbServices, setDbServices] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Drag to scroll logic
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+  const handleMouseLeave = () => setIsDragging(false);
+  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 2; // Scroll fast
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
   useEffect(() => {
     async function fetchServices() {
       const { data } = await supabase
@@ -153,7 +175,14 @@ export function Services() {
 
         {/* Service cards - Manual Scroll */}
         <div className="relative py-10 -my-10">
-          <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 px-4 -mx-4 scrollbar-hide">
+          <div 
+            ref={scrollRef}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            className={`flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 px-4 -mx-4 scrollbar-hide cursor-grab ${isDragging ? 'cursor-grabbing snap-none' : ''}`}
+          >
             {displayServices.map((service: any, i) => {
               const Icon = service.icon || ICON_MAP[service.icono] || Bot;
               const gradient = service.gradient || (
@@ -174,7 +203,7 @@ export function Services() {
               return (
                 <div
                   key={service.id || i}
-                  className={`group relative flex flex-col glass rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-xl ${glow} hover:shadow-2xl flex-shrink-0 w-[320px] md:w-[380px] snap-center`}
+                  className={`group relative flex flex-col glass rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-xl ${glow} hover:shadow-2xl flex-shrink-0 w-[320px] md:w-[380px] snap-center select-none`}
                 >
                   {/* Top gradient line */}
                   <div className={`absolute top-0 left-6 right-6 h-px bg-gradient-to-r ${gradient} opacity-60 rounded-full`} />
