@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bot, Menu, X, ChevronDown } from "lucide-react";
+import { Bot, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
@@ -14,6 +14,9 @@ interface NavLink {
   subLinks?: {
     href: string;
     label: string;
+    desc: string;
+    icon: any;
+    color: string;
     isExternal?: boolean;
   }[];
 }
@@ -22,10 +25,41 @@ const navLinks: NavLink[] = [
   { 
     label: 'Servicios', 
     subLinks: [
-      { href: '#automatizaciones', label: 'Automatizaciones' },
-      { href: '#integraciones', label: 'Integraciones' },
-      { href: '#simulador', label: 'Chatbot y Agente AI' },
-      { href: '#servicios', label: 'Publicidad con AI' },
+      { 
+        href: '#automatizaciones', 
+        label: 'Automatizaciones', 
+        desc: 'Conectamos tus sistemas para eliminar trabajo manual.', 
+        icon: Zap,
+        color: 'bg-violet-500/10 text-violet-500 dark:bg-violet-500/20'
+      },
+      { 
+        href: '#integraciones', 
+        label: 'Integraciones', 
+        desc: 'Sincroniza CRM, ERP y bases de datos en tiempo real.', 
+        icon: Plug,
+        color: 'bg-blue-500/10 text-blue-500 dark:bg-blue-500/20'
+      },
+      { 
+        href: '#simulador', 
+        label: 'Chatbot', 
+        desc: 'Asistentes de chat inteligentes para WhatsApp y web.', 
+        icon: MessageSquare,
+        color: 'bg-cyan-500/10 text-cyan-500 dark:bg-cyan-500/20'
+      },
+      { 
+        href: '#simulador', 
+        label: 'Agente AI', 
+        desc: 'Agentes autónomos que califican leads y cierran ventas.', 
+        icon: Bot,
+        color: 'bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20'
+      },
+      { 
+        href: '#servicios', 
+        label: 'Publicidad con AI', 
+        desc: 'Optimiza tus anuncios en Meta y Google para más ventas.', 
+        icon: Sparkles,
+        color: 'bg-amber-500/10 text-amber-500 dark:bg-amber-500/20'
+      },
     ]
   },
   { href: '#contacto', label: 'Contacto' },
@@ -114,6 +148,7 @@ export function Navbar() {
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           {navLinks.map((link) => {
             if (link.subLinks) {
+              const subLinks = link.subLinks;
               const isOpen = openDropdown === link.label;
               return (
                 <div key={link.label} className="relative relative-dropdown">
@@ -136,21 +171,35 @@ export function Navbar() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.15 }}
-                        className="absolute top-full left-0 pt-2 z-50 min-w-[200px]"
+                        className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 w-[560px]"
                       >
-                        <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-2xl shadow-2xl p-2">
-                          {link.subLinks.map((sub) => (
-                            <Link
-                              key={sub.href}
-                              href={sub.href}
-                              onClick={() => setOpenDropdown(null)}
-                              target={sub.isExternal ? "_blank" : undefined}
-                              rel={sub.isExternal ? "noopener noreferrer" : undefined}
-                              className="flex items-center px-4 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-foreground hover:bg-white/5 transition-colors"
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
+                        <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-3xl shadow-2xl p-4 grid grid-cols-2 gap-3">
+                          {subLinks.map((sub, index) => {
+                            const SubIcon = sub.icon;
+                            const isLastOdd = subLinks.length % 2 !== 0 && index === subLinks.length - 1;
+                            return (
+                              <Link
+                                key={sub.href + '-' + index}
+                                href={sub.href}
+                                onClick={() => setOpenDropdown(null)}
+                                target={sub.isExternal ? "_blank" : undefined}
+                                rel={sub.isExternal ? "noopener noreferrer" : undefined}
+                                className={`flex gap-3.5 p-3 rounded-2xl text-left hover:bg-white/5 transition-all duration-300 group/item cursor-pointer ${isLastOdd ? 'col-span-2' : ''}`}
+                              >
+                                <div className={`h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover/item:scale-110 ${sub.color}`}>
+                                  <SubIcon className="h-5 w-5" />
+                                </div>
+                                <div className="flex flex-col min-w-0">
+                                  <span className="text-sm font-bold text-foreground group-hover/item:text-primary transition-colors leading-none">
+                                    {sub.label}
+                                  </span>
+                                  <span className="text-xs text-muted-foreground mt-1.5 leading-normal">
+                                    {sub.desc}
+                                  </span>
+                                </div>
+                              </Link>
+                            );
+                          })}
                         </div>
                       </motion.div>
                     )}
@@ -226,25 +275,43 @@ export function Navbar() {
                   transition={{ delay: i * 0.05 }}
                 >
                   {link.subLinks ? (
-                    <div className="space-y-3">
-                      <span className="block text-xs font-bold text-primary tracking-widest uppercase px-1">
-                        {link.label}
-                      </span>
-                      <div className="space-y-2 pl-2 border-l-2 border-primary/20 ml-1">
-                        {link.subLinks.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            onClick={() => setIsMenuOpen(false)}
-                            target={sub.isExternal ? "_blank" : undefined}
-                            rel={sub.isExternal ? "noopener noreferrer" : undefined}
-                            className="block text-lg font-medium text-muted-foreground hover:text-foreground transition-colors"
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
+                    (() => {
+                      const subLinks = link.subLinks;
+                      return (
+                        <div className="space-y-3">
+                          <span className="block text-xs font-bold text-primary tracking-widest uppercase px-1">
+                            {link.label}
+                          </span>
+                          <div className="space-y-3 pl-2 border-l border-primary/20 ml-1">
+                            {subLinks.map((sub) => {
+                              const SubIcon = sub.icon;
+                              return (
+                                <Link
+                                  key={sub.href}
+                                  href={sub.href}
+                                  onClick={() => setIsMenuOpen(false)}
+                                  target={sub.isExternal ? "_blank" : undefined}
+                                  rel={sub.isExternal ? "noopener noreferrer" : undefined}
+                                  className="flex items-start gap-3.5 p-2 rounded-xl hover:bg-white/5 transition-colors"
+                                >
+                                  <div className={`h-9 w-9 rounded-lg flex items-center justify-center flex-shrink-0 ${sub.color}`}>
+                                    <SubIcon className="h-4.5 w-4.5" />
+                                  </div>
+                                  <div className="flex flex-col min-w-0">
+                                    <span className="text-sm font-bold text-foreground">
+                                      {sub.label}
+                                    </span>
+                                    <span className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                                      {sub.desc}
+                                    </span>
+                                  </div>
+                                </Link>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })()
                   ) : (
                     <Link
                       href={link.href || '#'}
