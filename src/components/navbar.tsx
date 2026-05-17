@@ -249,8 +249,6 @@ export function Navbar() {
 
         {/* CTAs */}
         <div className="flex items-center gap-3 shrink-0 ml-auto md:ml-0">
-          <ThemeToggle />
-          
           {/* WhatsApp Directo */}
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="hidden sm:block">
             <a
@@ -274,6 +272,8 @@ export function Navbar() {
               Agendar Llamada
             </Link>
           </motion.div>
+
+          <ThemeToggle />
 
           {/* Mobile Toggle */}
           <button 
