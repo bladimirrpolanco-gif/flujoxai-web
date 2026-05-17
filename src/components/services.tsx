@@ -151,32 +151,30 @@ export function Services() {
           </p>
         </motion.div>
 
-        {/* Service cards - Infinite Loop */}
-        <div className="relative flex overflow-hidden py-10 -my-10 mask-edges">
-          {/* First strip */}
-          <div className="flex gap-6 animate-services-marquee whitespace-normal hover:[animation-play-state:paused]">
-            {[...displayServices, ...displayServices].map((service: any, i) => {
+        {/* Service cards - Manual Scroll */}
+        <div className="relative py-10 -my-10">
+          <div className="flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 px-4 -mx-4 scrollbar-hide">
+            {displayServices.map((service: any, i) => {
               const Icon = service.icon || ICON_MAP[service.icono] || Bot;
-              const originalIndex = i % displayServices.length;
               const gradient = service.gradient || (
-                originalIndex === 0 ? "from-blue-500 to-cyan-400" :
-                originalIndex === 1 ? "from-violet-500 to-purple-400" :
-                originalIndex === 2 ? "from-pink-500 to-rose-400" :
-                originalIndex === 3 ? "from-amber-500 to-orange-400" :
+                i === 0 ? "from-blue-500 to-cyan-400" :
+                i === 1 ? "from-violet-500 to-purple-400" :
+                i === 2 ? "from-pink-500 to-rose-400" :
+                i === 3 ? "from-amber-500 to-orange-400" :
                 "from-teal-500 to-emerald-400"
               );
               const glow = service.glow || (
-                 originalIndex === 0 ? "shadow-blue-500/20" :
-                 originalIndex === 1 ? "shadow-violet-500/20" :
-                 originalIndex === 2 ? "shadow-pink-500/20" :
-                 originalIndex === 3 ? "shadow-amber-500/20" :
+                 i === 0 ? "shadow-blue-500/20" :
+                 i === 1 ? "shadow-violet-500/20" :
+                 i === 2 ? "shadow-pink-500/20" :
+                 i === 3 ? "shadow-amber-500/20" :
                  "shadow-teal-500/20"
               );
 
               return (
                 <div
-                  key={`${service.id || originalIndex}-${i}`}
-                  className={`group relative flex flex-col glass rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-xl ${glow} hover:shadow-2xl flex-shrink-0 w-[350px]`}
+                  key={service.id || i}
+                  className={`group relative flex flex-col glass rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-xl ${glow} hover:shadow-2xl flex-shrink-0 w-[320px] md:w-[380px] snap-center`}
                 >
                   {/* Top gradient line */}
                   <div className={`absolute top-0 left-6 right-6 h-px bg-gradient-to-r ${gradient} opacity-60 rounded-full`} />
@@ -201,21 +199,15 @@ export function Services() {
               );
             })}
           </div>
-          
-          {/* We only need one strip if it spans enough, but usually we need two identical ones side by side for a seamless CSS loop. Wait, we mapped over [...displayServices, ...displayServices] which creates 2 sets in one flex container. With 5 items (x2 = 10 items) each 350px wide + gap, it's more than wide enough to cover any screen! */}
         </div>
 
         <style jsx>{`
-          @keyframes services-marquee {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(calc(-50% - 12px)); } /* 12px is half of the 24px gap */
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
           }
-          .animate-services-marquee {
-            animation: services-marquee 35s linear infinite;
-          }
-          .mask-edges {
-            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
           }
         `}</style>
 
