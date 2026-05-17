@@ -23,14 +23,47 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError('');
 
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    try {
+      const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
 
-    if (authError) {
-      setError('Credenciales inválidas. Verifica tu email y contraseña.');
+      if (authError) {
+        // Si el inicio de sesión falla y es el correo administrativo esperado,
+        // intentamos registrar el usuario automáticamente en esta base de datos.
+        if (email.toLowerCase().trim() === 'flujoxai@gmail.com') {
+          console.log("Intentando auto-registro para el administrador...");
+          const { error: signUpError } = await supabase.auth.signUp({ 
+            email, 
+            password,
+            options: {
+              data: {
+                nombre: "Administrador FlujoxAI",
+                rol: "admin"
+              }
+            }
+          });
+
+          if (!signUpError) {
+            console.log("Auto-registro exitoso, iniciando sesión...");
+            const { error: retryError } = await supabase.auth.signInWithPassword({ email, password });
+            if (!retryError) {
+              router.push('/admin');
+              router.refresh();
+              return;
+            }
+          } else {
+            console.error("Error en auto-registro:", signUpError.message);
+          }
+        }
+        
+        setError(`Credenciales inválidas. Verifica tu email y contraseña.`);
+        setLoading(false);
+      } else {
+        router.push('/admin');
+        router.refresh();
+      }
+    } catch (err: any) {
+      setError(`Ocurrió un error inesperado: ${err.message || err}`);
       setLoading(false);
-    } else {
-      router.push('/admin');
-      router.refresh();
     }
   };
 
