@@ -80,8 +80,20 @@ export function Navbar() {
         setOpenDropdown(null);
       }
     };
+    
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpenDropdown(null);
+      }
+    };
+
     document.addEventListener("click", handleOutsideClick);
-    return () => document.removeEventListener("click", handleOutsideClick);
+    document.addEventListener("keydown", handleKeyDown);
+    
+    return () => {
+      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
   
   // Use CSS variables for colors that adapt to theme
@@ -174,7 +186,7 @@ export function Navbar() {
                         transition={{ duration: 0.15 }}
                         className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 w-[560px]"
                       >
-                        <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-3xl shadow-2xl p-4 grid grid-cols-2 gap-3">
+                        <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-3xl shadow-2xl p-4 grid grid-cols-2 gap-3 overflow-hidden">
                           {subLinks.map((sub, index) => {
                             const SubIcon = sub.icon;
                             const isLastOdd = subLinks.length % 2 !== 0 && index === subLinks.length - 1;
@@ -187,7 +199,7 @@ export function Navbar() {
                                 rel={sub.isExternal ? "noopener noreferrer" : undefined}
                                 className={`flex gap-3.5 p-3 rounded-2xl text-left hover:bg-white/5 transition-all duration-300 group/item cursor-pointer ${isLastOdd ? 'col-span-2' : ''}`}
                               >
-                                <div className={`h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-transform duration-300 group-hover/item:scale-110 ${sub.color}`}>
+                                <div className={`h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover/item:scale-110 group-hover/item:rotate-6 group-hover/item:-translate-y-0.5 ${sub.color}`}>
                                   <SubIcon className="h-5 w-5" />
                                 </div>
                                 <div className="flex flex-col min-w-0">
@@ -201,6 +213,23 @@ export function Navbar() {
                               </Link>
                             );
                           })}
+                          
+                          {/* Banner de Conversión SaaS */}
+                          <div className="col-span-2 mt-2 pt-3 border-t border-white/10 dark:border-white/5 flex items-center justify-between text-xs">
+                            <span className="text-muted-foreground flex items-center gap-1.5 pl-2 font-medium">
+                              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse flex-shrink-0" />
+                              ¿Quieres crear tus propios agentes de IA?
+                            </span>
+                            <a 
+                              href="https://flujobot.flujoxai.com/" 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="inline-flex items-center gap-1 py-1 px-3 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary font-bold transition-all duration-300 group/banner"
+                            >
+                              Probar Flujobot gratis
+                              <span className="transition-transform duration-300 group-hover/banner:translate-x-0.5 ml-0.5">&rarr;</span>
+                            </a>
+                          </div>
                         </div>
                       </motion.div>
                     )}
