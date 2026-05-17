@@ -155,8 +155,8 @@ export function Services() {
         <div className="relative flex overflow-hidden py-10 -my-10 mask-edges">
           {/* First strip */}
           <div className="flex gap-6 animate-services-marquee whitespace-normal hover:[animation-play-state:paused]">
-            {[...displayServices, ...displayServices].map((service, i) => {
-              const Icon = ICON_MAP[service.icono] || Bot;
+            {[...displayServices, ...displayServices].map((service: any, i) => {
+              const Icon = service.icon || ICON_MAP[service.icono] || Bot;
               const originalIndex = i % displayServices.length;
               const gradient = service.gradient || (
                 originalIndex === 0 ? "from-blue-500 to-cyan-400" :
