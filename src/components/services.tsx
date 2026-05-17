@@ -86,6 +86,14 @@ const STATIC_SERVICES = [
     gradient: "from-amber-500 to-orange-400",
     glow: "shadow-amber-500/20",
   },
+  {
+    icon: AreaChart,
+    title: "Integraciones de Sistemas",
+    description: "Sincronizamos tus plataformas actuales para que la información fluya sin barreras (Stripe, HubSpot, Shopify, etc).",
+    benefits: ["Flujo de datos en tiempo real", "Sin pérdida de información", "Conecta +1000 aplicaciones"],
+    gradient: "from-teal-500 to-emerald-400",
+    glow: "shadow-teal-500/20",
+  },
 ];
 
 export function Services() {
@@ -108,7 +116,9 @@ export function Services() {
     fetchServices();
   }, []);
 
-  const displayServices = dbServices.length > 0 ? dbServices : STATIC_SERVICES;
+  // Force static services to show the full carousel with all 5 items. 
+  // You can switch back to `dbServices` if you add them all to Supabase!
+  const displayServices = STATIC_SERVICES;
 
   return (
     <section id="servicios" className="relative py-28 overflow-hidden">
@@ -141,56 +151,73 @@ export function Services() {
           </p>
         </motion.div>
 
-        {/* Service cards */}
-        <div className={`grid md:grid-cols-2 ${displayServices.length === 3 ? 'lg:grid-cols-3 max-w-5xl mx-auto' : 'lg:grid-cols-4'} gap-6 w-full`}>
-          {displayServices.map((service, i) => {
-            const Icon = ICON_MAP[service.icono] || Bot;
-            const gradient = service.gradient || (
-              i === 0 ? "from-blue-500 to-cyan-400" :
-              i === 1 ? "from-violet-500 to-purple-400" :
-              i === 2 ? "from-pink-500 to-rose-400" :
-              "from-amber-500 to-orange-400"
-            );
-            const glow = service.glow || (
-               i === 0 ? "shadow-blue-500/20" :
-               i === 1 ? "shadow-violet-500/20" :
-               i === 2 ? "shadow-pink-500/20" :
-               "shadow-amber-500/20"
-            );
+        {/* Service cards - Infinite Loop */}
+        <div className="relative flex overflow-hidden py-10 -my-10 mask-edges">
+          {/* First strip */}
+          <div className="flex gap-6 animate-services-marquee whitespace-normal hover:[animation-play-state:paused]">
+            {[...displayServices, ...displayServices].map((service, i) => {
+              const Icon = ICON_MAP[service.icono] || Bot;
+              const originalIndex = i % displayServices.length;
+              const gradient = service.gradient || (
+                originalIndex === 0 ? "from-blue-500 to-cyan-400" :
+                originalIndex === 1 ? "from-violet-500 to-purple-400" :
+                originalIndex === 2 ? "from-pink-500 to-rose-400" :
+                originalIndex === 3 ? "from-amber-500 to-orange-400" :
+                "from-teal-500 to-emerald-400"
+              );
+              const glow = service.glow || (
+                 originalIndex === 0 ? "shadow-blue-500/20" :
+                 originalIndex === 1 ? "shadow-violet-500/20" :
+                 originalIndex === 2 ? "shadow-pink-500/20" :
+                 originalIndex === 3 ? "shadow-amber-500/20" :
+                 "shadow-teal-500/20"
+              );
 
-            return (
-              <motion.div
-                key={service.id || i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                whileHover={{ y: -8 }}
-                className={`group relative flex flex-col glass rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-xl ${glow} hover:shadow-2xl`}
-              >
-                {/* Top gradient line */}
-                <div className={`absolute top-0 left-6 right-6 h-px bg-gradient-to-r ${gradient} opacity-60 rounded-full`} />
+              return (
+                <div
+                  key={`${service.id || originalIndex}-${i}`}
+                  className={`group relative flex flex-col glass rounded-3xl p-8 border border-white/10 hover:border-white/20 transition-all duration-300 shadow-xl ${glow} hover:shadow-2xl flex-shrink-0 w-[350px]`}
+                >
+                  {/* Top gradient line */}
+                  <div className={`absolute top-0 left-6 right-6 h-px bg-gradient-to-r ${gradient} opacity-60 rounded-full`} />
 
-                {/* Icon */}
-                <div className={`h-14 w-14 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon className="h-7 w-7 text-white" />
+                  {/* Icon */}
+                  <div className={`h-14 w-14 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                    <Icon className="h-7 w-7 text-white" />
+                  </div>
+
+                  <h3 className="text-xl font-bold mb-3 text-foreground">{service.nombre || service.title}</h3>
+                  <p className="text-muted-foreground mb-6 flex-1 leading-relaxed text-sm">{service.descripcion || service.description}</p>
+
+                  <ul className="space-y-2.5">
+                    {(service.beneficios || service.benefits).map((benefit: string, j: number) => (
+                      <li key={j} className="flex items-center gap-2.5 text-sm text-foreground/80">
+                        <CheckCircle2 className="h-4 w-4 text-emerald-400 flex-shrink-0" />
+                        {benefit}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-
-                <h3 className="text-xl font-bold mb-3 text-foreground">{service.nombre || service.title}</h3>
-                <p className="text-muted-foreground mb-6 flex-1 leading-relaxed text-sm">{service.descripcion || service.description}</p>
-
-                <ul className="space-y-2.5">
-                  {(service.beneficios || service.benefits).map((benefit: string, j: number) => (
-                    <li key={j} className="flex items-center gap-2.5 text-sm text-foreground/80">
-                      <CheckCircle2 className="h-4 w-4 text-emerald-400 flex-shrink-0" />
-                      {benefit}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            );
-          })}
+              );
+            })}
+          </div>
+          
+          {/* We only need one strip if it spans enough, but usually we need two identical ones side by side for a seamless CSS loop. Wait, we mapped over [...displayServices, ...displayServices] which creates 2 sets in one flex container. With 5 items (x2 = 10 items) each 350px wide + gap, it's more than wide enough to cover any screen! */}
         </div>
+
+        <style jsx>{`
+          @keyframes services-marquee {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(calc(-50% - 12px)); } /* 12px is half of the 24px gap */
+          }
+          .animate-services-marquee {
+            animation: services-marquee 35s linear infinite;
+          }
+          .mask-edges {
+            mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+          }
+        `}</style>
 
 
         {/* Stats bar */}
