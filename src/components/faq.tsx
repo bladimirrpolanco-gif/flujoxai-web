@@ -35,7 +35,7 @@ export function FAQ() {
   const [open, setOpen] = useState<number | null>(null);
 
   return (
-    <section className="py-28 bg-background">
+    <section id="faq" className="py-28 bg-background">
       <div className="container px-4 md:px-6 mx-auto max-w-3xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
