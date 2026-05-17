@@ -54,8 +54,6 @@ const stats = [
 ];
 
 const STATIC_SERVICES = [
-
-
   {
     icon: MessageSquare,
     title: "Chatbots IA para WhatsApp",
@@ -79,6 +77,14 @@ const STATIC_SERVICES = [
     benefits: ["Sincronización en tiempo real", "Recordatorios automáticos", "Reduce inasistencias"],
     gradient: "from-pink-500 to-rose-400",
     glow: "shadow-pink-500/20",
+  },
+  {
+    icon: Sparkles,
+    title: "Publicidad con AI",
+    description: "Optimizamos tus campañas en Meta Ads y Google Ads con IA. Creamos anuncios hiper-personalizados y aumentamos tus ventas.",
+    benefits: ["Optimización de presupuestos", "Generación de anuncios con IA", "Segmentación súper precisa"],
+    gradient: "from-amber-500 to-orange-400",
+    glow: "shadow-amber-500/20",
   },
 ];
 
@@ -136,18 +142,20 @@ export function Services() {
         </motion.div>
 
         {/* Service cards */}
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {displayServices.map((service, i) => {
             const Icon = ICON_MAP[service.icono] || Bot;
             const gradient = service.gradient || (
               i === 0 ? "from-blue-500 to-cyan-400" :
               i === 1 ? "from-violet-500 to-purple-400" :
-              "from-pink-500 to-rose-400"
+              i === 2 ? "from-pink-500 to-rose-400" :
+              "from-amber-500 to-orange-400"
             );
             const glow = service.glow || (
                i === 0 ? "shadow-blue-500/20" :
                i === 1 ? "shadow-violet-500/20" :
-               "shadow-pink-500/20"
+               i === 2 ? "shadow-pink-500/20" :
+               "shadow-amber-500/20"
             );
 
             return (

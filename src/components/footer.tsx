@@ -155,6 +155,18 @@ export function Footer() {
       <div className="border-t border-zinc-800/60">
         <div className="container max-w-6xl mx-auto px-4 md:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-600">
           <p>&copy; {new Date().getFullYear()} FlujoxAI — Antonio Polanco Ramírez · RNC 402-34117-048</p>
+          <div className="flex items-center gap-4">
+            <span className="text-zinc-500">¿Buscas nuestra plataforma SaaS?</span>
+            <a 
+              href="https://flujobot.flujoxai.com/" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary/10 hover:bg-primary/20 text-primary hover:text-primary transition-all duration-300 font-bold border border-primary/20"
+            >
+              Acceder a Flujobot
+              <span className="text-xs">&rarr;</span>
+            </a>
+          </div>
         </div>
       </div>
     </footer>

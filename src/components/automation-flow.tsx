@@ -36,7 +36,7 @@ export function AutomationFlow() {
   }, []);
 
   return (
-    <section className="py-28 relative overflow-hidden bg-background">
+    <section id="automatizaciones" className="py-28 relative overflow-hidden bg-background">
       <div className="absolute inset-0 bg-muted/20 -z-10" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full opacity-5 -z-10"
         style={{ background: "radial-gradient(ellipse, oklch(0.65 0.22 255) 0%, transparent 70%)" }} />

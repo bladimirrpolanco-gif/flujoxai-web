@@ -19,11 +19,13 @@ interface NavLink {
 }
 
 const navLinks: NavLink[] = [
-  { href: '#servicios', label: 'Servicios' },
   { 
-    label: 'Producto', 
+    label: 'Servicios', 
     subLinks: [
-      { href: 'https://flujobot.flujoxai.com/', label: 'Flujobot', isExternal: true },
+      { href: '#automatizaciones', label: 'Automatizaciones' },
+      { href: '#integraciones', label: 'Integraciones' },
+      { href: '#simulador', label: 'Chatbot y Agente AI' },
+      { href: '#servicios', label: 'Publicidad con AI' },
     ]
   },
   { href: '#contacto', label: 'Contacto' },
