@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import Link from "next/link";
+import { trackEvent } from "@/lib/metrics";
 import { ArrowRight, Bot, Workflow, Zap, Sparkles } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 
@@ -143,7 +144,10 @@ export function Hero() {
           >
             <MagneticButton>
               <Link href="#contacto">
-                <button className="group relative inline-flex items-center gap-3 h-14 px-10 rounded-2xl text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 btn-primary-glow">
+                <button 
+                  onClick={() => trackEvent('click_cta', { cta: 'Hablar con un Experto (Hero)' })}
+                  className="group relative inline-flex items-center gap-3 h-14 px-10 rounded-2xl text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 btn-primary-glow"
+                >
                   <Bot className="w-5 h-5 transition-transform group-hover:rotate-12" />
                   Hablar con un Experto
                   <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
@@ -153,7 +157,10 @@ export function Hero() {
 
             <MagneticButton>
               <Link href="#simulador">
-                <button className="group inline-flex items-center gap-3 h-14 px-10 rounded-2xl text-base font-semibold glass hover:bg-muted/10 transition-all duration-300 border border-border/50 hover:border-primary/40 text-foreground">
+                <button 
+                  onClick={() => trackEvent('click_cta', { cta: 'Probar Demo IA (Hero)' })}
+                  className="group inline-flex items-center gap-3 h-14 px-10 rounded-2xl text-base font-semibold glass hover:bg-muted/10 transition-all duration-300 border border-border/50 hover:border-primary/40 text-foreground"
+                >
                   Probar Demo IA
                   <div className="relative h-4 w-4">
                     <ArrowRight className="absolute inset-0 transition-transform group-hover:translate-x-1" />

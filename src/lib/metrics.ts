@@ -1,6 +1,6 @@
 import { supabase } from './supabase';
 
-export type EventType = 'visita' | 'mensaje_simulador' | 'lead_generado' | 'click_whatsapp';
+export type EventType = 'visita' | 'mensaje_simulador' | 'lead_generado' | 'click_whatsapp' | 'click_cta';
 
 export async function trackEvent(tipo_evento: EventType, metadata?: any) {
   try {

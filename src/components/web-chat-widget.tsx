@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageSquare, X, Send, Bot, User, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/metrics";
 
 interface Message {
   role: "bot" | "user";
@@ -48,6 +49,7 @@ export function WebChatWidget() {
     const userText = message.trim();
     setMessage("");
     setMessages((prev) => [...prev, { role: "user", text: userText }]);
+    trackEvent('mensaje_simulador', { message: userText });
     setIsLoading(true);
 
     try {

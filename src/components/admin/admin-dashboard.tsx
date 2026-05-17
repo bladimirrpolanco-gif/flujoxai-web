@@ -333,10 +333,12 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
           {/* ANALYTICS */}
           {activeTab === 'analytics' && (
             <div className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <StatCard icon={<MousePointer2 className="h-5 w-5 text-blue-400" />}    label="Visitas Totales"      value={metrics.filter(m => m.tipo_evento === 'visita').length}            bg="bg-blue-600/10"   sub="Impacto en el sitio" />
-                <StatCard icon={<MessageSquare className="h-5 w-5 text-emerald-400" />} label="Interacciones Bot"    value={metrics.filter(m => m.tipo_evento === 'mensaje_simulador').length} bg="bg-emerald-600/10" sub="Mensajes en el simulador" />
-                <StatCard icon={<TrendingUp className="h-5 w-5 text-purple-400" />}     label="Leads Generados"     value={metrics.filter(m => m.tipo_evento === 'lead_generado').length}      bg="bg-purple-600/10"  sub="Formularios enviados" />
+              <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+                <StatCard icon={<MousePointer2 className="h-5 w-5 text-blue-400" />}    label="Visitas"             value={metrics.filter(m => m.tipo_evento === 'visita').length}            bg="bg-blue-600/10"   sub="Visitas al sitio" />
+                <StatCard icon={<MessageSquare className="h-5 w-5 text-emerald-400" />} label="Msg Simulador"       value={metrics.filter(m => m.tipo_evento === 'mensaje_simulador').length} bg="bg-emerald-600/10" sub="Mensajes en sim" />
+                <StatCard icon={<TrendingUp className="h-5 w-5 text-purple-400" />}     label="Leads"               value={metrics.filter(m => m.tipo_evento === 'lead_generado').length}      bg="bg-purple-600/10"  sub="Formularios" />
+                <StatCard icon={<Phone className="h-5 w-5 text-emerald-400" />}         label="WhatsApp"            value={metrics.filter(m => m.tipo_evento === 'click_whatsapp').length}    bg="bg-emerald-600/10" sub="Clicks WhatsApp" />
+                <StatCard icon={<BarChart3 className="h-5 w-5 text-amber-400" />}       label="Clicks CTA"          value={metrics.filter(m => m.tipo_evento === 'click_cta').length}          bg="bg-amber-600/10"   sub="Clicks Botones" />
               </div>
 
               <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
@@ -366,22 +368,56 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
                 )}
               </div>
 
-              <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                <h3 className="text-white font-semibold mb-4">Pipeline por Etapa</h3>
-                <div className="space-y-3">
-                  {PIPELINE_COLUMNS.map((col) => {
-                    const count = localLeads.filter(l => (l.estado ?? 'nuevo') === col.key).length;
-                    const pct = totalLeads > 0 ? Math.round((count / totalLeads) * 100) : 0;
-                    return (
-                      <div key={col.key} className="flex items-center gap-4">
-                        <span className="text-sm text-zinc-400 w-24 capitalize">{col.label}</span>
-                        <div className="flex-1 bg-zinc-800 rounded-full h-2">
-                          <div className={`h-2 rounded-full ${col.dot}`} style={{ width: `${pct}%` }} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+                  <h3 className="text-white font-semibold mb-4">Pipeline por Etapa</h3>
+                  <div className="space-y-3">
+                    {PIPELINE_COLUMNS.map((col) => {
+                      const count = localLeads.filter(l => (l.estado ?? 'nuevo') === col.key).length;
+                      const pct = totalLeads > 0 ? Math.round((count / totalLeads) * 100) : 0;
+                      return (
+                        <div key={col.key} className="flex items-center gap-4">
+                          <span className="text-sm text-zinc-400 w-24 capitalize">{col.label}</span>
+                          <div className="flex-1 bg-zinc-800 rounded-full h-2">
+                            <div className={`h-2 rounded-full ${col.dot}`} style={{ width: `${pct}%` }} />
+                          </div>
+                          <span className="text-xs text-zinc-500 w-8 text-right">{count}</span>
                         </div>
-                        <span className="text-xs text-zinc-500 w-8 text-right">{count}</span>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+                  <h3 className="text-white font-semibold mb-4">Botones Más Clickeados (CTAs)</h3>
+                  <div className="space-y-3">
+                    {(() => {
+                      const ctas = metrics.filter(m => m.tipo_evento === 'click_cta');
+                      const counts: Record<string, number> = {};
+                      ctas.forEach(c => {
+                        const name = c.metadata?.cta || 'Otro CTA';
+                        counts[name] = (counts[name] || 0) + 1;
+                      });
+                      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+                      
+                      if (sorted.length === 0) {
+                        return <div className="text-zinc-500 text-xs text-center py-8">Aún no hay clics registrados en CTAs.</div>;
+                      }
+                      
+                      return sorted.map(([name, count]) => {
+                        const pct = ctas.length > 0 ? Math.round((count / ctas.length) * 100) : 0;
+                        return (
+                          <div key={name} className="flex items-center gap-4">
+                            <span className="text-xs text-zinc-400 w-32 truncate" title={name}>{name}</span>
+                            <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
+                              <div className="h-1.5 rounded-full bg-amber-500" style={{ width: `${pct}%` }} />
+                            </div>
+                            <span className="text-xs text-zinc-500 w-8 text-right">{count}</span>
+                          </div>
+                        );
+                      });
+                    })()}
+                  </div>
                 </div>
               </div>
             </div>

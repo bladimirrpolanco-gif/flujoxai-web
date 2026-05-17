@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
 import { useTheme } from "next-themes";
+import { trackEvent } from "@/lib/metrics";
 
 interface NavLink {
   href?: string;
@@ -255,6 +256,7 @@ export function Navbar() {
               href="https://wa.me/18492597719?text=%C2%A1Hola%21%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20IA%20de%20FlujoxAI%20%F0%9F%A5%BE"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackEvent('click_whatsapp')}
               className="inline-flex items-center gap-1.5 h-9 px-4 rounded-full text-xs md:text-sm font-bold border border-emerald-500/30 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/10 transition-all shadow-sm whitespace-nowrap"
             >
               <svg className="h-4.5 w-4.5 fill-current text-emerald-500" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -267,6 +269,7 @@ export function Navbar() {
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="hidden xs:block">
             <Link
               href="#contacto"
+              onClick={() => trackEvent('click_cta', { cta: 'Agendar Llamada (Navbar)' })}
               className="inline-flex items-center h-9 px-4 rounded-full text-xs md:text-sm font-bold bg-primary text-primary-foreground hover:bg-primary/95 transition-all shadow-lg shadow-primary/20 whitespace-nowrap"
             >
               Agendar Llamada
