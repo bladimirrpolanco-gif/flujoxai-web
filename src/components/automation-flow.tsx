@@ -50,12 +50,13 @@ export function AutomationFlow() {
           transition={{ duration: 0.5 }}
           className="text-center mb-16 max-w-3xl mx-auto"
         >
-          <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary mb-4 glass px-4 py-1.5 rounded-full border border-primary/20">
-            Automatización en Acción
+          <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-wide text-primary mb-4 glass px-4 py-1.5 rounded-full border border-primary/20">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+            Automatización en acción
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold font-syne text-foreground mb-4">
             Un mensaje que desencadena{" "}
-            <span className="gradient-text">todo un flujo</span>
+            <span className="text-[#2563EB]">todo un flujo</span>
           </h2>
           <p className="text-lg text-muted-foreground">
             Desde que el cliente escribe hasta que la cita queda agendada — en segundos, sin intervención humana.
@@ -68,7 +69,7 @@ export function AutomationFlow() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="glass border border-border/50 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto"
+          className="glass border border-border/50 rounded-3xl p-8 pb-4 md:p-12 md:pb-6 max-w-4xl mx-auto"
         >
           <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0 overflow-x-auto">
 

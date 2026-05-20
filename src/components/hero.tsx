@@ -104,7 +104,7 @@ export function Hero() {
           </motion.div>
 
           {/* Headline with Typing Effect */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-6 leading-[1.05] perspective-1000">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-syne tracking-tight mb-6 leading-[1.05] perspective-1000">
             {headlineWords.map((word, i) => (
               <motion.span
                 key={i}

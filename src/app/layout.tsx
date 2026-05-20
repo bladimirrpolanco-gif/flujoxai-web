@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Syne } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const font = Inter({ subsets: ["latin"] });
+const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
 
 export const metadata: Metadata = {
   title: "FlujoxAI - Automatización Empresarial con Inteligencia Artificial",
@@ -34,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${font.className} antialiased selection:bg-primary/30`}>
+      <body className={`${font.className} ${syne.variable} antialiased selection:bg-primary/30`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
