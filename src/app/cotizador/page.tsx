@@ -268,7 +268,7 @@ export default function DiagnosticoPage() {
       <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
         <div className="text-center space-y-3">
           <h2 className="text-3xl font-extrabold text-foreground">¿Qué herramientas utilizan actualmente?</h2>
-          <p className="text-muted-foreground">Analizaremos la viabilidad de integración entre sistemas.</p>
+          <p className="text-muted-foreground">Analizaremos la viabilidad de integración. <br/><span className="text-primary font-bold text-xs uppercase tracking-wider">(Selecciona las necesarias y haz clic en Siguiente)</span></p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {opciones.map(opt => {
@@ -281,9 +281,9 @@ export default function DiagnosticoPage() {
             )
           })}
         </div>
-        <div className="flex justify-between items-center pt-4 border-t border-border/50">
+        <div className="flex justify-between items-center pt-4 border-t border-border/50 sticky bottom-0 bg-background/95 backdrop-blur py-4 z-10">
           <button onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button>
-          <button onClick={nextStep} disabled={data.herramientas.length === 0} className="btn-primary-glow bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 disabled:opacity-50">Siguiente <ArrowRight className="w-4 h-4"/></button>
+          <button onClick={nextStep} disabled={data.herramientas.length === 0} className="btn-primary-glow bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 disabled:opacity-50 disabled:animate-none animate-pulse hover:animate-none">Siguiente <ArrowRight className="w-4 h-4"/></button>
         </div>
       </div>
     );
@@ -304,9 +304,9 @@ export default function DiagnosticoPage() {
       <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
         <div className="text-center space-y-3">
           <h2 className="text-3xl font-extrabold text-foreground">¿Qué funciones avanzadas necesitas?</h2>
-          <p className="text-muted-foreground">El sistema calculará la arquitectura tecnológica necesaria.</p>
+          <p className="text-muted-foreground">El sistema calculará la arquitectura tecnológica necesaria. <br/><span className="text-primary font-bold text-xs uppercase tracking-wider">(Selecciona varias opciones y presiona Siguiente)</span></p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
           {opciones.map(opt => {
             const isSel = data.funcionalidades.includes(opt.id);
             return (
@@ -318,9 +318,9 @@ export default function DiagnosticoPage() {
             )
           })}
         </div>
-        <div className="flex justify-between items-center pt-4 border-t border-border/50">
+        <div className="flex justify-between items-center pt-4 border-t border-border/50 sticky bottom-0 bg-background/95 backdrop-blur py-4 z-10">
           <button onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button>
-          <button onClick={nextStep} disabled={data.funcionalidades.length === 0} className="btn-primary-glow bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 disabled:opacity-50">Siguiente <ArrowRight className="w-4 h-4"/></button>
+          <button onClick={nextStep} disabled={data.funcionalidades.length === 0} className="btn-primary-glow bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 disabled:opacity-50 disabled:animate-none animate-pulse hover:animate-none">Siguiente <ArrowRight className="w-4 h-4"/></button>
         </div>
       </div>
     );
