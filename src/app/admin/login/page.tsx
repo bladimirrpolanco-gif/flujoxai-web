@@ -32,25 +32,11 @@ export default function AdminLoginPage() {
       const { error: authError } = await supabase.auth.signInWithPassword({ email: targetEmail, password });
 
       if (authError) {
-        // 2. Si falla y es el correo principal, intentamos con la cuenta administrativa de respaldo
         if (isMainAdmin) {
-          console.log("Fallo con correo principal. Intentando con cuenta admin@flujoxai.com...");
-          const backupEmail = 'admin@flujoxai.com';
+          console.log("Fallo el login. Intentando registrar la cuenta automáticamente...");
           
-          const { error: backupAuthError } = await supabase.auth.signInWithPassword({ 
-            email: backupEmail, 
-            password 
-          });
-
-          if (!backupAuthError) {
-            window.location.href = '/admin';
-            return;
-          }
-
-          // 3. Si la cuenta de respaldo tampoco inicia (ej. no existe aún), la creamos automáticamente
-          console.log("Registrando cuenta administrativa de respaldo...");
-          const { error: backupSignUpError } = await supabase.auth.signUp({
-            email: backupEmail,
+          const { error: signUpError } = await supabase.auth.signUp({
+            email: targetEmail,
             password,
             options: {
               data: {
@@ -60,21 +46,28 @@ export default function AdminLoginPage() {
             }
           });
 
-          if (!backupSignUpError) {
-            // 4. Iniciar sesión con la cuenta recién registrada
+          if (!signUpError) {
             const { error: finalSignInError } = await supabase.auth.signInWithPassword({
-              email: backupEmail,
+              email: targetEmail,
               password
             });
 
             if (!finalSignInError) {
               window.location.href = '/admin';
               return;
+            } else {
+              setError(`Atención: ${finalSignInError.message} (Revisa tu bandeja de entrada en ${targetEmail} para confirmar la cuenta)`);
+              setLoading(false);
+              return;
             }
+          } else {
+            setError(`Error al registrar: ${signUpError.message}`);
+            setLoading(false);
+            return;
           }
         }
         
-        setError(`Credenciales inválidas. Verifica tu email y contraseña.`);
+        setError(`Error: ${authError.message}`);
         setLoading(false);
       } else {
         window.location.href = '/admin';
