@@ -85,10 +85,10 @@ export function Hero() {
       />
 
       <div className="container relative z-10 mx-auto px-4 md:px-6">
-        <div className="grid lg:grid-cols-2 lg:items-center gap-12 lg:gap-8 max-w-5xl lg:max-w-7xl mx-auto overflow-visible">
+        <div className="grid lg:grid-cols-2 lg:items-center gap-12 lg:gap-8 max-w-5xl lg:max-w-7xl mx-auto overflow-hidden lg:overflow-visible">
           
           {/* Left Column (Text content) */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left min-w-0">
 
           {/* Badge */}
           <motion.div
@@ -211,7 +211,7 @@ export function Hero() {
           </div>
 
           {/* Right Column (Diagram) */}
-          <div className="self-center flex flex-col justify-center items-center lg:items-end w-full h-full overflow-visible">
+          <div className="self-center flex flex-col justify-center items-center lg:items-end w-full h-full overflow-hidden lg:overflow-visible min-w-0">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}

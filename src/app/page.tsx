@@ -25,7 +25,7 @@ export default function Home() {
     <div className="flex min-h-screen flex-col">
 
       <Navbar />
-      <main className="flex-1">
+      <main className="flex-1 overflow-x-hidden">
         <Hero />
         <Marquee />
         <Services />
