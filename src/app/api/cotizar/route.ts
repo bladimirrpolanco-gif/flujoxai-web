@@ -130,7 +130,7 @@ export async function POST(req: NextRequest) {
               <div class="price-box">
                 <div class="price-label">Inversión Estimada</div>
                 <h2 class="price-amount">${precio}</h2>
-                <div class="price-note">PAGO ÚNICO</div>
+                <div class="price-note">50% INICIAL / 50% A LA ENTREGA</div>
               </div>
             </div>
 

@@ -323,7 +323,7 @@ export default function DiagnosticoPage() {
             <div className="bg-background/80 backdrop-blur px-4 py-2 rounded-lg border border-border/50 text-center">
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-0.5">Inversión Estimada</p>
               <p className="text-lg font-black text-emerald-500">{precio}</p>
-              <p className="text-[10px] text-muted-foreground mt-0.5">PAGO ÚNICO</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5 font-semibold">50% INICIO / 50% ENTREGA</p>
             </div>
           </div>
 
