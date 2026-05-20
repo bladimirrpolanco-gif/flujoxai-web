@@ -146,6 +146,7 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
             active={true} 
             pulsing={phase === 2} 
             processing={phase === 2} 
+            layout="hero"
           />
         </div>
       </div>
@@ -172,6 +173,7 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
               gradient={n.from + " " + n.to} 
               glow={n.glow} 
               active={true} 
+              layout="hero"
             />
           </motion.div>
         );
@@ -218,14 +220,14 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
 }
 
 function MainNode({
-  icon: Icon, slug, label, sub, gradient, glow, active, pulsing, processing,
+  icon: Icon, slug, label, sub, gradient, glow, active, pulsing, processing, layout,
 }: {
   icon?: any; slug?: string; label: string; sub: string; gradient: string; glow: string;
-  active: boolean; pulsing?: boolean; processing?: boolean;
+  active: boolean; pulsing?: boolean; processing?: boolean; layout?: string;
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 min-w-[120px]">
-      <div className="relative">
+    <div className={`flex flex-col items-center min-w-[120px] ${layout === "hero" ? "justify-center relative" : "gap-3"}`}>
+      <div className="relative z-10">
         {/* Pulse ring */}
         {pulsing && (
           <motion.div
@@ -251,7 +253,7 @@ function MainNode({
           {slug ? <BrandIcon slug={slug} className="h-8 w-8 text-white" /> : Icon && <Icon className="h-8 w-8 text-white" />}
         </motion.div>
       </div>
-      <div className="text-center mt-1">
+      <div className={`text-center mt-1 pointer-events-none ${layout === "hero" ? "absolute top-[75px] w-[140px]" : ""}`}>
         <p className="text-[15px] font-extrabold text-foreground leading-tight">{label}</p>
         <p className="text-[13px] font-medium text-foreground/70 mt-0.5">{sub}</p>
       </div>
