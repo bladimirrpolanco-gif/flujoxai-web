@@ -43,8 +43,7 @@ export default function AdminLoginPage() {
           });
 
           if (!backupAuthError) {
-            router.push('/admin');
-            router.refresh();
+            window.location.href = '/admin';
             return;
           }
 
@@ -69,8 +68,7 @@ export default function AdminLoginPage() {
             });
 
             if (!finalSignInError) {
-              router.push('/admin');
-              router.refresh();
+              window.location.href = '/admin';
               return;
             }
           }
@@ -79,8 +77,7 @@ export default function AdminLoginPage() {
         setError(`Credenciales inválidas. Verifica tu email y contraseña.`);
         setLoading(false);
       } else {
-        router.push('/admin');
-        router.refresh();
+        window.location.href = '/admin';
       }
     } catch (err: any) {
       setError(`Ocurrió un error inesperado: ${err.message || err}`);
