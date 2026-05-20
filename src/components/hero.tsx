@@ -206,7 +206,12 @@ export function Hero() {
               transition={{ duration: 0.8, delay: 0.5 }}
               className="w-full h-full max-w-full overflow-visible flex flex-col justify-center items-center lg:items-end"
             >
-              <AutomationDiagram showCard={false} className="transform scale-[0.8] sm:scale-90 lg:scale-[0.65] xl:scale-[0.85] 2xl:scale-100 origin-center lg:origin-right max-w-full" />
+              <div className="hidden lg:block w-full">
+                <AutomationDiagram showCard={false} layout="hero" />
+              </div>
+              <div className="block lg:hidden w-full">
+                <AutomationDiagram showCard={false} layout="horizontal" className="transform scale-[0.85] sm:scale-100" />
+              </div>
             </motion.div>
           </div>
 

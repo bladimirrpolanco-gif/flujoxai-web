@@ -11,7 +11,7 @@ const OUTPUT_NODES = [
   { slug: "gmail",          label: "Notificación", sub: "Email enviado",    from: "from-[#EA4335]", to: "to-[#ff6f63]",  glow: "shadow-[#EA4335]/40",  border: "border-[#EA4335]/30"  },
 ];
 
-export function AutomationDiagram({ className, showCard = true }: { className?: string; showCard?: boolean }) {
+export function AutomationDiagram({ className, showCard = true, layout = "horizontal" }: { className?: string; showCard?: boolean; layout?: "horizontal" | "hero" }) {
   const [phase, setPhase] = useState(0);
   const [doneOutputs, setDoneOutputs] = useState<number[]>([]);
 
@@ -34,56 +34,100 @@ export function AutomationDiagram({ className, showCard = true }: { className?: 
     return () => { ts.forEach(clearTimeout); clearInterval(id); };
   }, []);
 
+  const horizontalContent = (
+    <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0 overflow-visible w-full">
+      {/* Trigger Node — WhatsApp */}
+      <MainNode
+        slug="whatsapp"
+        label="WhatsApp"
+        sub="Cliente escribe"
+        gradient="from-[#25D366] to-[#1DA851]"
+        glow="shadow-[#25D366]/40"
+        active={phase >= 0}
+        pulsing={phase === 0}
+      />
+
+      {/* Connector 1 */}
+      <FlowConnector active={phase >= 1} />
+
+      {/* AI Node */}
+      <MainNode
+        icon={Cpu}
+        label="IA Flujobot"
+        sub={phase >= 2 ? "Analizando..." : "En espera"}
+        gradient="from-blue-600 to-blue-400"
+        glow="shadow-blue-600/40"
+        active={phase >= 2}
+        pulsing={phase === 2}
+        processing={phase === 2}
+      />
+
+      {/* Connector 2 */}
+      <FlowConnector active={phase >= 3} />
+
+      {/* Output Nodes */}
+      <div className="flex flex-col gap-3 w-full md:w-auto">
+        {OUTPUT_NODES.map((node, i) => (
+          <OutputNode
+            key={i}
+            slug={node.slug}
+            label={node.label}
+            sub={node.sub}
+            gradient={`${node.from} ${node.to}`}
+            border={node.border}
+            glow={node.glow}
+            visible={phase >= 3}
+            done={doneOutputs.includes(i)}
+            delay={i * 0.15}
+          />
+        ))}
+      </div>
+    </div>
+  );
+
+  const heroContent = (
+    <div className="relative w-full h-[500px] overflow-visible">
+      {/* SVG Connectors Background */}
+      <svg className="absolute inset-0 w-full h-full pointer-events-none -z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
+        {/* Base lines (faint) */}
+        <path d="M 15 25 C 25 25, 25 50, 40 50" fill="none" stroke="currentColor" className="text-border/40" strokeWidth="0.5" vectorEffect="non-scaling-stroke" strokeDasharray="1 3" />
+        <path d="M 40 50 C 50 50, 55 20, 65 20" fill="none" stroke="currentColor" className="text-border/40" strokeWidth="0.5" vectorEffect="non-scaling-stroke" strokeDasharray="1 3" />
+        <path d="M 40 50 L 65 50" fill="none" stroke="currentColor" className="text-border/40" strokeWidth="0.5" vectorEffect="non-scaling-stroke" strokeDasharray="1 3" />
+        <path d="M 40 50 C 50 50, 55 80, 65 80" fill="none" stroke="currentColor" className="text-border/40" strokeWidth="0.5" vectorEffect="non-scaling-stroke" strokeDasharray="1 3" />
+
+        {/* Animated active lines */}
+        <motion.path d="M 15 25 C 25 25, 25 50, 40 50" fill="none" stroke="currentColor" className="text-primary" strokeWidth="1.5" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={{ pathLength: phase >= 1 ? 1 : 0 }} transition={{ duration: 1, ease: "easeInOut" }} />
+        <motion.path d="M 40 50 C 50 50, 55 20, 65 20" fill="none" stroke="currentColor" className="text-primary" strokeWidth="1.5" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={{ pathLength: phase >= 3 ? 1 : 0 }} transition={{ duration: 1, ease: "easeInOut", delay: 0 }} />
+        <motion.path d="M 40 50 L 65 50" fill="none" stroke="currentColor" className="text-primary" strokeWidth="1.5" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={{ pathLength: phase >= 3 ? 1 : 0 }} transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }} />
+        <motion.path d="M 40 50 C 50 50, 55 80, 65 80" fill="none" stroke="currentColor" className="text-primary" strokeWidth="1.5" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={{ pathLength: phase >= 3 ? 1 : 0 }} transition={{ duration: 1, ease: "easeInOut", delay: 0.4 }} />
+      </svg>
+
+      {/* Nodes */}
+      <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: '15%', top: '25%' }}>
+        <MainNode slug="whatsapp" label="WhatsApp" sub="Cliente escribe" gradient="from-[#25D366] to-[#1DA851]" glow="shadow-[#25D366]/40" active={phase >= 0} pulsing={phase === 0} />
+      </div>
+
+      <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: '40%', top: '50%' }}>
+        <MainNode icon={Cpu} label="IA Flujobot" sub={phase >= 2 ? "Analizando..." : "En espera"} gradient="from-blue-600 to-blue-400" glow="shadow-blue-600/40" active={phase >= 2} pulsing={phase === 2} processing={phase === 2} />
+      </div>
+
+      <div className="absolute -translate-y-1/2 w-full max-w-[220px]" style={{ left: '65%', top: '20%' }}>
+        <OutputNode slug={OUTPUT_NODES[0].slug} label={OUTPUT_NODES[0].label} sub={OUTPUT_NODES[0].sub} gradient={`${OUTPUT_NODES[0].from} ${OUTPUT_NODES[0].to}`} border={OUTPUT_NODES[0].border} glow={OUTPUT_NODES[0].glow} visible={phase >= 3} done={doneOutputs.includes(0)} delay={0} />
+      </div>
+
+      <div className="absolute -translate-y-1/2 w-full max-w-[220px]" style={{ left: '65%', top: '50%' }}>
+        <OutputNode slug={OUTPUT_NODES[1].slug} label={OUTPUT_NODES[1].label} sub={OUTPUT_NODES[1].sub} gradient={`${OUTPUT_NODES[1].from} ${OUTPUT_NODES[1].to}`} border={OUTPUT_NODES[1].border} glow={OUTPUT_NODES[1].glow} visible={phase >= 3} done={doneOutputs.includes(1)} delay={0.2} />
+      </div>
+
+      <div className="absolute -translate-y-1/2 w-full max-w-[220px]" style={{ left: '65%', top: '80%' }}>
+        <OutputNode slug={OUTPUT_NODES[2].slug} label={OUTPUT_NODES[2].label} sub={OUTPUT_NODES[2].sub} gradient={`${OUTPUT_NODES[2].from} ${OUTPUT_NODES[2].to}`} border={OUTPUT_NODES[2].border} glow={OUTPUT_NODES[2].glow} visible={phase >= 3} done={doneOutputs.includes(2)} delay={0.4} />
+      </div>
+    </div>
+  );
+
   const content = (
     <>
-      <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0 overflow-visible w-full">
-        {/* Trigger Node — WhatsApp */}
-        <MainNode
-          slug="whatsapp"
-          label="WhatsApp"
-          sub="Cliente escribe"
-          gradient="from-[#25D366] to-[#1DA851]"
-          glow="shadow-[#25D366]/40"
-          active={phase >= 0}
-          pulsing={phase === 0}
-        />
-
-        {/* Connector 1 */}
-        <FlowConnector active={phase >= 1} />
-
-        {/* AI Node */}
-        <MainNode
-          icon={Cpu}
-          label="IA Flujobot"
-          sub={phase >= 2 ? "Analizando..." : "En espera"}
-          gradient="from-blue-600 to-blue-400"
-          glow="shadow-blue-600/40"
-          active={phase >= 2}
-          pulsing={phase === 2}
-          processing={phase === 2}
-        />
-
-        {/* Connector 2 */}
-        <FlowConnector active={phase >= 3} />
-
-        {/* Output Nodes */}
-        <div className="flex flex-col gap-3 w-full md:w-auto">
-          {OUTPUT_NODES.map((node, i) => (
-            <OutputNode
-              key={i}
-              slug={node.slug}
-              label={node.label}
-              sub={node.sub}
-              gradient={`${node.from} ${node.to}`}
-              border={node.border}
-              glow={node.glow}
-              visible={phase >= 3}
-              done={doneOutputs.includes(i)}
-              delay={i * 0.15}
-            />
-          ))}
-        </div>
-      </div>
+      {layout === "hero" ? heroContent : horizontalContent}
 
       {showCard && (
         <div className="mt-10 pt-6 border-t border-border/50 flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">
