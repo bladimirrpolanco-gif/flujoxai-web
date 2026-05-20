@@ -5,6 +5,7 @@ import Link from "next/link";
 import { trackEvent } from "@/lib/metrics";
 import { ArrowRight, Bot, Workflow, Zap, Sparkles } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
+import { AutomationDiagram } from "./automation-diagram";
 
 const features = [
   { icon: Bot,      title: "Agentes IA",           desc: "Chatbots y asistentes inteligentes que atienden a tus clientes 24/7 sin intervención humana.", gradient: "from-blue-500 to-cyan-400" },
@@ -89,7 +90,10 @@ export function Hero() {
       </div>
 
       <div className="container relative z-10 mx-auto px-4 md:px-6">
-        <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-[55%_45%] lg:items-center gap-12 lg:gap-8 max-w-5xl lg:max-w-7xl mx-auto">
+          
+          {/* Left Column (Text content) */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
 
           {/* Badge */}
           <motion.div
@@ -128,7 +132,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.8 }}
-            className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl leading-relaxed"
+            className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl leading-relaxed mx-auto lg:mx-0"
           >
             Diseñamos{" "}
             <span className="text-foreground font-medium">chatbots inteligentes</span>,
@@ -140,7 +144,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1 }}
-            className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto"
+            className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto justify-center lg:justify-start"
           >
             <MagneticButton>
               <Link href="/cotizador">
@@ -175,7 +179,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1.5 }}
-            className="mt-16 flex items-center gap-4 text-sm text-muted-foreground"
+            className="mt-16 flex items-center justify-center lg:justify-start gap-4 text-sm text-muted-foreground"
           >
             <div className="flex -space-x-2.5">
               {[
@@ -191,6 +195,20 @@ export function Hero() {
             </div>
             <span><strong className="text-foreground">+50</strong> negocios ya automatizados en <span className="text-primary font-medium">República Dominicana</span></span>
           </motion.div>
+
+          </div>
+
+          {/* Right Column (Diagram) */}
+          <div className="flex items-center justify-center lg:justify-end w-full">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
+              className="w-full max-w-lg lg:max-w-full"
+            >
+              <AutomationDiagram showCard={false} className="transform scale-[0.8] sm:scale-90 lg:scale-[0.85] xl:scale-100 origin-center lg:origin-center" />
+            </motion.div>
+          </div>
 
         </div>
 
