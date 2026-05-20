@@ -116,6 +116,17 @@ export async function POST(req: NextRequest) {
               <div class="item"><span class="item-label">Ahorro Operativo:</span><span class="item-value" style="color: #34d399;">20 - 100 horas/mes</span></div>
               <div class="item"><span class="item-label">Tiempo de Respuesta:</span><span class="item-value" style="color: #34d399;">< 1 minuto, 24/7</span></div>
               
+              <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1);">
+                <div class="card-title" style="color: #a1a1aa; font-size: 10px;">Costos Operativos (Infraestructura Externa)</div>
+                <div class="item"><span class="item-label" style="font-size: 12px;">Servidor VPS:</span><span class="item-value" style="font-size: 12px;">~ $80 USD / año</span></div>
+                <div class="item"><span class="item-label" style="font-size: 12px;">Consumo API (IA):</span><span class="item-value" style="font-size: 12px;">~ $30 USD / mes (Por consumo)</span></div>
+                
+                <div style="margin-top: 15px; padding: 10px; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px;">
+                  <div class="item" style="margin-bottom: 5px;"><span class="item-label" style="font-size: 12px; color: #10b981; font-weight: bold;">Garantía FlujoXAI:</span><span class="item-value" style="font-size: 12px; color: #10b981; font-weight: bold;">1 Mes Gratis (Calibración)</span></div>
+                  <div class="item" style="margin-bottom: 0;"><span class="item-label" style="font-size: 11px;">Mantenimiento Posterior:</span><span class="item-value" style="font-size: 11px;">Opcional y Adicional</span></div>
+                </div>
+              </div>
+              
               <div class="price-box">
                 <div class="price-label">Inversión Estimada</div>
                 <h2 class="price-amount">${precio}</h2>

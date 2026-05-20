@@ -333,6 +333,26 @@ export default function DiagnosticoPage() {
               </div>
             </div>
 
+            <div className="bg-background/30 rounded-xl p-5 border border-border/50">
+              <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2 mb-4"><Activity className="w-4 h-4 text-primary"/> Costos Operativos (Infraestructura Externa)</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex justify-between items-center bg-background/50 p-3 rounded-lg border border-border/30">
+                  <span className="text-sm text-muted-foreground flex items-center gap-2"><Cpu className="w-4 h-4"/> Servidor VPS</span>
+                  <span className="font-bold text-sm">~ $80 USD / año</span>
+                </div>
+                <div className="flex justify-between items-center bg-background/50 p-3 rounded-lg border border-border/30">
+                  <span className="text-sm text-muted-foreground flex items-center gap-2"><Zap className="w-4 h-4"/> Consumo de API (IA)</span>
+                  <span className="font-bold text-sm">~ $30 USD / mes</span>
+                </div>
+              </div>
+              <p className="text-[10px] text-muted-foreground mt-3 text-center">* La API se cobra por consumo (tokens). El Servidor VPS es un pago anual directo al proveedor.</p>
+              
+              <div className="mt-4 bg-primary/5 rounded-lg p-3 border border-primary/20">
+                <p className="text-sm font-semibold text-foreground flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-primary"/> Incluye 1 mes de Garantía y Calibración gratuita.</p>
+                <p className="text-xs text-muted-foreground mt-1 ml-6">Luego del primer mes, ofrecemos planes de Mantenimiento y Soporte Opcional para cuidar tu sistema.</p>
+              </div>
+            </div>
+
             <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 text-center">
               <p className="text-xs text-amber-500/90 font-medium">
                 Cada solución es 100% personalizada según los procesos, integraciones y nivel de automatización específico requerido por tu empresa.
