@@ -156,12 +156,12 @@ export function Hero() {
             </MagneticButton>
 
             <MagneticButton>
-              <Link href="#simulador">
+              <Link href="/cotizador">
                 <button 
-                  onClick={() => trackEvent('click_cta', { cta: 'Probar Demo IA (Hero)' })}
+                  onClick={() => trackEvent('click_cta', { cta: 'Cotizar Proyecto (Hero)' })}
                   className="group inline-flex items-center gap-3 h-14 px-10 rounded-2xl text-base font-semibold glass hover:bg-muted/10 transition-all duration-300 border border-border/50 hover:border-primary/40 text-foreground"
                 >
-                  Probar Demo IA
+                  Cotizar Proyecto en 1 Minuto ⚡
                   <div className="relative h-4 w-4">
                     <ArrowRight className="absolute inset-0 transition-transform group-hover:translate-x-1" />
                   </div>
