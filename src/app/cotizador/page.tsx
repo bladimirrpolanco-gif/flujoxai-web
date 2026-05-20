@@ -187,29 +187,44 @@ export default function DiagnosticoPage() {
     </div>
   );
 
-  const renderStep4 = () => (
-    <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
-      <div className="text-center space-y-3">
-        <h2 className="text-3xl font-extrabold text-foreground">¿Qué herramientas utilizan actualmente?</h2>
-        <p className="text-muted-foreground">Selecciona todas las herramientas donde tu equipo invierte tiempo manualmente.</p>
+  const renderStep4 = () => {
+    const herramientasPorIndustria: Record<string, string[]> = {
+      "Restaurante": ["WhatsApp", "Instagram", "Google Sheets", "Sistema de POS", "Menú Digital", "Ninguna"],
+      "Hotel": ["WhatsApp", "Motor Reservas", "Google Calendar", "Excel/Sheets", "TripAdvisor", "Ninguna"],
+      "Clínica": ["WhatsApp", "Google Calendar", "Software Médico", "Excel", "Recordatorios SMS", "Ninguna"],
+      "Bienes Raíces": ["WhatsApp", "CRM Inmobiliario", "Facebook Ads", "Excel", "Portales Inmob.", "Ninguna"],
+      "E-commerce": ["Shopify/Woo", "WhatsApp", "Meta Ads", "Email Marketing", "Pasarela Pagos", "Ninguna"],
+      "Servicios": ["WhatsApp", "Google Calendar", "CRM", "Zoom / Meet", "Facturación", "Ninguna"],
+      "Educación": ["Plataforma LMS", "WhatsApp", "Google Sheets", "Zoom", "Email", "Ninguna"],
+      "Otro": ["WhatsApp", "Google Sheets", "CRM", "Calendarios", "Meta Ads", "Ninguna"]
+    };
+
+    const opciones = herramientasPorIndustria[data.tipoNegocio] || herramientasPorIndustria["Otro"];
+
+    return (
+      <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-extrabold text-foreground">¿Qué herramientas utilizan actualmente?</h2>
+          <p className="text-muted-foreground">Selecciona dónde invierte tiempo manualmente tu equipo de {data.tipoNegocio ? data.tipoNegocio.toLowerCase() : "trabajo"}.</p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+          {opciones.map(opt => {
+            const isSel = data.herramientas.includes(opt);
+            return (
+              <div key={opt} onClick={() => handleToggleHerramienta(opt)}
+                className={`cursor-pointer rounded-xl p-4 text-center transition-all duration-300 border ${isSel ? 'border-primary bg-primary/10 text-primary scale-[1.02]' : 'border-border/50 glass hover:border-primary/40 text-foreground/80'}`}>
+                <span className="font-semibold text-sm">{opt}</span>
+              </div>
+            )
+          })}
+        </div>
+        <div className="flex justify-between items-center pt-4 border-t border-border/50">
+          <button onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button>
+          <button onClick={nextStep} disabled={data.herramientas.length === 0} className="btn-primary-glow bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 disabled:opacity-50">Siguiente <ArrowRight className="w-4 h-4"/></button>
+        </div>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {["WhatsApp", "Google Sheets", "CRM", "Shopify", "Calendarios", "Meta Ads", "Correo corporativo", "Ninguna"].map(opt => {
-          const isSel = data.herramientas.includes(opt);
-          return (
-            <div key={opt} onClick={() => handleToggleHerramienta(opt)}
-              className={`cursor-pointer rounded-xl p-4 text-center transition-all duration-300 border ${isSel ? 'border-primary bg-primary/10 text-primary' : 'border-border/50 glass hover:border-primary/40 text-foreground/80'}`}>
-              <span className="font-semibold text-sm">{opt}</span>
-            </div>
-          )
-        })}
-      </div>
-      <div className="flex justify-between items-center pt-4 border-t border-border/50">
-        <button onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button>
-        <button onClick={nextStep} disabled={data.herramientas.length === 0} className="btn-primary-glow bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 disabled:opacity-50">Siguiente <ArrowRight className="w-4 h-4"/></button>
-      </div>
-    </div>
-  );
+    );
+  };
 
   const renderStep5 = () => (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
