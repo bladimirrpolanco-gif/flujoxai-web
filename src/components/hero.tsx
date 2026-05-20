@@ -98,7 +98,7 @@ export function Hero() {
             className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 text-sm font-medium mb-8 glass border border-border/50 text-foreground/80 hover:border-primary/30 transition-colors"
           >
             <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />
-            <span className="text-foreground/80">Automatización empresarial con IA — chatbots, procesos e integraciones</span>
+            <span className="text-foreground/80">Automatización empresarial con IA</span>
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse ml-1" />
           </motion.div>
 
