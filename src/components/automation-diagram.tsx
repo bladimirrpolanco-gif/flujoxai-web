@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Cpu, CheckCircle2, ArrowRight, Bot, Workflow, Target, MonitorSmartphone, Users, Sparkles } from "lucide-react";
+import { Cpu, CheckCircle2, ArrowRight, Workflow, Target, MonitorSmartphone, Slack } from "lucide-react";
 import { BrandIcon } from "./brand-icon";
 
 const OUTPUT_NODES = [
@@ -12,12 +12,13 @@ const OUTPUT_NODES = [
 ];
 
 const HERO_NODES = [
-  { icon: Bot,               label: "Chatbots",      sub: "IA Conversacional", from: "from-blue-500",    to: "to-cyan-400",   glow: "shadow-blue-500/40",   x: 20, y: 20, type: "in",  delay: 0 },
-  { icon: Workflow,          label: "Integraciones", sub: "APIs & Sistemas",   from: "from-purple-500",  to: "to-pink-500",   glow: "shadow-purple-500/40", x: 80, y: 20, type: "in",  delay: 0.2 },
-  { icon: Users,             label: "CRM IA",        sub: "Gestión de Leads",  from: "from-rose-500",    to: "to-red-400",    glow: "shadow-rose-500/40",   x: 85, y: 50, type: "out", delay: 0 },
-  { icon: MonitorSmartphone, label: "Web & App",     sub: "Desarrollo",        from: "from-emerald-500", to: "to-green-400",  glow: "shadow-emerald-500/40",x: 80, y: 80, type: "out", delay: 0.2 },
-  { icon: Target,            label: "Publicidad",    sub: "Campañas con IA",   from: "from-orange-500",  to: "to-amber-400",  glow: "shadow-orange-500/40", x: 20, y: 80, type: "out", delay: 0.4 },
-  { icon: Sparkles,          label: "Agentes IA",    sub: "Automatización",    from: "from-indigo-500",  to: "to-blue-500",   glow: "shadow-indigo-500/40", x: 15, y: 50, type: "out", delay: 0.6 },
+  { icon: MonitorSmartphone, label: "Web & App",     sub: "Desarrollo",        from: "from-emerald-500", to: "to-green-400",  glow: "shadow-emerald-500/40", x: 50, y: 10, type: "in",  delay: 0.1 },
+  { slug: "whatsapp",        label: "Chatbot",       sub: "Respuestas 24/7",   from: "from-[#25D366]",   to: "to-[#1DA851]",  glow: "shadow-[#25D366]/40",   x: 18, y: 25, type: "in",  delay: 0 },
+  { icon: Workflow,          label: "Integraciones", sub: "APIs & Sistemas",   from: "from-purple-500",  to: "to-pink-500",   glow: "shadow-purple-500/40",  x: 82, y: 25, type: "in",  delay: 0.2 },
+  { slug: "gmail",           label: "Email",         sub: "Confirma",          from: "from-[#EA4335]",   to: "to-[#ff6f63]",  glow: "shadow-[#EA4335]/40",   x: 12, y: 60, type: "out", delay: 0.6 },
+  { icon: Slack,             label: "Slack",         sub: "Notifica",          from: "from-[#E01E5A]",   to: "to-[#36C5F0]",  glow: "shadow-[#E01E5A]/40",   x: 88, y: 60, type: "out", delay: 0 },
+  { icon: Target,            label: "Publicidad IA", sub: "Campañas",          from: "from-orange-500",  to: "to-amber-400",  glow: "shadow-orange-500/40",  x: 28, y: 90, type: "out", delay: 0.4 },
+  { slug: "hubspot",         label: "CRM",           sub: "Registra",          from: "from-[#FF7A59]",   to: "to-[#ff9b82]",  glow: "shadow-[#FF7A59]/40",   x: 72, y: 90, type: "out", delay: 0.2 },
 ];
 
 export function AutomationDiagram({ className, showCard = true, layout = "horizontal" }: { className?: string; showCard?: boolean; layout?: "horizontal" | "hero" }) {
@@ -165,6 +166,7 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
           >
             <MainNode 
               icon={n.icon}
+              slug={n.slug}
               label={n.label} 
               sub={n.sub} 
               gradient={n.from + " " + n.to} 
