@@ -73,8 +73,8 @@ export function Hero() {
   return (
     <section ref={containerRef} className="relative overflow-hidden bg-background pt-28 md:pt-40 pb-16 md:pb-20 hero-grid">
       
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-[120px] pointer-events-none z-0" />
-      <div className="absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none z-0" />
+      <div className="absolute top-[10%] left-[-5%] w-[400px] h-[400px] bg-blue-400/10 rounded-full blur-[100px] pointer-events-none z-0" />
+      <div className="absolute bottom-[-5%] right-[10%] w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none z-0" />
 
       {/* Interactive Cursor Glow */}
       <motion.div 
@@ -102,36 +102,32 @@ export function Hero() {
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse ml-1" />
           </motion.div>
 
-          {/* Headline with Typing Effect */}
-          <h1 className="font-syne mb-6 leading-[1.05] perspective-1000 text-[clamp(2rem,4vw,3.5rem)]">
-            {headlineWords.map((word, i) => {
-              const isAccent = word === "Inteligencia" || word === "Artificial";
-              const isCon = word === "con";
-              return (
-                <motion.span
-                  key={i}
-                  className={`inline-block mr-[0.25em] ${
-                    isAccent 
-                      ? "text-[#2563EB] font-serif italic font-medium tracking-normal" 
-                      : isCon 
-                        ? "text-[#2563EB] font-extrabold tracking-tighter"
-                        : "text-foreground font-extrabold tracking-tighter"
-                  }`}
-                  initial={{ opacity: 0, rotateX: -90, y: 20 }}
-                  animate={{ opacity: 1, rotateX: 0, y: 0 }}
-                  transition={{
-                    duration: 0.8,
-                    delay: i * 0.1,
-                    type: "spring",
-                    damping: 12,
-                    stiffness: 100
-                  }}
-                  style={{ transformOrigin: "bottom center" }}
-                >
-                  {word}
-                </motion.span>
-              );
-            })}
+          {/* Headline */}
+          <h1 className="font-sans mb-6 leading-[1.05] perspective-1000 text-[clamp(2.5rem,4.5vw,4.5rem)]">
+            <motion.span 
+              className="block text-foreground font-black tracking-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+            >
+              Automatiza tu
+            </motion.span>
+            <motion.span 
+              className="block text-foreground font-black tracking-tight"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+            >
+              Empresa con
+            </motion.span>
+            <motion.span 
+              className="block text-[#2563EB] font-serif italic font-light tracking-normal mt-1 md:mt-2"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+            >
+              Inteligencia Artificial
+            </motion.span>
           </h1>
 
           {/* Subhead */}
