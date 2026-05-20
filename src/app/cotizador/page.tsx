@@ -213,11 +213,7 @@ export default function Cotizador() {
                 <Icon className="h-5.5 w-5.5 text-white" />
               </div>
               <h3 className="font-bold text-lg text-foreground mb-1">{opt.title}</h3>
-              <div className="flex items-baseline gap-1 mb-4">
-                <span className="text-xl font-extrabold text-foreground">{opt.price}</span>
-                <span className="text-xs text-muted-foreground">/ {opt.term}</span>
-              </div>
-              <p className="text-muted-foreground text-xs leading-relaxed mb-5 flex-1">{opt.desc}</p>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-5 flex-1 mt-3">{opt.desc}</p>
               <ul className="space-y-2 border-t border-white/5 pt-4">
                 {opt.features.map((f, idx) => (
                   <li key={idx} className="flex items-center gap-2 text-xs text-foreground/80">
@@ -311,11 +307,7 @@ export default function Cotizador() {
                 <Icon className="h-5.5 w-5.5 text-white" />
               </div>
               <h3 className="font-bold text-lg text-foreground mb-1">{opt.title}</h3>
-              <div className="flex items-baseline gap-1 mb-4">
-                <span className="text-xl font-extrabold text-foreground">{opt.price}</span>
-                <span className="text-xs text-muted-foreground">/ {opt.term}</span>
-              </div>
-              <p className="text-muted-foreground text-xs leading-relaxed mb-5 flex-1">{opt.desc}</p>
+              <p className="text-muted-foreground text-sm leading-relaxed mb-5 flex-1 mt-3">{opt.desc}</p>
               <ul className="space-y-2 border-t border-white/5 pt-4">
                 {opt.features.map((f, idx) => (
                   <li key={idx} className="flex items-center gap-2 text-xs text-foreground/80">
