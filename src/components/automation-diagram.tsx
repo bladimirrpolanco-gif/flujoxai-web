@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Cpu, CheckCircle2, ArrowRight } from "lucide-react";
+import { Cpu, CheckCircle2, ArrowRight, Slack } from "lucide-react";
 import { BrandIcon } from "./brand-icon";
 
 const OUTPUT_NODES = [
@@ -14,7 +14,7 @@ const OUTPUT_NODES = [
 const HERO_NODES = [
   { slug: "whatsapp",       label: "WhatsApp",   sub: "Mensaje",  from: "from-[#25D366]", to: "to-[#1DA851]", glow: "shadow-[#25D366]/40", x: 20, y: 20, type: "in",  delay: 0 },
   { slug: "instagram",      label: "Instagram",  sub: "DM",       from: "from-[#E1306C]", to: "to-[#C13584]", glow: "shadow-[#E1306C]/40", x: 80, y: 20, type: "in",  delay: 0.2 },
-  { slug: "slack",          label: "Slack",      sub: "Notifica", from: "from-[#E01E5A]", to: "to-[#36C5F0]", glow: "shadow-[#E01E5A]/40", x: 85, y: 50, type: "out", delay: 0 },
+  { icon: Slack,            label: "Slack",      sub: "Notifica", from: "from-[#E01E5A]", to: "to-[#36C5F0]", glow: "shadow-[#E01E5A]/40", x: 85, y: 50, type: "out", delay: 0 },
   { slug: "hubspot",        label: "CRM",        sub: "Registra", from: "from-[#FF7A59]", to: "to-[#ff9b82]", glow: "shadow-[#FF7A59]/40", x: 80, y: 80, type: "out", delay: 0.2 },
   { slug: "googlecalendar", label: "Calendario", sub: "Agenda",   from: "from-[#4285F4]", to: "to-[#6ba3ff]", glow: "shadow-[#4285F4]/40", x: 20, y: 80, type: "out", delay: 0.4 },
   { slug: "gmail",          label: "Email",      sub: "Confirma", from: "from-[#EA4335]", to: "to-[#ff6f63]", glow: "shadow-[#EA4335]/40", x: 15, y: 50, type: "out", delay: 0.6 },
@@ -164,6 +164,7 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
             transition={{ duration: 0.8, delay: isActive ? n.delay : 0 }}
           >
             <MainNode 
+              icon={n.icon}
               slug={n.slug} 
               label={n.label} 
               sub={n.sub} 
