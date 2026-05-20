@@ -61,15 +61,9 @@ const navLinks: NavLink[] = [
         icon: Sparkles,
         color: 'bg-amber-500/10 text-amber-500 dark:bg-amber-500/20'
       },
-      { 
-        href: '/cotizador', 
-        label: 'Cotizador', 
-        desc: 'Calcula el presupuesto de tu proyecto de IA.', 
-        icon: Calculator,
-        color: 'bg-rose-500/10 text-rose-500 dark:bg-rose-500/20'
-      },
     ]
   },
+  { href: '/cotizador', label: 'Cotizador' },
   { href: '#faq', label: 'FAQ' },
   { href: '#contacto', label: 'Contacto' },
 ];
