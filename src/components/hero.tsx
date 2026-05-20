@@ -73,21 +73,16 @@ export function Hero() {
   return (
     <section ref={containerRef} className="relative overflow-hidden bg-background pt-28 md:pt-40 pb-16 md:pb-20 hero-grid">
       
+      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-blue-500/15 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute bottom-[-10%] right-[10%] w-[600px] h-[600px] bg-blue-600/10 rounded-full blur-[150px] pointer-events-none z-0" />
+
       {/* Interactive Cursor Glow */}
       <motion.div 
-        className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300 hidden md:block"
         style={{
           background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.05), transparent 40%)`
         }}
       />
-
-      {/* Animated background orbs */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-        <div className="absolute top-[-10%] left-[-5%] w-[500px] h-[500px] rounded-full opacity-20 animate-glow-pulse"
-          style={{ background: 'radial-gradient(circle, oklch(0.65 0.22 255) 0%, transparent 70%)' }} />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full opacity-15 animate-glow-pulse"
-          style={{ background: 'radial-gradient(circle, oklch(0.62 0.25 300) 0%, transparent 70%)', animationDelay: '1.5s' }} />
-      </div>
 
       <div className="container relative z-10 mx-auto px-4 md:px-6">
         <div className="grid lg:grid-cols-2 lg:items-center gap-12 lg:gap-8 max-w-5xl lg:max-w-7xl mx-auto overflow-visible">
@@ -108,23 +103,35 @@ export function Hero() {
           </motion.div>
 
           {/* Headline with Typing Effect */}
-          <h1 className="font-bold font-syne tracking-tight mb-6 leading-[1.05] perspective-1000 text-[clamp(2rem,4vw,3.5rem)]">
-            {headlineWords.map((word, i) => (
-              <motion.span
-                key={i}
-                initial={{ opacity: 0, y: 20, rotateX: -45 }}
-                animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                transition={{ 
-                  duration: 0.8, 
-                  delay: i * 0.1,
-                  type: "spring",
-                  damping: 12
-                }}
-                className={`inline-block mr-[0.2em] last:mr-0 ${i > 2 ? 'text-[#2563EB] transition-all duration-300' : 'text-foreground'}`}
-              >
-                {word}
-              </motion.span>
-            ))}
+          <h1 className="font-syne mb-6 leading-[1.05] perspective-1000 text-[clamp(2rem,4vw,3.5rem)]">
+            {headlineWords.map((word, i) => {
+              const isAccent = word === "Inteligencia" || word === "Artificial";
+              const isCon = word === "con";
+              return (
+                <motion.span
+                  key={i}
+                  className={`inline-block mr-[0.25em] ${
+                    isAccent 
+                      ? "text-[#2563EB] font-serif italic font-medium tracking-normal" 
+                      : isCon 
+                        ? "text-[#2563EB] font-extrabold tracking-tighter"
+                        : "text-foreground font-extrabold tracking-tighter"
+                  }`}
+                  initial={{ opacity: 0, rotateX: -90, y: 20 }}
+                  animate={{ opacity: 1, rotateX: 0, y: 0 }}
+                  transition={{
+                    duration: 0.8,
+                    delay: i * 0.1,
+                    type: "spring",
+                    damping: 12,
+                    stiffness: 100
+                  }}
+                  style={{ transformOrigin: "bottom center" }}
+                >
+                  {word}
+                </motion.span>
+              );
+            })}
           </h1>
 
           {/* Subhead */}
