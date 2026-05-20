@@ -143,13 +143,13 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-6 w-full sm:w-auto"
           >
             <MagneticButton>
-              <Link href="#contacto">
+              <Link href="/cotizador">
                 <button 
-                  onClick={() => trackEvent('click_cta', { cta: 'Hablar con un Experto (Hero)' })}
+                  onClick={() => trackEvent('click_cta', { cta: 'Cotizar Proyecto (Hero)' })}
                   className="group relative inline-flex items-center gap-3 h-14 px-10 rounded-2xl text-base font-semibold bg-primary text-primary-foreground hover:bg-primary/90 transition-all duration-300 btn-primary-glow"
                 >
-                  <Bot className="w-5 h-5 transition-transform group-hover:rotate-12" />
-                  Hablar con un Experto
+                  <Sparkles className="w-5 h-5 transition-transform group-hover:rotate-12" />
+                  Cotizar Proyecto
                   <ArrowRight className="w-4 h-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
                 </button>
               </Link>

@@ -268,11 +268,11 @@ export function Navbar() {
 
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="hidden xs:block">
             <Link
-              href="#contacto"
-              onClick={() => trackEvent('click_cta', { cta: 'Agendar Llamada (Navbar)' })}
+              href="/cotizador"
+              onClick={() => trackEvent('click_cta', { cta: 'Cotizar Proyecto (Navbar)' })}
               className="inline-flex items-center h-9 px-4 rounded-full text-xs md:text-sm font-bold bg-primary text-primary-foreground hover:bg-primary/95 transition-all shadow-lg shadow-primary/20 whitespace-nowrap"
             >
-              Agendar Llamada
+              Cotizar Proyecto
             </Link>
           </motion.div>
 
@@ -371,11 +371,11 @@ export function Navbar() {
                 </a>
                 
                 <Link
-                  href="#contacto"
+                  href="/cotizador"
                   onClick={() => setIsMenuOpen(false)}
                   className="flex items-center justify-center w-full h-11 rounded-2xl bg-primary text-primary-foreground font-bold text-sm shadow-lg shadow-primary/20"
                 >
-                  Agendar Llamada
+                  Cotizar Proyecto
                 </Link>
               </div>
             </div>
