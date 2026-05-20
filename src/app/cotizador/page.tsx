@@ -7,13 +7,13 @@ import {
   MessageSquare, Cpu, Sparkles, Building2, Utensils, 
   Hotel, Stethoscope, GraduationCap, Users, Calendar, 
   ShoppingBag, PieChart, Activity, Target, Timer,
-  Globe, Smartphone, Palette
+  Globe, Smartphone, Palette, CreditCard, LayoutDashboard,
+  Languages, Lock
 } from "lucide-react";
 import Link from "next/link";
 import { trackEvent } from "@/lib/metrics";
 
 type CategoriaServicio = "automatizacion" | "web" | "app";
-type NivelSolucion = "basico" | "empresarial" | "ia_avanzada";
 
 interface DiagnosticoData {
   categoriaServicio: CategoriaServicio | null;
@@ -21,7 +21,7 @@ interface DiagnosticoData {
   problema: string;
   volumen: string;
   herramientas: string[];
-  nivelSolucion: NivelSolucion | null;
+  funcionalidades: string[];
   tieneDiseno: string;
   lead: {
     nombre: string;
@@ -33,7 +33,7 @@ interface DiagnosticoData {
 
 export default function DiagnosticoPage() {
   const [analyzing, setAnalyzing] = useState(false);
-  const [analyzeText, setAnalyzeText] = useState("Analizando necesidades...");
+  const [analyzeText, setAnalyzeText] = useState("Iniciando análisis del ecosistema...");
   const [errorMsg, setErrorMsg] = useState("");
 
   const [data, setData] = useState<DiagnosticoData>({
@@ -42,16 +42,16 @@ export default function DiagnosticoPage() {
     problema: "",
     volumen: "",
     herramientas: [],
-    nivelSolucion: null,
+    funcionalidades: [],
     tieneDiseno: "",
     lead: { nombre: "", email: "", telefono: "", empresa: "" }
   });
 
   const getStepsFlow = () => {
     if (data.categoriaServicio === "automatizacion") {
-      return ["servicio", "industria", "problema", "volumen", "herramientas", "nivel", "datos", "resultados"];
+      return ["servicio", "industria", "problema", "volumen", "herramientas", "datos", "resultados"];
     } else if (data.categoriaServicio === "web" || data.categoriaServicio === "app") {
-      return ["servicio", "industria", "diseno", "datos", "resultados"];
+      return ["servicio", "industria", "funcionalidades", "diseno", "datos", "resultados"];
     }
     return ["servicio"];
   };
@@ -74,6 +74,17 @@ export default function DiagnosticoPage() {
     });
   };
 
+  const handleToggleFuncionalidad = (func: string) => {
+    setData(prev => {
+      const isSelected = prev.funcionalidades.includes(func);
+      if (func === "Ninguna, busco algo informativo") return { ...prev, funcionalidades: ["Ninguna, busco algo informativo"] };
+      let nuevas = isSelected 
+        ? prev.funcionalidades.filter(t => t !== func)
+        : [...prev.funcionalidades.filter(t => t !== "Ninguna, busco algo informativo"), func];
+      return { ...prev, funcionalidades: nuevas };
+    });
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setData(prev => ({ ...prev, lead: { ...prev.lead, [name]: value } }));
@@ -89,13 +100,27 @@ export default function DiagnosticoPage() {
     setErrorMsg("");
     setAnalyzing(true);
 
-    const frases = data.categoriaServicio === "automatizacion" 
-      ? ["Analizando necesidades del sector...", "Calculando volumen de operaciones...", "Estructurando arquitectura de IA...", "Generando diagnóstico personalizado..."]
-      : ["Analizando requerimientos de desarrollo...", "Estructurando arquitectura del software...", "Definiendo stack tecnológico...", "Generando propuesta de proyecto..."];
+    const frasesAut = [
+      "Analizando volumen de interacciones...", 
+      "Calculando impacto en horas operativas...", 
+      "Diseñando arquitectura de IA necesaria...", 
+      "Evaluando complejidad de integraciones...",
+      "Generando diagnóstico inteligente..."
+    ];
+
+    const frasesWeb = [
+      "Evaluando requerimientos del sistema...", 
+      "Estructurando mapa del sitio y módulos...", 
+      "Definiendo stack tecnológico...", 
+      "Calculando tiempos de desarrollo...",
+      "Generando propuesta de proyecto..."
+    ];
+
+    const frases = data.categoriaServicio === "automatizacion" ? frasesAut : frasesWeb;
     
     for (let i = 0; i < frases.length; i++) {
       setAnalyzeText(frases[i]);
-      await new Promise(r => setTimeout(r, 800));
+      await new Promise(r => setTimeout(r, 1200));
     }
 
     try {
@@ -120,7 +145,7 @@ export default function DiagnosticoPage() {
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-center space-y-3">
         <h2 className="text-3xl font-extrabold text-foreground">¿Qué tipo de proyecto tienes en mente?</h2>
-        <p className="text-muted-foreground">Selecciona el área principal para enfocar nuestro análisis.</p>
+        <p className="text-muted-foreground">Selecciona el área principal para iniciar el análisis inteligente.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
@@ -177,7 +202,7 @@ export default function DiagnosticoPage() {
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-center space-y-3">
         <h2 className="text-3xl font-extrabold text-foreground">¿Qué deseas mejorar en tu negocio?</h2>
-        <p className="text-muted-foreground">Selecciona tu objetivo principal para enfocarnos en resultados.</p>
+        <p className="text-muted-foreground">Selecciona tu objetivo principal para que el algoritmo proponga la solución correcta.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {[
@@ -208,7 +233,7 @@ export default function DiagnosticoPage() {
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-center space-y-3">
         <h2 className="text-3xl font-extrabold text-foreground">¿Cuántos mensajes o leads reciben al mes?</h2>
-        <p className="text-muted-foreground">Nos ayuda a calcular la capacidad requerida del sistema.</p>
+        <p className="text-muted-foreground">El algoritmo calculará la potencia de procesamiento requerida.</p>
       </div>
       <div className="grid grid-cols-1 gap-4 max-w-lg mx-auto">
         {["0–100", "100–500", "500–2000", "+2000"].map(opt => {
@@ -243,7 +268,7 @@ export default function DiagnosticoPage() {
       <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
         <div className="text-center space-y-3">
           <h2 className="text-3xl font-extrabold text-foreground">¿Qué herramientas utilizan actualmente?</h2>
-          <p className="text-muted-foreground">Selecciona dónde invierte tiempo manualmente tu equipo de {data.tipoNegocio ? data.tipoNegocio.toLowerCase() : "trabajo"}.</p>
+          <p className="text-muted-foreground">Analizaremos la viabilidad de integración entre sistemas.</p>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {opciones.map(opt => {
@@ -264,32 +289,42 @@ export default function DiagnosticoPage() {
     );
   };
 
-  const renderNivel = () => (
-    <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
-      <div className="text-center space-y-3">
-        <h2 className="text-3xl font-extrabold text-foreground">¿Qué nivel de solución buscas?</h2>
-        <p className="text-muted-foreground">Selecciona la base tecnológica que impulsará tus resultados.</p>
+  const renderFuncionalidades = () => {
+    const opciones = [
+      { id: "Tienda Online / E-commerce", icon: ShoppingBag },
+      { id: "Sistema de Reservas", icon: Calendar },
+      { id: "Panel de Administración", icon: LayoutDashboard },
+      { id: "Pasarela de Pagos", icon: CreditCard },
+      { id: "Múltiples Idiomas", icon: Languages },
+      { id: "Área Privada de Usuarios", icon: Lock },
+      { id: "Ninguna, busco algo informativo", icon: Globe }
+    ];
+
+    return (
+      <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+        <div className="text-center space-y-3">
+          <h2 className="text-3xl font-extrabold text-foreground">¿Qué funciones avanzadas necesitas?</h2>
+          <p className="text-muted-foreground">El sistema calculará la arquitectura tecnológica necesaria.</p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {opciones.map(opt => {
+            const isSel = data.funcionalidades.includes(opt.id);
+            return (
+              <div key={opt.id} onClick={() => handleToggleFuncionalidad(opt.id)}
+                className={`cursor-pointer rounded-2xl p-4 flex items-center gap-4 transition-all duration-300 border ${isSel ? 'border-primary bg-primary/10 text-primary scale-[1.02]' : 'border-border/50 glass hover:border-primary/40 text-foreground/80'}`}>
+                <div className="p-2 bg-background rounded-lg shadow-sm"><opt.icon className="w-5 h-5" /></div>
+                <span className="font-semibold text-sm">{opt.id}</span>
+              </div>
+            )
+          })}
+        </div>
+        <div className="flex justify-between items-center pt-4 border-t border-border/50">
+          <button onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button>
+          <button onClick={nextStep} disabled={data.funcionalidades.length === 0} className="btn-primary-glow bg-primary text-primary-foreground px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 disabled:opacity-50">Siguiente <ArrowRight className="w-4 h-4"/></button>
+        </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {[
-          { id: "basico", title: "Chatbot Inteligente", desc: "Atención automática 24/7, captura de leads y WhatsApp integrado.", icon: MessageSquare, c: "from-blue-500 to-cyan-400" },
-          { id: "empresarial", title: "Automatización", desc: "Conexión entre aplicaciones y eliminación de tareas manuales.", icon: Workflow, c: "from-violet-500 to-purple-400" },
-          { id: "ia_avanzada", title: "IA Avanzada", desc: "Agentes IA, seguimiento automático y procesos complejos.", icon: Cpu, c: "from-amber-500 to-orange-400" }
-        ].map(opt => {
-          const isSel = data.nivelSolucion === opt.id;
-          return (
-            <div key={opt.id} onClick={() => { setData({ ...data, nivelSolucion: opt.id as NivelSolucion }); setTimeout(nextStep, 300); }}
-              className={`cursor-pointer rounded-3xl p-6 flex flex-col transition-all duration-300 border ${isSel ? 'border-primary bg-primary/5 shadow-xl shadow-primary/10 scale-[1.02]' : 'border-border/50 glass hover:border-primary/40 hover:bg-white/5'}`}>
-              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${opt.c} flex items-center justify-center mb-5`}><opt.icon className="w-6 h-6 text-white"/></div>
-              <h3 className="font-bold text-lg mb-2">{opt.title}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{opt.desc}</p>
-            </div>
-          )
-        })}
-      </div>
-      <div className="flex justify-start"><button onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button></div>
-    </div>
-  );
+    );
+  };
 
   const renderDiseno = () => (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
@@ -320,8 +355,8 @@ export default function DiagnosticoPage() {
   const renderDatos = () => (
     <div className="max-w-xl mx-auto space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-center space-y-3">
-        <h2 className="text-3xl font-extrabold text-foreground">Tu propuesta está casi lista</h2>
-        <p className="text-muted-foreground">Ingresa tus datos corporativos para generar la cotización formal y enviarla a tu correo.</p>
+        <h2 className="text-3xl font-extrabold text-foreground">Hemos recopilado la data</h2>
+        <p className="text-muted-foreground">Ingresa tus datos corporativos para que el algoritmo finalice el análisis y genere tu diagnóstico exacto.</p>
       </div>
       <form onSubmit={procesarDiagnostico} className="space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -333,34 +368,76 @@ export default function DiagnosticoPage() {
         {errorMsg && <p className="text-sm text-destructive">{errorMsg}</p>}
         <div className="flex justify-between items-center pt-4 border-t border-border/50">
           <button type="button" onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button>
-          <button type="submit" className="btn-primary-glow bg-primary text-primary-foreground px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg hover:bg-primary/90">Generar Cotización <Sparkles className="w-4 h-4"/></button>
+          <button type="submit" className="btn-primary-glow bg-primary text-primary-foreground px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg hover:bg-primary/90">Analizar Datos <Sparkles className="w-4 h-4"/></button>
         </div>
       </form>
     </div>
   );
 
   const renderLoader = () => (
-    <div className="flex flex-col items-center justify-center py-20 space-y-6 animate-in fade-in duration-300">
-      <div className="relative w-24 h-24 flex items-center justify-center">
-        <div className="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
-        <div className="absolute inset-0 border-4 border-primary rounded-full border-t-transparent animate-spin"></div>
-        {data.categoriaServicio === "automatizacion" ? <Bot className="w-8 h-8 text-primary animate-pulse" /> : <Globe className="w-8 h-8 text-primary animate-pulse" />}
+    <div className="flex flex-col items-center justify-center py-24 space-y-8 animate-in fade-in duration-300">
+      <div className="relative w-32 h-32 flex items-center justify-center">
+        {/* Outer glowing rings */}
+        <div className="absolute inset-0 border-2 border-primary/20 rounded-full animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite]"></div>
+        <div className="absolute inset-2 border-[3px] border-primary/30 rounded-full animate-spin-slow"></div>
+        <div className="absolute inset-4 border-[4px] border-primary rounded-full border-t-transparent animate-spin"></div>
+        <div className="absolute inset-0 bg-primary/5 rounded-full blur-xl animate-pulse"></div>
+        
+        {data.categoriaServicio === "automatizacion" ? <Cpu className="w-10 h-10 text-primary animate-pulse relative z-10" /> : <Globe className="w-10 h-10 text-primary animate-pulse relative z-10" />}
       </div>
-      <h3 className="text-2xl font-bold text-foreground text-center min-h-[40px]">{analyzeText}</h3>
-      <div className="w-64 h-2 bg-secondary rounded-full overflow-hidden">
-        <div className="h-full bg-primary animate-[progress_3s_ease-in-out_forwards]"></div>
+      
+      <div className="text-center space-y-4">
+        <h3 className="text-2xl font-extrabold text-foreground min-h-[40px] tracking-tight">{analyzeText}</h3>
+        <p className="text-sm text-muted-foreground max-w-xs mx-auto">El algoritmo de FlujoxAI está cruzando los datos para determinar la mejor solución técnica.</p>
+      </div>
+
+      <div className="w-72 h-1.5 bg-secondary rounded-full overflow-hidden relative">
+        <div className="absolute top-0 left-0 h-full bg-primary/20 w-full animate-pulse"></div>
+        <div className="h-full bg-gradient-to-r from-primary/80 to-primary animate-[progress_6s_ease-in-out_forwards] relative z-10 shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
       </div>
     </div>
   );
 
   const renderResultadosWeb = () => {
-    let precio = "$300 - $350 USD";
-    let titleSolucion = "Página Web / Landing Page Corporativa";
+    let precioMin = 300;
+    let precioMax = 350;
+    let titleSolucion = "Landing Page / Sitio Corporativo";
+    let nivel = "Bajo - Presencia Digital";
     let isApp = data.categoriaServicio === "app";
 
+    if (!data.funcionalidades.includes("Ninguna, busco algo informativo")) {
+      nivel = "Medio - Sistema Web Interactivo";
+      if (data.funcionalidades.includes("Tienda Online / E-commerce")) {
+        precioMin += 250; precioMax += 350;
+        titleSolucion = "E-commerce Avanzado";
+        nivel = "Alto - Transaccional";
+      }
+      if (data.funcionalidades.includes("Sistema de Reservas")) {
+        precioMin += 150; precioMax += 200;
+        if (titleSolucion === "Landing Page / Sitio Corporativo") titleSolucion = "Plataforma de Gestión y Reservas";
+      }
+      if (data.funcionalidades.includes("Panel de Administración")) {
+        precioMin += 200; precioMax += 300;
+        nivel = "Avanzado - Aplicación Web Completa";
+      }
+      if (data.funcionalidades.includes("Pasarela de Pagos")) {
+        precioMin += 100; precioMax += 150;
+      }
+      if (data.funcionalidades.includes("Área Privada de Usuarios")) {
+        precioMin += 250; precioMax += 350;
+      }
+    }
+
+    if (data.tieneDiseno === "No, necesito diseño desde cero") {
+      precioMin += 150; precioMax += 200;
+    }
+
+    let precioStr = `$${precioMin} - $${precioMax} USD`;
+
     if (isApp) {
-      precio = "Consultar con Asesor";
-      titleSolucion = "Desarrollo de Aplicación a Medida";
+      precioStr = "Requiere Análisis Técnico Extra";
+      titleSolucion = "Desarrollo de Aplicación a Medida (App)";
+      nivel = "Avanzado - Arquitectura Móvil";
     }
 
     return (
@@ -376,12 +453,12 @@ export default function DiagnosticoPage() {
         <div className="glass rounded-3xl border border-border/50 overflow-hidden shadow-2xl">
           <div className="bg-primary/10 border-b border-border/50 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <p className="text-xs uppercase tracking-widest text-primary font-bold mb-1">Servicio Solicitado</p>
+              <p className="text-xs uppercase tracking-widest text-primary font-bold mb-1">Arquitectura Recomendada</p>
               <h3 className="text-xl font-bold text-foreground">{titleSolucion}</h3>
             </div>
             <div className="bg-background/80 backdrop-blur px-4 py-2 rounded-lg border border-border/50 text-center">
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-0.5">Inversión Estimada</p>
-              <p className="text-lg font-black text-emerald-500">{precio}</p>
+              <p className="text-lg font-black text-emerald-500">{precioStr}</p>
               <p className="text-[10px] text-muted-foreground mt-0.5 font-semibold">50% INICIO / 50% ENTREGA</p>
             </div>
           </div>
@@ -393,13 +470,16 @@ export default function DiagnosticoPage() {
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Globe className="w-4 h-4"/></div><div><p className="font-bold text-sm">Diseño Responsivo</p><p className="text-xs text-muted-foreground">Perfecto en móviles y tablets</p></div></li>
                   <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Zap className="w-4 h-4"/></div><div><p className="font-bold text-sm">Optimización SEO</p><p className="text-xs text-muted-foreground">Lista para posicionar en Google</p></div></li>
-                  <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Workflow className="w-4 h-4"/></div><div><p className="font-bold text-sm">Integraciones Básicas</p><p className="text-xs text-muted-foreground">Botón de WhatsApp y Formularios</p></div></li>
+                  {data.funcionalidades.map(func => func !== "Ninguna, busco algo informativo" && (
+                    <li key={func} className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Workflow className="w-4 h-4"/></div><div><p className="font-bold text-sm">{func}</p><p className="text-xs text-muted-foreground">Módulo avanzado integrado</p></div></li>
+                  ))}
                 </ul>
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2"><Building2 className="w-4 h-4 text-primary"/> Perfil del Proyecto</h4>
+                <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2"><Cpu className="w-4 h-4 text-primary"/> Análisis de Complejidad</h4>
                 <div className="bg-background/50 rounded-xl p-4 border border-border/50 space-y-3">
+                  <div className="flex justify-between text-sm"><span className="text-muted-foreground">Nivel:</span> <span className="font-bold text-primary">{nivel}</span></div>
                   <div className="flex justify-between text-sm"><span className="text-muted-foreground">Industria:</span> <span className="font-semibold text-foreground">{data.tipoNegocio}</span></div>
                   <div className="flex justify-between text-sm"><span className="text-muted-foreground">Diseño/Logo:</span> <span className="font-semibold text-foreground text-right">{data.tieneDiseno}</span></div>
                 </div>
@@ -407,25 +487,25 @@ export default function DiagnosticoPage() {
             </div>
 
             <div className="bg-background/30 rounded-xl p-5 border border-border/50">
-              <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2 mb-4"><Activity className="w-4 h-4 text-primary"/> Infraestructura (Pagado al proveedor)</h4>
+              <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2 mb-4"><Activity className="w-4 h-4 text-primary"/> Infraestructura Externa (Proveedor)</h4>
               <div className="grid grid-cols-1 gap-4">
                 <div className="flex justify-between items-center bg-background/50 p-3 rounded-lg border border-border/30">
                   <span className="text-sm text-muted-foreground flex items-center gap-2"><Globe className="w-4 h-4"/> Hosting y Dominio (.com)</span>
                   <span className="font-bold text-sm">~ $40 - $80 USD / año</span>
                 </div>
               </div>
-              <p className="text-[10px] text-muted-foreground mt-3 text-center">* El alojamiento web y nombre de dominio es un pago anual directo a proveedores como Hostinger, Godaddy, etc.</p>
+              <p className="text-[10px] text-muted-foreground mt-3 text-center">* El alojamiento web y nombre de dominio es un pago anual directo a proveedores como Hostinger o GoDaddy.</p>
             </div>
           </div>
         </div>
 
         <div className="text-center space-y-5 pt-4">
-          <p className="text-sm text-muted-foreground">Un asesor ya está evaluando los detalles para coordinar contigo.</p>
-          <a href={"https://wa.me/18492597719?text=" + encodeURIComponent("¡Hola! Solicité una cotización para Desarrollo de " + (isApp ? "App" : "Página Web") + " para mi empresa *" + data.lead.empresa + "* y me gustaría iniciar.")}
+          <p className="text-sm text-muted-foreground">Un asesor ya está evaluando los detalles técnicos para coordinar contigo.</p>
+          <a href={"https://wa.me/18492597719?text=" + encodeURIComponent("¡Hola! Solicité un diagnóstico inteligente para Desarrollo de " + (isApp ? "App" : "Página Web") + " para mi empresa *" + data.lead.empresa + "* y me gustaría validar los requisitos de la propuesta: " + titleSolucion)}
             target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-2xl text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all shadow-xl shadow-[#25D366]/20"
           >
-            Hablar por WhatsApp Inmediatamente
+            Validar Proyecto por WhatsApp
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>
@@ -434,19 +514,39 @@ export default function DiagnosticoPage() {
   };
 
   const renderResultadosAutomatizacion = () => {
-    let precio = "RD$15,000 – RD$35,000";
+    let basePrice = 250;
+    let maxPrice = 500;
+    let titleSolucion = "Chatbot Inteligente de Atención";
+    let nivel = "Medio - Respuesta y Clasificación";
     let ahorros = "20–40 horas mensuales";
-    let titleSolucion = "Chatbot Inteligente para WhatsApp";
 
-    if (data.nivelSolucion === "empresarial") {
-      precio = "RD$35,000 – RD$80,000";
+    // Modificadores por volumen
+    if (data.volumen === "100–500") {
+      basePrice += 150; maxPrice += 250;
+    } else if (data.volumen === "500–2000") {
+      basePrice += 300; maxPrice += 500;
+      titleSolucion = "Asistente IA + Gestión Empresarial";
+      nivel = "Alto - Procesamiento de Ventas/Citas";
       ahorros = "50–100 horas mensuales";
-      titleSolucion = "Sistema de Automatización Empresarial";
-    } else if (data.nivelSolucion === "ia_avanzada") {
-      precio = "RD$80,000 – RD$250,000+";
-      ahorros = "100+ horas y eliminación de errores";
-      titleSolucion = "Agente de IA y Arquitectura Avanzada";
+    } else if (data.volumen === "+2000") {
+      basePrice += 600; maxPrice += 1000;
+      titleSolucion = "Arquitectura Avanzada de Agentes IA";
+      nivel = "Empresarial - Procesamiento Masivo";
+      ahorros = "100+ horas y escalabilidad total";
     }
+
+    // Modificadores por integraciones
+    const integraciones = data.herramientas.filter(h => h !== "Ninguna" && h !== "WhatsApp");
+    if (integraciones.length > 0) {
+      basePrice += (integraciones.length * 50);
+      maxPrice += (integraciones.length * 80);
+      if (integraciones.length >= 2 && data.volumen !== "+2000") {
+        titleSolucion = "Ecosistema Integrado Inteligente";
+        nivel = "Alto - Integración de API Compleja";
+      }
+    }
+
+    let precioStr = `$${basePrice} - $${maxPrice} USD`;
 
     return (
       <div className="max-w-3xl mx-auto space-y-8 animate-in slide-in-from-bottom-8 duration-700 py-4">
@@ -461,12 +561,12 @@ export default function DiagnosticoPage() {
         <div className="glass rounded-3xl border border-border/50 overflow-hidden shadow-2xl">
           <div className="bg-primary/10 border-b border-border/50 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <p className="text-xs uppercase tracking-widest text-primary font-bold mb-1">Solución Recomendada</p>
+              <p className="text-xs uppercase tracking-widest text-primary font-bold mb-1">Sistema Tecnológico Calculado</p>
               <h3 className="text-xl font-bold text-foreground">{titleSolucion}</h3>
             </div>
             <div className="bg-background/80 backdrop-blur px-4 py-2 rounded-lg border border-border/50 text-center">
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-0.5">Inversión Estimada</p>
-              <p className="text-lg font-black text-emerald-500">{precio}</p>
+              <p className="text-lg font-black text-emerald-500">{precioStr}</p>
               <p className="text-[10px] text-muted-foreground mt-0.5 font-semibold">50% INICIO / 50% ENTREGA</p>
             </div>
           </div>
@@ -477,17 +577,19 @@ export default function DiagnosticoPage() {
                 <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2"><Target className="w-4 h-4 text-primary"/> Beneficios Proyectados</h4>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Timer className="w-4 h-4"/></div><div><p className="font-bold text-sm">Ahorro Operativo</p><p className="text-xs text-muted-foreground">{ahorros} en trabajo manual</p></div></li>
-                  <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Zap className="w-4 h-4"/></div><div><p className="font-bold text-sm">Tiempo de Respuesta</p><p className="text-xs text-muted-foreground">Menos de 1 minuto, 24/7</p></div></li>
-                  <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Workflow className="w-4 h-4"/></div><div><p className="font-bold text-sm">Mejora Operativa</p><p className="text-xs text-muted-foreground">Centralización de procesos</p></div></li>
+                  <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Zap className="w-4 h-4"/></div><div><p className="font-bold text-sm">Tiempo de Respuesta</p><p className="text-xs text-muted-foreground">Respuestas instantáneas 24/7</p></div></li>
+                  {integraciones.length > 0 && (
+                    <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Workflow className="w-4 h-4"/></div><div><p className="font-bold text-sm">Sincronización Total</p><p className="text-xs text-muted-foreground">Conecta {integraciones.join(', ')}</p></div></li>
+                  )}
                 </ul>
               </div>
 
               <div className="space-y-4">
-                <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2"><Building2 className="w-4 h-4 text-primary"/> Perfil Analizado</h4>
+                <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2"><Cpu className="w-4 h-4 text-primary"/> Análisis Computacional</h4>
                 <div className="bg-background/50 rounded-xl p-4 border border-border/50 space-y-3">
-                  <div className="flex justify-between text-sm"><span className="text-muted-foreground">Industria:</span> <span className="font-semibold text-foreground">{data.tipoNegocio}</span></div>
-                  <div className="flex justify-between text-sm"><span className="text-muted-foreground">Volumen:</span> <span className="font-semibold text-foreground">{data.volumen} msjs/mes</span></div>
-                  <div className="flex justify-between text-sm"><span className="text-muted-foreground">Objetivo:</span> <span className="font-semibold text-foreground text-right max-w-[150px] truncate">{data.problema}</span></div>
+                  <div className="flex justify-between text-sm"><span className="text-muted-foreground">Nivel Calculado:</span> <span className="font-bold text-primary max-w-[140px] text-right">{nivel}</span></div>
+                  <div className="flex justify-between text-sm"><span className="text-muted-foreground">Flujo Analizado:</span> <span className="font-semibold text-foreground">{data.volumen} interacciones</span></div>
+                  <div className="flex justify-between text-sm"><span className="text-muted-foreground">Nodos de Red:</span> <span className="font-semibold text-foreground">{data.herramientas.length === 0 || data.herramientas.includes("Ninguna") ? 1 : data.herramientas.length} en conexión</span></div>
                 </div>
               </div>
             </div>
@@ -504,31 +606,31 @@ export default function DiagnosticoPage() {
                   <span className="font-bold text-sm">~ $30 USD / mes</span>
                 </div>
               </div>
-              <p className="text-[10px] text-muted-foreground mt-3 text-center">* La API se cobra por consumo (tokens). El Servidor VPS es un pago anual directo al proveedor.</p>
+              <p className="text-[10px] text-muted-foreground mt-3 text-center">* La API de IA se cobra por consumo de tokens. El Servidor es un pago anual a un proveedor en la nube externo.</p>
               
               <div className="mt-4 bg-primary/5 rounded-lg p-3 border border-primary/20">
                 <p className="text-sm font-semibold text-foreground flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-primary"/> Incluye 1 mes de Garantía y Calibración gratuita.</p>
-                <p className="text-xs text-muted-foreground mt-1 ml-6">Luego del primer mes, ofrecemos planes de Mantenimiento y Soporte Opcional para cuidar tu sistema.</p>
+                <p className="text-xs text-muted-foreground mt-1 ml-6">Luego del primer mes, ofrecemos planes de Mantenimiento y Soporte Opcional para escalar y cuidar el sistema.</p>
               </div>
             </div>
 
             <div className="bg-amber-500/5 border border-amber-500/20 rounded-xl p-4 text-center">
               <p className="text-xs text-amber-500/90 font-medium">
-                Cada solución es 100% personalizada según los procesos, integraciones y nivel de automatización específico requerido por tu empresa.
+                Esta cotización es un cálculo inteligente basado en tus requerimientos. El costo final y los alcances se ajustan tras la reunión técnica inicial.
               </p>
             </div>
           </div>
         </div>
 
         <div className="text-center space-y-5 pt-4">
-          <p className="text-sm text-muted-foreground">Un especialista ya está revisando tu perfil y te contactará en breve.</p>
+          <p className="text-sm text-muted-foreground">Un Arquitecto de Software ya tiene los detalles de tu diagnóstico.</p>
           <a
-            href={"https://wa.me/18492597719?text=" + encodeURIComponent("¡Hola! Acabo de hacer el diagnóstico inteligente para mi empresa *" + data.lead.empresa + "* y me gustaría iniciar. Mi solución recomendada es: " + titleSolucion)}
+            href={"https://wa.me/18492597719?text=" + encodeURIComponent("¡Hola! Acabo de hacer el diagnóstico de mi empresa *" + data.lead.empresa + "* y el algoritmo me recomendó: " + titleSolucion + " (" + precioStr + "). Me gustaría validarlo.")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-2xl text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all shadow-xl shadow-[#25D366]/20"
           >
-            Hablar por WhatsApp Inmediatamente
+            Hablar con Arquitecto en WhatsApp
             <ArrowRight className="w-4 h-4" />
           </a>
         </div>
@@ -553,7 +655,7 @@ export default function DiagnosticoPage() {
             
             <div className="w-full max-w-xl">
               <div className="flex justify-between items-center text-[10px] font-bold text-muted-foreground mb-2 uppercase tracking-widest px-1">
-                <span>Inicio</span><span>Requisitos</span><span>Cotización</span>
+                <span>Inicio</span><span>Análisis</span><span>Diagnóstico</span>
               </div>
               <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
                 <motion.div className="h-full bg-primary"
@@ -572,9 +674,9 @@ export default function DiagnosticoPage() {
               {currentStepName === "servicio" && <motion.div key="servicio" exit={{opacity:0}}>{renderServicio()}</motion.div>}
               {currentStepName === "industria" && <motion.div key="industria" exit={{opacity:0}}>{renderIndustria()}</motion.div>}
               {currentStepName === "problema" && <motion.div key="problema" exit={{opacity:0}}>{renderProblema()}</motion.div>}
+              {currentStepName === "funcionalidades" && <motion.div key="funcionalidades" exit={{opacity:0}}>{renderFuncionalidades()}</motion.div>}
               {currentStepName === "volumen" && <motion.div key="volumen" exit={{opacity:0}}>{renderVolumen()}</motion.div>}
               {currentStepName === "herramientas" && <motion.div key="herramientas" exit={{opacity:0}}>{renderHerramientas()}</motion.div>}
-              {currentStepName === "nivel" && <motion.div key="nivel" exit={{opacity:0}}>{renderNivel()}</motion.div>}
               {currentStepName === "diseno" && <motion.div key="diseno" exit={{opacity:0}}>{renderDiseno()}</motion.div>}
               {currentStepName === "datos" && <motion.div key="datos" exit={{opacity:0}}>{renderDatos()}</motion.div>}
               {currentStepName === "resultados" && <motion.div key="resultados" exit={{opacity:0}}>

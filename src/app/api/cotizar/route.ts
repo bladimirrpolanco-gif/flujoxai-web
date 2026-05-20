@@ -11,30 +11,43 @@ const FROM_EMAIL = "diagnostico@flujoxai.com";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    const { categoriaServicio, tipoNegocio, problema, volumen, herramientas, nivelSolucion, tieneDiseno, lead } = data;
+    const { categoriaServicio, tipoNegocio, problema, volumen, herramientas, funcionalidades, tieneDiseno, lead } = data;
 
     if (!lead || !lead.nombre || !lead.email || !lead.telefono) {
       return NextResponse.json({ error: "Faltan datos de contacto obligatorios." }, { status: 400 });
     }
 
-    const isDev = categoriaServicio === "web" || categoriaServicio === "app";
-
-    // 1. Determinar precios y solución
     let precio = "";
     let titleSolucion = "";
     let mensajeCompleto = "";
 
     if (categoriaServicio === "automatizacion") {
-      precio = "RD$15,000 – RD$35,000";
-      titleSolucion = "Chatbot Inteligente para WhatsApp";
-      if (nivelSolucion === "empresarial") {
-        precio = "RD$35,000 – RD$80,000";
-        titleSolucion = "Sistema de Automatización Empresarial";
-      } else if (nivelSolucion === "ia_avanzada") {
-        precio = "RD$80,000 – RD$250,000+";
-        titleSolucion = "Agente de IA y Arquitectura Avanzada";
+      let basePrice = 250;
+      let maxPrice = 500;
+      titleSolucion = "Chatbot Inteligente de Atención";
+
+      if (volumen === "100–500") {
+        basePrice += 150; maxPrice += 250;
+      } else if (volumen === "500–2000") {
+        basePrice += 300; maxPrice += 500;
+        titleSolucion = "Asistente IA + Gestión Empresarial";
+      } else if (volumen === "+2000") {
+        basePrice += 600; maxPrice += 1000;
+        titleSolucion = "Arquitectura Avanzada de Agentes IA";
       }
-      const herramientasStr = herramientas && herramientas.length > 0 ? herramientas.join(", ") : "Ninguna";
+
+      const herramientasList = herramientas || [];
+      const integraciones = herramientasList.filter((h: string) => h !== "Ninguna" && h !== "WhatsApp");
+      if (integraciones.length > 0) {
+        basePrice += (integraciones.length * 50);
+        maxPrice += (integraciones.length * 80);
+        if (integraciones.length >= 2 && volumen !== "+2000") {
+          titleSolucion = "Ecosistema Integrado Inteligente";
+        }
+      }
+
+      precio = `$${basePrice} - $${maxPrice} USD`;
+      const herramientasStr = herramientasList.length > 0 ? herramientasList.join(", ") : "Ninguna";
       mensajeCompleto = `[AUTOMATIZACIÓN]
 - Industria: ${tipoNegocio}
 - Objetivo: ${problema}
@@ -45,22 +58,51 @@ export async function POST(req: NextRequest) {
 - Presupuesto: ${precio} (50/50)`;
     } else {
       if (categoriaServicio === "web") {
-        precio = "$300 - $350 USD";
-        titleSolucion = "Página Web / Landing Page Corporativa";
+        let basePrice = 300;
+        let maxPrice = 350;
+        titleSolucion = "Landing Page / Sitio Corporativo";
+
+        const funcList = funcionalidades || [];
+        if (!funcList.includes("Ninguna, busco algo informativo")) {
+          if (funcList.includes("Tienda Online / E-commerce")) {
+            basePrice += 250; maxPrice += 350;
+            titleSolucion = "E-commerce Avanzado";
+          }
+          if (funcList.includes("Sistema de Reservas")) {
+            basePrice += 150; maxPrice += 200;
+            if (titleSolucion === "Landing Page / Sitio Corporativo") titleSolucion = "Plataforma de Gestión y Reservas";
+          }
+          if (funcList.includes("Panel de Administración")) {
+            basePrice += 200; maxPrice += 300;
+          }
+          if (funcList.includes("Pasarela de Pagos")) {
+            basePrice += 100; maxPrice += 150;
+          }
+          if (funcList.includes("Área Privada de Usuarios")) {
+            basePrice += 250; maxPrice += 350;
+          }
+        }
+
+        if (tieneDiseno === "No, necesito diseño desde cero") {
+          basePrice += 150; maxPrice += 200;
+        }
+        precio = `$${basePrice} - $${maxPrice} USD`;
       } else {
-        precio = "Consultar con Asesor";
+        precio = "Requiere Análisis Técnico Extra";
         titleSolucion = "Desarrollo de Aplicación a Medida";
       }
+
+      const funcStr = funcionalidades && funcionalidades.length > 0 ? funcionalidades.join(", ") : "Ninguna";
       mensajeCompleto = `[DESARROLLO SOFTWARE]
 - Tipo: ${categoriaServicio.toUpperCase()}
 - Industria: ${tipoNegocio}
+- Funcionalidades: ${funcStr}
 - Tiene Diseño/Logo: ${tieneDiseno}
 -------------------------
 - Solución: ${titleSolucion}
 - Presupuesto: ${precio} (50/50)`;
     }
 
-    // 2. Insertar Lead en Supabase
     const { error: dbError } = await supabase.from("leads").insert([
       {
         nombre: lead.nombre,
@@ -75,11 +117,9 @@ export async function POST(req: NextRequest) {
       console.error("❌ Error registering lead in Supabase:", dbError);
     }
 
-    // 3. Preparar plantillas de correo
     let clientEmailHtml = "";
 
     if (categoriaServicio === "automatizacion") {
-      const herramientasStr = herramientas && herramientas.length > 0 ? herramientas.join(", ") : "Ninguna";
       clientEmailHtml = `
       <!DOCTYPE html>
       <html>
@@ -114,17 +154,17 @@ export async function POST(req: NextRequest) {
           <div class="header"><h1>Diagnóstico Inteligente</h1><p>FlujoXAI™</p></div>
           <div class="content">
             <p class="greeting">¡Hola, <strong>${lead.nombre}</strong>!</p>
-            <p class="greeting">Hemos analizado los requerimientos operativos de <strong>${lead.empresa || "tu negocio"}</strong>. Esta es la solución óptima para eliminar tareas manuales:</p>
+            <p class="greeting">Nuestro algoritmo analizó los requerimientos operativos de <strong>${lead.empresa || "tu negocio"}</strong>. Esta es la solución tecnológica recomendada:</p>
             
             <div class="card">
-              <div class="card-title">Perfil Analizado</div>
+              <div class="card-title">Análisis de Carga</div>
               <div class="item"><span class="item-label">Industria:</span><span class="item-value">${tipoNegocio}</span></div>
               <div class="item"><span class="item-label">Objetivo:</span><span class="item-value">${problema}</span></div>
-              <div class="item"><span class="item-label">Volumen:</span><span class="item-value">${volumen}</span></div>
+              <div class="item"><span class="item-label">Flujo Analizado:</span><span class="item-value">${volumen} msjs/mes</span></div>
             </div>
 
             <div class="card" style="border-color: rgba(16, 185, 129, 0.3);">
-              <div class="card-title" style="color: #10b981;">Solución Recomendada</div>
+              <div class="card-title" style="color: #10b981;">Sistema Recomendado</div>
               <h3 style="margin: 0 0 15px 0; font-size: 18px; color: #ffffff;">${titleSolucion}</h3>
               
               <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1);">
@@ -144,7 +184,7 @@ export async function POST(req: NextRequest) {
             </div>
 
             <div style="text-align: center; margin-top: 35px;">
-              <a href="https://wa.me/18492597719?text=${encodeURIComponent(`¡Hola! Recibí el diagnóstico para ${titleSolucion}`)}" class="btn-wa">Coordinar Implementación</a>
+              <a href="https://wa.me/18492597719?text=${encodeURIComponent(`¡Hola! Recibí el diagnóstico para ${titleSolucion} y me gustaría revisarlo.`)}" class="btn-wa">Validar Diagnóstico Técnico</a>
             </div>
           </div>
         </div>
@@ -152,6 +192,7 @@ export async function POST(req: NextRequest) {
       </html>
       `;
     } else {
+      const funcStr = funcionalidades && funcionalidades.length > 0 ? funcionalidades.join(", ") : "Ninguna";
       clientEmailHtml = `
       <!DOCTYPE html>
       <html>
@@ -186,22 +227,23 @@ export async function POST(req: NextRequest) {
           <div class="header"><h1>Propuesta de Desarrollo</h1><p>FlujoXAI™</p></div>
           <div class="content">
             <p class="greeting">¡Hola, <strong>${lead.nombre}</strong>!</p>
-            <p class="greeting">Hemos analizado los requerimientos de <strong>${lead.empresa || "tu negocio"}</strong>. Esta es nuestra propuesta inicial de desarrollo de software:</p>
+            <p class="greeting">Hemos procesado los requerimientos de <strong>${lead.empresa || "tu negocio"}</strong>. Esta es nuestra propuesta inicial de arquitectura de software:</p>
             
             <div class="card">
-              <div class="card-title">Perfil Analizado</div>
+              <div class="card-title">Requisitos Técnicos</div>
               <div class="item"><span class="item-label">Industria:</span><span class="item-value">${tipoNegocio}</span></div>
               <div class="item"><span class="item-label">Tiene Diseño/Logo:</span><span class="item-value">${tieneDiseno}</span></div>
+              <div class="item"><span class="item-label">Funcionalidades:</span><span class="item-value" style="font-size: 12px;">${funcStr}</span></div>
             </div>
 
             <div class="card" style="border-color: rgba(16, 185, 129, 0.3);">
-              <div class="card-title" style="color: #10b981;">Servicio Solicitado</div>
+              <div class="card-title" style="color: #10b981;">Arquitectura Recomendada</div>
               <h3 style="margin: 0 0 15px 0; font-size: 18px; color: #ffffff;">${titleSolucion}</h3>
               
               <div style="margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1);">
                 <div class="card-title" style="color: #a1a1aa; font-size: 10px;">Infraestructura Externa</div>
                 <div class="item"><span class="item-label" style="font-size: 12px;">Hosting y Dominio:</span><span class="item-value" style="font-size: 12px;">~ $40 - $80 USD / año</span></div>
-                <p style="font-size: 10px; color: #a1a1aa; margin-top: 10px;">* El alojamiento web y nombre de dominio es un pago anual directo al proveedor (ej. Hostinger).</p>
+                <p style="font-size: 10px; color: #a1a1aa; margin-top: 10px;">* El alojamiento web y nombre de dominio es un pago anual directo a proveedores en la nube.</p>
               </div>
               
               <div class="price-box">
@@ -212,7 +254,7 @@ export async function POST(req: NextRequest) {
             </div>
 
             <div style="text-align: center; margin-top: 35px;">
-              <a href="https://wa.me/18492597719?text=${encodeURIComponent(`¡Hola! Recibí la propuesta para Desarrollo de Software y me gustaría iniciar.`)}" class="btn-wa">Coordinar Implementación</a>
+              <a href="https://wa.me/18492597719?text=${encodeURIComponent(`¡Hola! Recibí la propuesta de arquitectura para Desarrollo de Software y me gustaría validarla con un asesor.`)}" class="btn-wa">Validar Proyecto</a>
             </div>
           </div>
         </div>
@@ -232,7 +274,7 @@ export async function POST(req: NextRequest) {
         <p><strong>Teléfono:</strong> ${lead.telefono}</p>
         <p><strong>Email:</strong> ${lead.email}</p>
         <hr>
-        <p><strong>Detalles:</strong><br><pre>${mensajeCompleto}</pre></p>
+        <p><strong>Detalles Generados por Algoritmo:</strong><br><pre>${mensajeCompleto}</pre></p>
       </body>
       </html>
     `;
@@ -242,9 +284,9 @@ export async function POST(req: NextRequest) {
     } else {
       try {
         await resend.emails.send({
-          from: `FlujoXAI Ventas <${FROM_EMAIL}>`,
+          from: `FlujoXAI Diagnóstico <${FROM_EMAIL}>`,
           to: lead.email,
-          subject: "Propuesta de Proyecto - FlujoXAI",
+          subject: "Tu Diagnóstico Inteligente - FlujoXAI",
           html: clientEmailHtml,
         });
 
