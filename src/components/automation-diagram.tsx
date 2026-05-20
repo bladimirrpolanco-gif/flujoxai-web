@@ -250,9 +250,9 @@ function MainNode({
           {slug ? <BrandIcon slug={slug} className="h-8 w-8 text-white" /> : Icon && <Icon className="h-8 w-8 text-white" />}
         </motion.div>
       </div>
-      <div className="text-center">
-        <p className="text-sm font-bold text-foreground">{label}</p>
-        <p className="text-xs text-muted-foreground">{sub}</p>
+      <div className="text-center mt-1">
+        <p className="text-[15px] font-extrabold text-foreground leading-tight">{label}</p>
+        <p className="text-[13px] font-medium text-foreground/70 mt-0.5">{sub}</p>
       </div>
     </div>
   );

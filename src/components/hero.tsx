@@ -103,7 +103,7 @@ export function Hero() {
           </motion.div>
 
           {/* Headline */}
-          <h1 className="font-sans mb-6 leading-[1.05] perspective-1000 text-[clamp(2.5rem,4.5vw,4.5rem)]">
+          <h1 className="font-sans mb-6 leading-[0.95] perspective-1000 text-[clamp(2.5rem,4.5vw,4.5rem)]">
             <motion.span 
               className="block text-foreground font-black tracking-tight"
               initial={{ opacity: 0, y: 20 }}
@@ -121,7 +121,8 @@ export function Hero() {
               Empresa con
             </motion.span>
             <motion.span 
-              className="block text-[#2563EB] font-serif italic font-light tracking-normal mt-1 md:mt-2"
+              className="block text-[#2563EB] italic font-light tracking-normal mt-2 md:mt-3 whitespace-nowrap text-[0.85em] md:text-[0.9em]"
+              style={{ fontFamily: 'var(--font-playfair)' }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}

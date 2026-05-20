@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Syne } from "next/font/google";
+import { Inter, Syne, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const font = Inter({ subsets: ["latin"] });
 const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", style: ["italic", "normal"] });
 
 export const metadata: Metadata = {
   title: "FlujoxAI - Automatización Empresarial con Inteligencia Artificial",
@@ -34,8 +35,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className="scroll-smooth" suppressHydrationWarning>
-      <body className={`${font.className} ${syne.variable} antialiased selection:bg-primary/30`}>
+    <html lang="es" suppressHydrationWarning className={`${syne.variable} ${playfair.variable}`}>
+      <body className={`${font.className} antialiased selection:bg-primary/30`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
