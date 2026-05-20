@@ -116,7 +116,7 @@ export function Hero() {
                   type: "spring",
                   damping: 12
                 }}
-                className={`inline-block mr-[0.2em] last:mr-0 ${i > 2 ? 'gradient-text text-glow transition-all duration-300' : 'text-foreground'}`}
+                className={`inline-block mr-[0.2em] last:mr-0 ${i > 2 ? 'text-[#2563EB] transition-all duration-300' : 'text-foreground'}`}
               >
                 {word}
               </motion.span>
