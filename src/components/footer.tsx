@@ -130,6 +130,12 @@ export function Footer() {
                   Flujobot
                 </a>
               </li>
+              <li>
+                <Link href="/cotizador" className="text-sm text-zinc-500 hover:text-white transition-colors flex items-center gap-1.5 group">
+                  <span className="h-px w-3 bg-zinc-700 group-hover:bg-primary group-hover:w-4 transition-all" />
+                  Cotizador Automático
+                </Link>
+              </li>
             </ul>
           </div>
 
