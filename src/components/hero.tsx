@@ -71,7 +71,7 @@ export function Hero() {
   const headlineWords = "Automatiza tu Empresa con Inteligencia Artificial".split(" ");
 
   return (
-    <section ref={containerRef} className="relative overflow-hidden bg-background pt-28 md:pt-40 pb-20 md:pb-32 hero-grid">
+    <section ref={containerRef} className="relative overflow-hidden bg-background pt-28 md:pt-40 pb-16 md:pb-20 hero-grid">
       
       {/* Interactive Cursor Glow */}
       <motion.div 
@@ -199,12 +199,12 @@ export function Hero() {
           </div>
 
           {/* Right Column (Diagram) */}
-          <div className="flex items-center justify-center lg:justify-end w-full overflow-visible">
+          <div className="self-center flex flex-col justify-center items-center lg:items-end w-full h-full overflow-visible">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="w-full max-w-full overflow-visible flex justify-center lg:justify-end"
+              className="w-full h-full max-w-full overflow-visible flex flex-col justify-center items-center lg:items-end"
             >
               <AutomationDiagram showCard={false} className="transform scale-[0.8] sm:scale-90 lg:scale-[0.65] xl:scale-[0.85] 2xl:scale-100 origin-center lg:origin-right max-w-full" />
             </motion.div>
