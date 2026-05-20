@@ -11,6 +11,15 @@ const OUTPUT_NODES = [
   { slug: "gmail",          label: "Notificación", sub: "Email enviado",    from: "from-[#EA4335]", to: "to-[#ff6f63]",  glow: "shadow-[#EA4335]/40",  border: "border-[#EA4335]/30"  },
 ];
 
+const HERO_NODES = [
+  { slug: "whatsapp",       label: "WhatsApp",   sub: "Mensaje",  from: "from-[#25D366]", to: "to-[#1DA851]", glow: "shadow-[#25D366]/40", x: 20, y: 20, type: "in",  delay: 0 },
+  { slug: "instagram",      label: "Instagram",  sub: "DM",       from: "from-[#E1306C]", to: "to-[#C13584]", glow: "shadow-[#E1306C]/40", x: 80, y: 20, type: "in",  delay: 0.2 },
+  { slug: "slack",          label: "Slack",      sub: "Notifica", from: "from-[#E01E5A]", to: "to-[#36C5F0]", glow: "shadow-[#E01E5A]/40", x: 85, y: 50, type: "out", delay: 0 },
+  { slug: "hubspot",        label: "CRM",        sub: "Registra", from: "from-[#FF7A59]", to: "to-[#ff9b82]", glow: "shadow-[#FF7A59]/40", x: 80, y: 80, type: "out", delay: 0.2 },
+  { slug: "googlecalendar", label: "Calendario", sub: "Agenda",   from: "from-[#4285F4]", to: "to-[#6ba3ff]", glow: "shadow-[#4285F4]/40", x: 20, y: 80, type: "out", delay: 0.4 },
+  { slug: "gmail",          label: "Email",      sub: "Confirma", from: "from-[#EA4335]", to: "to-[#ff6f63]", glow: "shadow-[#EA4335]/40", x: 15, y: 50, type: "out", delay: 0.6 },
+];
+
 export function AutomationDiagram({ className, showCard = true, layout = "horizontal" }: { className?: string; showCard?: boolean; layout?: "horizontal" | "hero" }) {
   const [phase, setPhase] = useState(0);
   const [doneOutputs, setDoneOutputs] = useState<number[]>([]);
@@ -86,42 +95,85 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
   );
 
   const heroContent = (
-    <div className="relative w-full h-[500px] overflow-visible">
+    <div className="relative w-full h-[550px] overflow-visible">
       {/* SVG Connectors Background */}
       <svg className="absolute inset-0 w-full h-full pointer-events-none -z-10" viewBox="0 0 100 100" preserveAspectRatio="none">
-        {/* Base lines (faint) */}
-        <path d="M 15 25 C 25 25, 25 50, 40 50" fill="none" stroke="currentColor" className="text-border/40" strokeWidth="0.5" vectorEffect="non-scaling-stroke" strokeDasharray="1 3" />
-        <path d="M 40 50 C 50 50, 55 20, 65 20" fill="none" stroke="currentColor" className="text-border/40" strokeWidth="0.5" vectorEffect="non-scaling-stroke" strokeDasharray="1 3" />
-        <path d="M 40 50 L 65 50" fill="none" stroke="currentColor" className="text-border/40" strokeWidth="0.5" vectorEffect="non-scaling-stroke" strokeDasharray="1 3" />
-        <path d="M 40 50 C 50 50, 55 80, 65 80" fill="none" stroke="currentColor" className="text-border/40" strokeWidth="0.5" vectorEffect="non-scaling-stroke" strokeDasharray="1 3" />
-
-        {/* Animated active lines */}
-        <motion.path d="M 15 25 C 25 25, 25 50, 40 50" fill="none" stroke="currentColor" className="text-primary" strokeWidth="1.5" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={{ pathLength: phase >= 1 ? 1 : 0 }} transition={{ duration: 1, ease: "easeInOut" }} />
-        <motion.path d="M 40 50 C 50 50, 55 20, 65 20" fill="none" stroke="currentColor" className="text-primary" strokeWidth="1.5" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={{ pathLength: phase >= 3 ? 1 : 0 }} transition={{ duration: 1, ease: "easeInOut", delay: 0 }} />
-        <motion.path d="M 40 50 L 65 50" fill="none" stroke="currentColor" className="text-primary" strokeWidth="1.5" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={{ pathLength: phase >= 3 ? 1 : 0 }} transition={{ duration: 1, ease: "easeInOut", delay: 0.2 }} />
-        <motion.path d="M 40 50 C 50 50, 55 80, 65 80" fill="none" stroke="currentColor" className="text-primary" strokeWidth="1.5" vectorEffect="non-scaling-stroke" initial={{ pathLength: 0 }} animate={{ pathLength: phase >= 3 ? 1 : 0 }} transition={{ duration: 1, ease: "easeInOut", delay: 0.4 }} />
+        {HERO_NODES.map((n, i) => {
+          const isInput = n.type === "in";
+          const x1 = isInput ? n.x : 50;
+          const y1 = isInput ? n.y : 50;
+          const x2 = isInput ? 50 : n.x;
+          const y2 = isInput ? 50 : n.y;
+          const pathD = `M ${x1} ${y1} L ${x2} ${y2}`;
+          
+          return (
+            <g key={`path-${i}`}>
+              <path d={pathD} fill="none" stroke="currentColor" className="text-border/30" strokeWidth="0.2" vectorEffect="non-scaling-stroke" strokeDasharray="1 3" />
+              <motion.path 
+                d={pathD} 
+                fill="none" 
+                stroke="currentColor" 
+                className="text-primary/70" 
+                strokeWidth="1.2" 
+                vectorEffect="non-scaling-stroke" 
+                initial={{ pathLength: 0, opacity: 0 }} 
+                animate={{ 
+                  pathLength: (isInput ? phase >= 1 : phase >= 3) ? 1 : 0,
+                  opacity: (isInput ? phase >= 1 : phase >= 3) ? 1 : 0
+                }} 
+                transition={{ duration: 1.5, delay: isInput ? n.delay : n.delay, ease: "easeInOut" }} 
+              />
+            </g>
+          );
+        })}
       </svg>
 
-      {/* Nodes */}
-      <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: '15%', top: '25%' }}>
-        <MainNode slug="whatsapp" label="WhatsApp" sub="Cliente escribe" gradient="from-[#25D366] to-[#1DA851]" glow="shadow-[#25D366]/40" active={phase >= 0} pulsing={phase === 0} />
+      {/* Center IA Node */}
+      <div className="absolute -translate-x-1/2 -translate-y-1/2 z-20" style={{ left: '50%', top: '50%' }}>
+        <div className="relative">
+          <motion.div 
+            className="absolute -inset-8 bg-primary/20 rounded-full blur-2xl"
+            animate={{ scale: phase === 2 ? [1, 1.2, 1] : 1, opacity: phase === 2 ? [0.4, 0.8, 0.4] : 0.1 }}
+            transition={{ duration: 2, repeat: Infinity }}
+          />
+          <MainNode 
+            icon={Cpu} 
+            label="IA Flujobot" 
+            sub={phase >= 2 ? "Analizando..." : "En espera"} 
+            gradient="from-blue-600 to-blue-400" 
+            glow="shadow-blue-600/50 shadow-2xl" 
+            active={true} 
+            pulsing={phase === 2} 
+            processing={phase === 2} 
+          />
+        </div>
       </div>
 
-      <div className="absolute -translate-x-1/2 -translate-y-1/2" style={{ left: '40%', top: '50%' }}>
-        <MainNode icon={Cpu} label="IA Flujobot" sub={phase >= 2 ? "Analizando..." : "En espera"} gradient="from-blue-600 to-blue-400" glow="shadow-blue-600/40" active={phase >= 2} pulsing={phase === 2} processing={phase === 2} />
-      </div>
-
-      <div className="absolute -translate-y-1/2 w-full max-w-[220px]" style={{ left: '65%', top: '20%' }}>
-        <OutputNode slug={OUTPUT_NODES[0].slug} label={OUTPUT_NODES[0].label} sub={OUTPUT_NODES[0].sub} gradient={`${OUTPUT_NODES[0].from} ${OUTPUT_NODES[0].to}`} border={OUTPUT_NODES[0].border} glow={OUTPUT_NODES[0].glow} visible={phase >= 3} done={doneOutputs.includes(0)} delay={0} />
-      </div>
-
-      <div className="absolute -translate-y-1/2 w-full max-w-[220px]" style={{ left: '65%', top: '50%' }}>
-        <OutputNode slug={OUTPUT_NODES[1].slug} label={OUTPUT_NODES[1].label} sub={OUTPUT_NODES[1].sub} gradient={`${OUTPUT_NODES[1].from} ${OUTPUT_NODES[1].to}`} border={OUTPUT_NODES[1].border} glow={OUTPUT_NODES[1].glow} visible={phase >= 3} done={doneOutputs.includes(1)} delay={0.2} />
-      </div>
-
-      <div className="absolute -translate-y-1/2 w-full max-w-[220px]" style={{ left: '65%', top: '80%' }}>
-        <OutputNode slug={OUTPUT_NODES[2].slug} label={OUTPUT_NODES[2].label} sub={OUTPUT_NODES[2].sub} gradient={`${OUTPUT_NODES[2].from} ${OUTPUT_NODES[2].to}`} border={OUTPUT_NODES[2].border} glow={OUTPUT_NODES[2].glow} visible={phase >= 3} done={doneOutputs.includes(2)} delay={0.4} />
-      </div>
+      {/* Surrounding Nodes */}
+      {HERO_NODES.map((n, i) => {
+        const isInput = n.type === "in";
+        const isActive = isInput ? phase >= 1 : phase >= 3;
+        
+        return (
+          <motion.div 
+            key={`node-${i}`}
+            className="absolute -translate-x-1/2 -translate-y-1/2 z-10" 
+            style={{ left: `${n.x}%`, top: `${n.y}%` }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: isActive ? 1 : 0.85, opacity: isActive ? 1 : 0.4 }}
+            transition={{ duration: 0.8, delay: isActive ? n.delay : 0 }}
+          >
+            <MainNode 
+              slug={n.slug} 
+              label={n.label} 
+              sub={n.sub} 
+              gradient={n.from + " " + n.to} 
+              glow={n.glow} 
+              active={true} 
+            />
+          </motion.div>
+        );
+      })}
     </div>
   );
 
