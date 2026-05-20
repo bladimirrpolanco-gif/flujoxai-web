@@ -6,7 +6,7 @@ const resendApiKey = process.env.RESEND_API_KEY || "re_dummy_key_for_local_testi
 const resend = new Resend(resendApiKey);
 
 const ADMIN_EMAIL = "soporte@flujoxai.com";
-const FROM_EMAIL = "onboarding@resend.dev"; // Email de envío verificado en Resend
+const FROM_EMAIL = "diagnostico@flujoxai.com";
 
 export async function POST(req: NextRequest) {
   try {
