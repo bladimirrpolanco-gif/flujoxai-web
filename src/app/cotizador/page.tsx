@@ -1,24 +1,28 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Bot, Zap, Workflow, ArrowRight, ArrowLeft, CheckCircle2, 
   MessageSquare, Cpu, Sparkles, Building2, Utensils, 
   Hotel, Stethoscope, GraduationCap, Users, Calendar, 
-  Mail, ShoppingBag, PieChart, Activity, Plug, Timer, Target
+  ShoppingBag, PieChart, Activity, Target, Timer,
+  Globe, Smartphone, Palette
 } from "lucide-react";
 import Link from "next/link";
 import { trackEvent } from "@/lib/metrics";
 
+type CategoriaServicio = "automatizacion" | "web" | "app";
 type NivelSolucion = "basico" | "empresarial" | "ia_avanzada";
 
 interface DiagnosticoData {
+  categoriaServicio: CategoriaServicio | null;
   tipoNegocio: string;
   problema: string;
   volumen: string;
   herramientas: string[];
   nivelSolucion: NivelSolucion | null;
+  tieneDiseno: string;
   lead: {
     nombre: string;
     email: string;
@@ -28,30 +32,41 @@ interface DiagnosticoData {
 }
 
 export default function DiagnosticoPage() {
-  const [step, setStep] = useState(1);
-  const [loading, setLoading] = useState(false);
   const [analyzing, setAnalyzing] = useState(false);
   const [analyzeText, setAnalyzeText] = useState("Analizando necesidades...");
   const [errorMsg, setErrorMsg] = useState("");
 
   const [data, setData] = useState<DiagnosticoData>({
+    categoriaServicio: null,
     tipoNegocio: "",
     problema: "",
     volumen: "",
     herramientas: [],
     nivelSolucion: null,
+    tieneDiseno: "",
     lead: { nombre: "", email: "", telefono: "", empresa: "" }
   });
 
-  const nextStep = () => setStep(s => s + 1);
-  const prevStep = () => setStep(s => s - 1);
+  const getStepsFlow = () => {
+    if (data.categoriaServicio === "automatizacion") {
+      return ["servicio", "industria", "problema", "volumen", "herramientas", "nivel", "datos", "resultados"];
+    } else if (data.categoriaServicio === "web" || data.categoriaServicio === "app") {
+      return ["servicio", "industria", "diseno", "datos", "resultados"];
+    }
+    return ["servicio"];
+  };
+
+  const flow = getStepsFlow();
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const currentStepName = flow[currentStepIndex];
+
+  const nextStep = () => setCurrentStepIndex(i => i + 1);
+  const prevStep = () => setCurrentStepIndex(i => i - 1);
 
   const handleToggleHerramienta = (tool: string) => {
     setData(prev => {
       const isSelected = prev.herramientas.includes(tool);
-      if (tool === "Ninguna") {
-        return { ...prev, herramientas: ["Ninguna"] };
-      }
+      if (tool === "Ninguna") return { ...prev, herramientas: ["Ninguna"] };
       let nuevas = isSelected 
         ? prev.herramientas.filter(t => t !== tool)
         : [...prev.herramientas.filter(t => t !== "Ninguna"), tool];
@@ -74,13 +89,9 @@ export default function DiagnosticoPage() {
     setErrorMsg("");
     setAnalyzing(true);
 
-    // Efecto psicológico de carga
-    const frases = [
-      "Analizando necesidades del sector...",
-      "Calculando volumen de operaciones...",
-      "Estructurando arquitectura de IA...",
-      "Generando diagnóstico personalizado..."
-    ];
+    const frases = data.categoriaServicio === "automatizacion" 
+      ? ["Analizando necesidades del sector...", "Calculando volumen de operaciones...", "Estructurando arquitectura de IA...", "Generando diagnóstico personalizado..."]
+      : ["Analizando requerimientos de desarrollo...", "Estructurando arquitectura del software...", "Definiendo stack tecnológico...", "Generando propuesta de proyecto..."];
     
     for (let i = 0; i < frases.length; i++) {
       setAnalyzeText(frases[i]);
@@ -95,21 +106,47 @@ export default function DiagnosticoPage() {
       });
 
       if (!response.ok) throw new Error("Error en el servidor");
-      trackEvent("diagnostico_completado", { solucion: data.nivelSolucion });
-      setStep(8); // Pantalla de Resultados
+      trackEvent("diagnostico_completado", { solucion: data.categoriaServicio });
+      nextStep(); // Va a resultados
     } catch (err: any) {
       setErrorMsg("Hubo un error al procesar la solicitud. Intenta nuevamente.");
-      setStep(6);
     } finally {
       setAnalyzing(false);
     }
   };
 
-  const renderStep1 = () => (
-    <div className="space-y-8 animate-in fade-in zoom-in duration-500">
+  // Vistas de Pasos
+  const renderServicio = () => (
+    <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+      <div className="text-center space-y-3">
+        <h2 className="text-3xl font-extrabold text-foreground">¿Qué tipo de proyecto tienes en mente?</h2>
+        <p className="text-muted-foreground">Selecciona el área principal para enfocar nuestro análisis.</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {[
+          { id: "automatizacion", title: "Chatbots y Automatización", desc: "IA en WhatsApp, ahorro de tiempo y procesos automáticos.", icon: Bot, c: "from-blue-500 to-cyan-400" },
+          { id: "web", title: "Páginas Web / E-commerce", desc: "Presencia digital profesional, ventas online y landing pages.", icon: Globe, c: "from-emerald-500 to-teal-400" },
+          { id: "app", title: "Aplicaciones Móviles", desc: "Desarrollo de Apps iOS/Android y plataformas a medida.", icon: Smartphone, c: "from-violet-500 to-purple-400" }
+        ].map(opt => {
+          const isSel = data.categoriaServicio === opt.id;
+          return (
+            <div key={opt.id} onClick={() => { setData({ ...data, categoriaServicio: opt.id as CategoriaServicio }); setTimeout(nextStep, 300); }}
+              className={`cursor-pointer rounded-3xl p-6 flex flex-col transition-all duration-300 border ${isSel ? 'border-primary bg-primary/5 shadow-xl shadow-primary/10 scale-[1.02]' : 'border-border/50 glass hover:border-primary/40 hover:bg-white/5'}`}>
+              <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${opt.c} flex items-center justify-center mb-5`}><opt.icon className="w-6 h-6 text-white"/></div>
+              <h3 className="font-bold text-lg mb-2">{opt.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{opt.desc}</p>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  );
+
+  const renderIndustria = () => (
+    <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-center space-y-3">
         <h2 className="text-3xl font-extrabold text-foreground">¿A qué se dedica tu empresa?</h2>
-        <p className="text-muted-foreground">Personalizaremos el diagnóstico según tu sector.</p>
+        <p className="text-muted-foreground">Personalizaremos el análisis según tu sector.</p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {[
@@ -120,7 +157,7 @@ export default function DiagnosticoPage() {
           { id: "E-commerce", icon: ShoppingBag },
           { id: "Servicios", icon: Users },
           { id: "Educación", icon: GraduationCap },
-          { id: "Otro", icon: Bot }
+          { id: "Otro", icon: Sparkles }
         ].map(opt => {
           const isSel = data.tipoNegocio === opt.id;
           return (
@@ -132,10 +169,11 @@ export default function DiagnosticoPage() {
           )
         })}
       </div>
+      <div className="flex justify-start"><button onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button></div>
     </div>
   );
 
-  const renderStep2 = () => (
+  const renderProblema = () => (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-center space-y-3">
         <h2 className="text-3xl font-extrabold text-foreground">¿Qué deseas mejorar en tu negocio?</h2>
@@ -149,7 +187,7 @@ export default function DiagnosticoPage() {
           { id: "Reducir trabajo manual", icon: Timer },
           { id: "Agendar citas", icon: Calendar },
           { id: "Seguimiento de clientes", icon: Users },
-          { id: "Integrar sistemas", icon: Plug },
+          { id: "Integrar sistemas", icon: Workflow },
           { id: "Automatizar ventas", icon: PieChart }
         ].map(opt => {
           const isSel = data.problema === opt.id;
@@ -166,11 +204,11 @@ export default function DiagnosticoPage() {
     </div>
   );
 
-  const renderStep3 = () => (
+  const renderVolumen = () => (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-center space-y-3">
-        <h2 className="text-3xl font-extrabold text-foreground">¿Cuántos clientes o mensajes reciben al mes?</h2>
-        <p className="text-muted-foreground">Nos ayuda a calcular la complejidad y capacidad requerida del sistema.</p>
+        <h2 className="text-3xl font-extrabold text-foreground">¿Cuántos mensajes o leads reciben al mes?</h2>
+        <p className="text-muted-foreground">Nos ayuda a calcular la capacidad requerida del sistema.</p>
       </div>
       <div className="grid grid-cols-1 gap-4 max-w-lg mx-auto">
         {["0–100", "100–500", "500–2000", "+2000"].map(opt => {
@@ -187,7 +225,7 @@ export default function DiagnosticoPage() {
     </div>
   );
 
-  const renderStep4 = () => {
+  const renderHerramientas = () => {
     const herramientasPorIndustria: Record<string, string[]> = {
       "Restaurante": ["WhatsApp", "Instagram", "Google Sheets", "Sistema de POS", "Menú Digital", "Ninguna"],
       "Hotel": ["WhatsApp", "Motor Reservas", "Google Calendar", "Excel/Sheets", "TripAdvisor", "Ninguna"],
@@ -226,17 +264,17 @@ export default function DiagnosticoPage() {
     );
   };
 
-  const renderStep5 = () => (
+  const renderNivel = () => (
     <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-center space-y-3">
-        <h2 className="text-3xl font-extrabold text-foreground">¿Qué nivel de solución necesitas?</h2>
+        <h2 className="text-3xl font-extrabold text-foreground">¿Qué nivel de solución buscas?</h2>
         <p className="text-muted-foreground">Selecciona la base tecnológica que impulsará tus resultados.</p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
           { id: "basico", title: "Chatbot Inteligente", desc: "Atención automática 24/7, captura de leads y WhatsApp integrado.", icon: MessageSquare, c: "from-blue-500 to-cyan-400" },
-          { id: "empresarial", title: "Automatización Empresarial", desc: "Conexión entre aplicaciones, eliminación de tareas manuales y automatización de flujos.", icon: Workflow, c: "from-violet-500 to-purple-400" },
-          { id: "ia_avanzada", title: "IA Avanzada Empresarial", desc: "Agentes IA inteligentes, seguimiento automático, procesos complejos e integraciones profundas.", icon: Cpu, c: "from-amber-500 to-orange-400" }
+          { id: "empresarial", title: "Automatización", desc: "Conexión entre aplicaciones y eliminación de tareas manuales.", icon: Workflow, c: "from-violet-500 to-purple-400" },
+          { id: "ia_avanzada", title: "IA Avanzada", desc: "Agentes IA, seguimiento automático y procesos complejos.", icon: Cpu, c: "from-amber-500 to-orange-400" }
         ].map(opt => {
           const isSel = data.nivelSolucion === opt.id;
           return (
@@ -253,11 +291,37 @@ export default function DiagnosticoPage() {
     </div>
   );
 
-  const renderStep6 = () => (
+  const renderDiseno = () => (
+    <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
+      <div className="text-center space-y-3">
+        <h2 className="text-3xl font-extrabold text-foreground">¿Cuentas con diseño de marca o Logo?</h2>
+        <p className="text-muted-foreground">Esto nos ayuda a saber si necesitamos incluir diseño UI/UX en la propuesta.</p>
+      </div>
+      <div className="grid grid-cols-1 gap-4 max-w-lg mx-auto">
+        {[
+          { id: "Si, tengo todo listo", icon: Palette },
+          { id: "Solo tengo el logo", icon: Sparkles },
+          { id: "No, necesito diseño desde cero", icon: Globe }
+        ].map(opt => {
+          const isSel = data.tieneDiseno === opt.id;
+          return (
+            <div key={opt.id} onClick={() => { setData({ ...data, tieneDiseno: opt.id }); setTimeout(nextStep, 300); }}
+              className={`cursor-pointer rounded-2xl p-5 flex items-center justify-center gap-3 text-center transition-all duration-300 border ${isSel ? 'border-primary bg-primary/10 text-primary scale-[1.02]' : 'border-border/50 glass hover:border-primary/40 text-foreground/80'}`}>
+              <opt.icon className="w-5 h-5"/>
+              <span className="font-bold text-lg">{opt.id}</span>
+            </div>
+          )
+        })}
+      </div>
+      <div className="flex justify-start"><button onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button></div>
+    </div>
+  );
+
+  const renderDatos = () => (
     <div className="max-w-xl mx-auto space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
       <div className="text-center space-y-3">
-        <h2 className="text-3xl font-extrabold text-foreground">Tu diagnóstico está casi listo</h2>
-        <p className="text-muted-foreground">Ingresa tus datos corporativos para generar el análisis completo y enviarlo a tu correo.</p>
+        <h2 className="text-3xl font-extrabold text-foreground">Tu propuesta está casi lista</h2>
+        <p className="text-muted-foreground">Ingresa tus datos corporativos para generar la cotización formal y enviarla a tu correo.</p>
       </div>
       <form onSubmit={procesarDiagnostico} className="space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -269,7 +333,7 @@ export default function DiagnosticoPage() {
         {errorMsg && <p className="text-sm text-destructive">{errorMsg}</p>}
         <div className="flex justify-between items-center pt-4 border-t border-border/50">
           <button type="button" onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button>
-          <button type="submit" className="btn-primary-glow bg-primary text-primary-foreground px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg hover:bg-primary/90">Generar Diagnóstico <Sparkles className="w-4 h-4"/></button>
+          <button type="submit" className="btn-primary-glow bg-primary text-primary-foreground px-8 py-3 rounded-xl font-bold flex items-center gap-2 shadow-lg hover:bg-primary/90">Generar Cotización <Sparkles className="w-4 h-4"/></button>
         </div>
       </form>
     </div>
@@ -280,7 +344,7 @@ export default function DiagnosticoPage() {
       <div className="relative w-24 h-24 flex items-center justify-center">
         <div className="absolute inset-0 border-4 border-primary/20 rounded-full"></div>
         <div className="absolute inset-0 border-4 border-primary rounded-full border-t-transparent animate-spin"></div>
-        <Bot className="w-8 h-8 text-primary animate-pulse" />
+        {data.categoriaServicio === "automatizacion" ? <Bot className="w-8 h-8 text-primary animate-pulse" /> : <Globe className="w-8 h-8 text-primary animate-pulse" />}
       </div>
       <h3 className="text-2xl font-bold text-foreground text-center min-h-[40px]">{analyzeText}</h3>
       <div className="w-64 h-2 bg-secondary rounded-full overflow-hidden">
@@ -289,7 +353,87 @@ export default function DiagnosticoPage() {
     </div>
   );
 
-  const renderResults = () => {
+  const renderResultadosWeb = () => {
+    let precio = "$300 - $350 USD";
+    let titleSolucion = "Página Web / Landing Page Corporativa";
+    let isApp = data.categoriaServicio === "app";
+
+    if (isApp) {
+      precio = "Consultar con Asesor";
+      titleSolucion = "Desarrollo de Aplicación a Medida";
+    }
+
+    return (
+      <div className="max-w-3xl mx-auto space-y-8 animate-in slide-in-from-bottom-8 duration-700 py-4">
+        <div className="text-center space-y-3">
+          <div className="mx-auto w-16 h-16 bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mb-6">
+            <CheckCircle2 className="w-8 h-8" />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-extrabold text-foreground">Propuesta de Desarrollo Flujo<span className="text-primary">xAI</span></h2>
+          <p className="text-muted-foreground text-lg">Hemos enviado una copia detallada a <strong>{data.lead.email}</strong></p>
+        </div>
+
+        <div className="glass rounded-3xl border border-border/50 overflow-hidden shadow-2xl">
+          <div className="bg-primary/10 border-b border-border/50 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-widest text-primary font-bold mb-1">Servicio Solicitado</p>
+              <h3 className="text-xl font-bold text-foreground">{titleSolucion}</h3>
+            </div>
+            <div className="bg-background/80 backdrop-blur px-4 py-2 rounded-lg border border-border/50 text-center">
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-0.5">Inversión Estimada</p>
+              <p className="text-lg font-black text-emerald-500">{precio}</p>
+              <p className="text-[10px] text-muted-foreground mt-0.5 font-semibold">50% INICIO / 50% ENTREGA</p>
+            </div>
+          </div>
+
+          <div className="p-6 md:p-8 space-y-8">
+            <div className="grid md:grid-cols-2 gap-8">
+              <div className="space-y-4">
+                <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2"><Target className="w-4 h-4 text-primary"/> Alcance del Proyecto</h4>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Globe className="w-4 h-4"/></div><div><p className="font-bold text-sm">Diseño Responsivo</p><p className="text-xs text-muted-foreground">Perfecto en móviles y tablets</p></div></li>
+                  <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Zap className="w-4 h-4"/></div><div><p className="font-bold text-sm">Optimización SEO</p><p className="text-xs text-muted-foreground">Lista para posicionar en Google</p></div></li>
+                  <li className="flex items-start gap-3"><div className="mt-0.5 p-1 bg-primary/10 text-primary rounded"><Workflow className="w-4 h-4"/></div><div><p className="font-bold text-sm">Integraciones Básicas</p><p className="text-xs text-muted-foreground">Botón de WhatsApp y Formularios</p></div></li>
+                </ul>
+              </div>
+
+              <div className="space-y-4">
+                <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2"><Building2 className="w-4 h-4 text-primary"/> Perfil del Proyecto</h4>
+                <div className="bg-background/50 rounded-xl p-4 border border-border/50 space-y-3">
+                  <div className="flex justify-between text-sm"><span className="text-muted-foreground">Industria:</span> <span className="font-semibold text-foreground">{data.tipoNegocio}</span></div>
+                  <div className="flex justify-between text-sm"><span className="text-muted-foreground">Diseño/Logo:</span> <span className="font-semibold text-foreground text-right">{data.tieneDiseno}</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-background/30 rounded-xl p-5 border border-border/50">
+              <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2 mb-4"><Activity className="w-4 h-4 text-primary"/> Infraestructura (Pagado al proveedor)</h4>
+              <div className="grid grid-cols-1 gap-4">
+                <div className="flex justify-between items-center bg-background/50 p-3 rounded-lg border border-border/30">
+                  <span className="text-sm text-muted-foreground flex items-center gap-2"><Globe className="w-4 h-4"/> Hosting y Dominio (.com)</span>
+                  <span className="font-bold text-sm">~ $40 - $80 USD / año</span>
+                </div>
+              </div>
+              <p className="text-[10px] text-muted-foreground mt-3 text-center">* El alojamiento web y nombre de dominio es un pago anual directo a proveedores como Hostinger, Godaddy, etc.</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="text-center space-y-5 pt-4">
+          <p className="text-sm text-muted-foreground">Un asesor ya está evaluando los detalles para coordinar contigo.</p>
+          <a href={`https://wa.me/18492597719?text=${encodeURIComponent(\`¡Hola! Solicité una cotización para Desarrollo de \${isApp ? 'App' : 'Página Web'} para mi empresa *\${data.lead.empresa}* y me gustaría iniciar.\`)}`}
+            target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-2xl text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all shadow-xl shadow-[#25D366]/20"
+          >
+            Hablar por WhatsApp Inmediatamente
+            <ArrowRight className="w-4 h-4" />
+          </a>
+        </div>
+      </div>
+    );
+  };
+
+  const renderResultadosAutomatizacion = () => {
     let precio = "RD$15,000 – RD$35,000";
     let ahorros = "20–40 horas mensuales";
     let titleSolucion = "Chatbot Inteligente para WhatsApp";
@@ -379,7 +523,7 @@ export default function DiagnosticoPage() {
         <div className="text-center space-y-5 pt-4">
           <p className="text-sm text-muted-foreground">Un especialista ya está revisando tu perfil y te contactará en breve.</p>
           <a
-            href={`https://wa.me/18492597719?text=${encodeURIComponent(`¡Hola! Acabo de hacer el diagnóstico inteligente para mi empresa *${data.lead.empresa}* y me gustaría iniciar. Mi solución recomendada es: ${titleSolucion}`)}`}
+            href={`https://wa.me/18492597719?text=${encodeURIComponent(\`¡Hola! Acabo de hacer el diagnóstico inteligente para mi empresa *\${data.lead.empresa}* y me gustaría iniciar. Mi solución recomendada es: \${titleSolucion}\`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-2xl text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all shadow-xl shadow-[#25D366]/20"
@@ -400,7 +544,7 @@ export default function DiagnosticoPage() {
 
       <div className="container px-4 md:px-6 mx-auto max-w-5xl flex-1 flex flex-col justify-center relative z-10">
         
-        {step < 7 && (
+        {currentStepName !== "resultados" && (
           <div className="flex flex-col items-center justify-center mb-10">
             <Link href="/" className="flex items-center gap-2.5 group mb-8">
               <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center shadow-lg"><Bot className="h-5 w-5 text-primary-foreground" /></div>
@@ -409,12 +553,12 @@ export default function DiagnosticoPage() {
             
             <div className="w-full max-w-xl">
               <div className="flex justify-between items-center text-[10px] font-bold text-muted-foreground mb-2 uppercase tracking-widest px-1">
-                <span>Inicio</span><span>Análisis</span><span>Solución</span>
+                <span>Inicio</span><span>Requisitos</span><span>Cotización</span>
               </div>
               <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
                 <motion.div className="h-full bg-primary"
-                  initial={{ width: "16%" }}
-                  animate={{ width: `${(step / 6) * 100}%` }}
+                  initial={{ width: "0%" }}
+                  animate={{ width: \`\${(currentStepIndex / (flow.length - 1)) * 100}%\` }}
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                 />
               </div>
@@ -425,13 +569,17 @@ export default function DiagnosticoPage() {
         <div className="w-full max-w-4xl mx-auto">
           {analyzing ? renderLoader() : (
             <AnimatePresence mode="wait">
-              {step === 1 && <motion.div key="1" exit={{opacity:0}}>{renderStep1()}</motion.div>}
-              {step === 2 && <motion.div key="2" exit={{opacity:0}}>{renderStep2()}</motion.div>}
-              {step === 3 && <motion.div key="3" exit={{opacity:0}}>{renderStep3()}</motion.div>}
-              {step === 4 && <motion.div key="4" exit={{opacity:0}}>{renderStep4()}</motion.div>}
-              {step === 5 && <motion.div key="5" exit={{opacity:0}}>{renderStep5()}</motion.div>}
-              {step === 6 && <motion.div key="6" exit={{opacity:0}}>{renderStep6()}</motion.div>}
-              {step === 8 && <motion.div key="8" exit={{opacity:0}}>{renderResults()}</motion.div>}
+              {currentStepName === "servicio" && <motion.div key="servicio" exit={{opacity:0}}>{renderServicio()}</motion.div>}
+              {currentStepName === "industria" && <motion.div key="industria" exit={{opacity:0}}>{renderIndustria()}</motion.div>}
+              {currentStepName === "problema" && <motion.div key="problema" exit={{opacity:0}}>{renderProblema()}</motion.div>}
+              {currentStepName === "volumen" && <motion.div key="volumen" exit={{opacity:0}}>{renderVolumen()}</motion.div>}
+              {currentStepName === "herramientas" && <motion.div key="herramientas" exit={{opacity:0}}>{renderHerramientas()}</motion.div>}
+              {currentStepName === "nivel" && <motion.div key="nivel" exit={{opacity:0}}>{renderNivel()}</motion.div>}
+              {currentStepName === "diseno" && <motion.div key="diseno" exit={{opacity:0}}>{renderDiseno()}</motion.div>}
+              {currentStepName === "datos" && <motion.div key="datos" exit={{opacity:0}}>{renderDatos()}</motion.div>}
+              {currentStepName === "resultados" && <motion.div key="resultados" exit={{opacity:0}}>
+                {data.categoriaServicio === "automatizacion" ? renderResultadosAutomatizacion() : renderResultadosWeb()}
+              </motion.div>}
             </AnimatePresence>
           )}
         </div>
