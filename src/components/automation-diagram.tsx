@@ -165,7 +165,6 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
           >
             <MainNode 
               icon={n.icon}
-              slug={n.slug} 
               label={n.label} 
               sub={n.sub} 
               gradient={n.from + " " + n.to} 
