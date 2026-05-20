@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { trackEvent } from "@/lib/metrics";
-import { ArrowRight, Bot, Workflow, Zap, Sparkles } from "lucide-react";
+import { ArrowRight, Bot, Workflow, Zap, Sparkles, Star } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { AutomationDiagram } from "./automation-diagram";
 
@@ -178,26 +178,34 @@ export function Hero() {
             </MagneticButton>
           </motion.div>
 
-          {/* Social proof line */}
+          {/* Social Proof */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1.5 }}
-            className="mt-16 flex items-center justify-center lg:justify-start gap-4 text-sm text-muted-foreground"
+            className="mt-16 flex flex-col sm:flex-row items-center sm:justify-start gap-4"
           >
-            <div className="flex -space-x-2.5">
-              {[
-                { c: 'bg-blue-600', l: 'A' },
-                { c: 'bg-indigo-600', l: 'M' },
-                { c: 'bg-violet-600', l: 'P' },
-                { c: 'bg-sky-600', l: 'R' }
-              ].map((user, i) => (
-                <div key={i} className={`w-9 h-9 rounded-full ${user.c} border-2 border-background flex items-center justify-center text-white text-[10px] font-black`}>
-                  {user.l}
-                </div>
-              ))}
+            <div className="flex -space-x-2">
+              <div className="h-9 w-9 rounded-full bg-[#10B981] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-40">L</div>
+              <div className="h-9 w-9 rounded-full bg-[#8B5CF6] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-30">M</div>
+              <div className="h-9 w-9 rounded-full bg-[#F59E0B] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-20">R</div>
+              <div className="h-9 w-9 rounded-full bg-[#EF4444] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-10">A</div>
             </div>
-            <span><strong className="text-foreground">+50</strong> negocios ya automatizados en <span className="text-primary font-medium">República Dominicana</span></span>
+            <div className="flex flex-col items-center sm:items-start gap-0.5">
+              <div className="flex items-center gap-1.5">
+                <div className="flex gap-0.5 text-[#F59E0B]">
+                  <Star className="w-3.5 h-3.5 fill-current" />
+                  <Star className="w-3.5 h-3.5 fill-current" />
+                  <Star className="w-3.5 h-3.5 fill-current" />
+                  <Star className="w-3.5 h-3.5 fill-current" />
+                  <Star className="w-3.5 h-3.5 fill-current" />
+                </div>
+                <span className="text-[13px] font-bold text-foreground mt-0.5">4.9/5</span>
+              </div>
+              <p className="text-[13px] text-muted-foreground font-medium">
+                <strong className="text-foreground font-bold">+50 negocios</strong> ya automatizados en República Dominicana
+              </p>
+            </div>
           </motion.div>
 
           </div>
