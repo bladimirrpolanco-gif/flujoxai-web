@@ -73,8 +73,8 @@ export function Hero() {
   return (
     <section ref={containerRef} className="relative overflow-hidden bg-background pt-28 md:pt-40 pb-16 md:pb-20 hero-grid">
       
-      <div className="absolute top-[10%] left-[-5%] w-[400px] h-[400px] bg-blue-400/10 rounded-full blur-[100px] pointer-events-none z-0" />
-      <div className="absolute bottom-[-5%] right-[10%] w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute top-[5%] left-[-5%] w-[500px] h-[500px] bg-blue-500/35 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute bottom-[-5%] right-[10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none z-0" />
 
       {/* Interactive Cursor Glow */}
       <motion.div 
