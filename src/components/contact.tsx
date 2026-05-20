@@ -90,48 +90,91 @@ export function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="bg-card p-8 rounded-3xl border shadow-lg relative overflow-hidden"
+            className="glass p-8 rounded-[2rem] border border-white/10 dark:border-white/5 shadow-2xl relative overflow-hidden backdrop-blur-2xl"
           >
             {/* Background flourish inside card */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-full pointer-events-none" />
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-bl-full pointer-events-none filter blur-xl" />
 
-            <form onSubmit={handleSubmit} className="space-y-4 relative z-10 w-full">
-              <div className="grid grid-cols-2 gap-4">
+            <form onSubmit={handleSubmit} className="space-y-5 relative z-10 w-full">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label htmlFor="nombre" className="text-sm font-medium leading-none">
+                  <label htmlFor="nombre" className="text-xs font-semibold text-foreground/80 tracking-wider uppercase">
                     Nombre Completo
                   </label>
-                  <input id="nombre" name="nombre" required className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" placeholder="Juan Pérez" />
+                  <input 
+                    id="nombre" 
+                    name="nombre" 
+                    required 
+                    className="flex h-11 w-full rounded-xl border border-white/10 dark:border-white/5 bg-background/30 backdrop-blur-md px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all duration-300 shadow-inner" 
+                    placeholder="Juan Pérez" 
+                  />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="telefono" className="text-sm font-medium leading-none">
+                  <label htmlFor="telefono" className="text-xs font-semibold text-foreground/80 tracking-wider uppercase">
                     Teléfono / WhatsApp
                   </label>
-                  <input id="telefono" name="telefono" required type="tel" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" placeholder="+1 (809) 000-0000" />
+                  <input 
+                    id="telefono" 
+                    name="telefono" 
+                    required 
+                    type="tel" 
+                    className="flex h-11 w-full rounded-xl border border-white/10 dark:border-white/5 bg-background/30 backdrop-blur-md px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all duration-300 shadow-inner" 
+                    placeholder="+1 (809) 000-0000" 
+                  />
                 </div>
               </div>
             
             <div className="space-y-2">
-              <label htmlFor="empresa" className="text-sm font-medium leading-none">Empresa</label>
-              <input id="empresa" name="empresa" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:ring-ring focus-visible:ring-2" placeholder="Mi Empresa S.R.L" />
+              <label htmlFor="empresa" className="text-xs font-semibold text-foreground/80 tracking-wider uppercase">Empresa (Opcional)</label>
+              <input 
+                id="empresa" 
+                name="empresa" 
+                className="flex h-11 w-full rounded-xl border border-white/10 dark:border-white/5 bg-background/30 backdrop-blur-md px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all duration-300 shadow-inner" 
+                placeholder="Mi Empresa S.R.L" 
+              />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium leading-none">Email</label>
-              <input id="email" name="email" required type="email" className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:ring-ring focus-visible:ring-2" placeholder="juan@miempresa.com" />
+              <label htmlFor="email" className="text-xs font-semibold text-foreground/80 tracking-wider uppercase">Email Corporativo</label>
+              <input 
+                id="email" 
+                name="email" 
+                required 
+                type="email" 
+                className="flex h-11 w-full rounded-xl border border-white/10 dark:border-white/5 bg-background/30 backdrop-blur-md px-4 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all duration-300 shadow-inner" 
+                placeholder="juan@miempresa.com" 
+              />
             </div>
 
             <div className="space-y-2">
-              <label htmlFor="mensaje" className="text-sm font-medium leading-none">Mensaje</label>
-              <textarea id="mensaje" name="mensaje" required className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" placeholder="¿En qué podemos ayudarte?"></textarea>
+              <label htmlFor="mensaje" className="text-xs font-semibold text-foreground/80 tracking-wider uppercase">Mensaje / Requerimientos</label>
+              <textarea 
+                id="mensaje" 
+                name="mensaje" 
+                required 
+                className="flex min-h-[100px] w-full rounded-xl border border-white/10 dark:border-white/5 bg-background/30 backdrop-blur-md px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all duration-300 shadow-inner resize-none" 
+                placeholder="¿Qué procesos te gustaría automatizar en tu empresa?"
+              />
             </div>
 
             {errorMsg && <p className="text-sm text-destructive">{errorMsg}</p>}
-            {success && <p className="text-sm text-green-600 font-medium">¡Gracias! Nos pondremos en contacto pronto.</p>}
+            {success && <p className="text-sm text-emerald-400 font-semibold tracking-wide">¡Gracias! Tu solicitud ha sido enviada con éxito.</p>}
 
-            <Button type="submit" className="w-full mt-2 h-11" disabled={loading}>
-              {loading ? "Enviando..." : "Solicitar Asesoría"}
-            </Button>
+            <button 
+              type="submit" 
+              className="w-full mt-4 h-12 rounded-xl text-sm font-bold bg-primary text-primary-foreground hover:bg-primary/95 transition-all duration-300 shadow-lg shadow-primary/20 btn-primary-glow flex items-center justify-center cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed" 
+              disabled={loading}
+            >
+              {loading ? (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-5 w-5 text-primary-foreground" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  Procesando...
+                </span>
+              ) : "Solicitar Asesoría Gratuita"}
+            </button>
             </form>
           </motion.div>
 
