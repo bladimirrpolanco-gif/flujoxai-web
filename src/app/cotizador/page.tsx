@@ -290,15 +290,74 @@ export default function DiagnosticoPage() {
   };
 
   const renderFuncionalidades = () => {
-    const opciones = [
-      { id: "Tienda Online / E-commerce", icon: ShoppingBag },
-      { id: "Sistema de Reservas", icon: Calendar },
-      { id: "Panel de Administración", icon: LayoutDashboard },
-      { id: "Pasarela de Pagos", icon: CreditCard },
-      { id: "Múltiples Idiomas", icon: Languages },
-      { id: "Área Privada de Usuarios", icon: Lock },
-      { id: "Ninguna, busco algo informativo", icon: Globe }
-    ];
+    const getOpciones = () => {
+      const common = [
+        { id: "Múltiples Idiomas", icon: Languages },
+        { id: "Ninguna, busco algo informativo", icon: Globe }
+      ];
+
+      switch(data.tipoNegocio) {
+        case "Restaurante":
+          return [
+            { id: "Menú Digital / Pedidos", icon: ShoppingBag },
+            { id: "Reserva de Mesas", icon: Calendar },
+            { id: "Panel de Administración", icon: LayoutDashboard },
+            { id: "Pasarela de Pagos", icon: CreditCard },
+            ...common
+          ];
+        case "Hotel":
+          return [
+            { id: "Motor de Reservas", icon: Calendar },
+            { id: "Panel de Administración", icon: LayoutDashboard },
+            { id: "Pasarela de Pagos", icon: CreditCard },
+            { id: "Área de Huéspedes", icon: Lock },
+            ...common
+          ];
+        case "Clínica":
+          return [
+            { id: "Citas Médicas Online", icon: Calendar },
+            { id: "Portal de Pacientes", icon: Lock },
+            { id: "Panel de Administración", icon: LayoutDashboard },
+            { id: "Pasarela de Pagos", icon: CreditCard },
+            ...common
+          ];
+        case "Bienes Raíces":
+          return [
+            { id: "Buscador Avanzado", icon: LayoutDashboard },
+            { id: "Agenda de Visitas", icon: Calendar },
+            { id: "Panel de Inmuebles", icon: LayoutDashboard },
+            { id: "Área de Clientes", icon: Lock },
+            ...common
+          ];
+        case "E-commerce":
+          return [
+            { id: "Tienda Online / E-commerce", icon: ShoppingBag },
+            { id: "Gestión de Inventario", icon: LayoutDashboard },
+            { id: "Pasarela de Pagos", icon: CreditCard },
+            { id: "Área de Clientes", icon: Lock },
+            ...common
+          ];
+        case "Educación":
+          return [
+            { id: "Plataforma de Cursos", icon: Lock },
+            { id: "Sistema de Evaluaciones", icon: LayoutDashboard },
+            { id: "Pasarela de Pagos", icon: CreditCard },
+            { id: "Portal de Alumnos", icon: Lock },
+            ...common
+          ];
+        default:
+          return [
+            { id: "Tienda Online / E-commerce", icon: ShoppingBag },
+            { id: "Sistema de Reservas", icon: Calendar },
+            { id: "Panel de Administración", icon: LayoutDashboard },
+            { id: "Pasarela de Pagos", icon: CreditCard },
+            { id: "Área Privada de Usuarios", icon: Lock },
+            ...common
+          ];
+      }
+    };
+
+    const opciones = getOpciones();
 
     return (
       <div className="space-y-8 animate-in fade-in slide-in-from-right-4 duration-500">
