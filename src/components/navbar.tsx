@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bot, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles } from "lucide-react";
+import { Bot, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles, Calculator } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
@@ -60,6 +60,13 @@ const navLinks: NavLink[] = [
         desc: 'Optimiza tus anuncios en Meta y Google para más ventas.', 
         icon: Sparkles,
         color: 'bg-amber-500/10 text-amber-500 dark:bg-amber-500/20'
+      },
+      { 
+        href: '/cotizador', 
+        label: 'Cotizador', 
+        desc: 'Calcula el presupuesto de tu proyecto de IA.', 
+        icon: Calculator,
+        color: 'bg-rose-500/10 text-rose-500 dark:bg-rose-500/20'
       },
     ]
   },
