@@ -36,7 +36,7 @@ export function AutomationDiagram({ className, showCard = true }: { className?: 
 
   const content = (
     <>
-      <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0 overflow-x-auto w-full">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-0 overflow-visible w-full">
         {/* Trigger Node — WhatsApp */}
         <MainNode
           slug="whatsapp"

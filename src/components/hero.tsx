@@ -90,7 +90,7 @@ export function Hero() {
       </div>
 
       <div className="container relative z-10 mx-auto px-4 md:px-6">
-        <div className="grid lg:grid-cols-[55%_45%] lg:items-center gap-12 lg:gap-8 max-w-5xl lg:max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-2 lg:items-center gap-12 lg:gap-8 max-w-5xl lg:max-w-7xl mx-auto overflow-visible">
           
           {/* Left Column (Text content) */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
@@ -108,7 +108,7 @@ export function Hero() {
           </motion.div>
 
           {/* Headline with Typing Effect */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold font-syne tracking-tight mb-6 leading-[1.05] perspective-1000">
+          <h1 className="font-bold font-syne tracking-tight mb-6 leading-[1.05] perspective-1000 text-[clamp(2rem,4vw,3.5rem)]">
             {headlineWords.map((word, i) => (
               <motion.span
                 key={i}
@@ -199,14 +199,14 @@ export function Hero() {
           </div>
 
           {/* Right Column (Diagram) */}
-          <div className="flex items-center justify-center lg:justify-end w-full">
+          <div className="flex items-center justify-center lg:justify-end w-full overflow-visible">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}
-              className="w-full max-w-lg lg:max-w-full"
+              className="w-full max-w-full overflow-visible flex justify-center lg:justify-end"
             >
-              <AutomationDiagram showCard={false} className="transform scale-[0.8] sm:scale-90 lg:scale-[0.85] xl:scale-100 origin-center lg:origin-center" />
+              <AutomationDiagram showCard={false} className="transform scale-[0.8] sm:scale-90 lg:scale-[0.65] xl:scale-[0.85] 2xl:scale-100 origin-center lg:origin-right max-w-full" />
             </motion.div>
           </div>
 
