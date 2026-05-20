@@ -421,7 +421,7 @@ export default function DiagnosticoPage() {
 
         <div className="text-center space-y-5 pt-4">
           <p className="text-sm text-muted-foreground">Un asesor ya está evaluando los detalles para coordinar contigo.</p>
-          <a href={`https://wa.me/18492597719?text=${encodeURIComponent(\`¡Hola! Solicité una cotización para Desarrollo de \${isApp ? 'App' : 'Página Web'} para mi empresa *\${data.lead.empresa}* y me gustaría iniciar.\`)}`}
+          <a href={"https://wa.me/18492597719?text=" + encodeURIComponent("¡Hola! Solicité una cotización para Desarrollo de " + (isApp ? "App" : "Página Web") + " para mi empresa *" + data.lead.empresa + "* y me gustaría iniciar.")}
             target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-2xl text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all shadow-xl shadow-[#25D366]/20"
           >
@@ -523,7 +523,7 @@ export default function DiagnosticoPage() {
         <div className="text-center space-y-5 pt-4">
           <p className="text-sm text-muted-foreground">Un especialista ya está revisando tu perfil y te contactará en breve.</p>
           <a
-            href={`https://wa.me/18492597719?text=${encodeURIComponent(\`¡Hola! Acabo de hacer el diagnóstico inteligente para mi empresa *\${data.lead.empresa}* y me gustaría iniciar. Mi solución recomendada es: \${titleSolucion}\`)}`}
+            href={"https://wa.me/18492597719?text=" + encodeURIComponent("¡Hola! Acabo de hacer el diagnóstico inteligente para mi empresa *" + data.lead.empresa + "* y me gustaría iniciar. Mi solución recomendada es: " + titleSolucion)}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-2xl text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all shadow-xl shadow-[#25D366]/20"
@@ -558,7 +558,7 @@ export default function DiagnosticoPage() {
               <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
                 <motion.div className="h-full bg-primary"
                   initial={{ width: "0%" }}
-                  animate={{ width: \`\${(currentStepIndex / (flow.length - 1)) * 100}%\` }}
+                  animate={{ width: `${(currentStepIndex / (flow.length - 1)) * 100}%` }}
                   transition={{ duration: 0.5, ease: "easeInOut" }}
                 />
               </div>
