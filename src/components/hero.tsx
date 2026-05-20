@@ -186,10 +186,10 @@ export function Hero() {
             className="mt-16 flex flex-col sm:flex-row items-center sm:justify-start gap-4"
           >
             <div className="flex -space-x-2">
-              <div className="h-9 w-9 rounded-full bg-[#10B981] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-40">L</div>
-              <div className="h-9 w-9 rounded-full bg-[#8B5CF6] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-30">M</div>
-              <div className="h-9 w-9 rounded-full bg-[#F59E0B] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-20">R</div>
-              <div className="h-9 w-9 rounded-full bg-[#EF4444] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-10">A</div>
+              <div className="h-9 w-9 rounded-full bg-[#10B981] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-40">M</div>
+              <div className="h-9 w-9 rounded-full bg-[#8B5CF6] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-30">A</div>
+              <div className="h-9 w-9 rounded-full bg-[#F59E0B] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-20">B</div>
+              <div className="h-9 w-9 rounded-full bg-[#EF4444] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-10">E</div>
             </div>
             <div className="flex flex-col items-center sm:items-start gap-0.5">
               <div className="flex items-center gap-1.5">
@@ -203,7 +203,7 @@ export function Hero() {
                 <span className="text-[13px] font-bold text-foreground mt-0.5">4.9/5</span>
               </div>
               <p className="text-[13px] text-muted-foreground font-medium">
-                <strong className="text-foreground font-bold">+50 negocios</strong> ya automatizados en República Dominicana
+                <strong className="text-foreground font-bold">+50 negocios</strong> en LATAM nos eligen
               </p>
             </div>
           </motion.div>
