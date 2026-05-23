@@ -22,6 +22,7 @@ interface Lead {
   mensaje: string;
   created_at: string;
   estado: Estado;
+  tipo?: 'lead' | 'cotizacion';
 }
 
 interface Metrica {
@@ -57,7 +58,7 @@ const ESTADO_STYLES: Record<Estado, string> = {
 };
 
 export function AdminDashboard({ user, leads }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'leads' | 'analytics'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'leads' | 'cotizaciones' | 'analytics'>('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
@@ -146,7 +147,17 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
     router.push('/admin/login');
   };
 
-  const filteredLeads = localLeads.filter((l) =>
+  // Separar leads de cotizaciones por el campo tipo
+  const soloLeads = localLeads.filter((l) => !l.tipo || l.tipo === 'lead');
+  const soloCotizaciones = localLeads.filter((l) => l.tipo === 'cotizacion');
+
+  const filteredLeads = soloLeads.filter((l) =>
+    [l.nombre, l.email, l.empresa, l.telefono].some(
+      (v) => v?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
+  const filteredCotizaciones = soloCotizaciones.filter((l) =>
     [l.nombre, l.email, l.empresa, l.telefono].some(
       (v) => v?.toLowerCase().includes(searchQuery.toLowerCase())
     )
@@ -166,10 +177,11 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
   };
 
   const TAB_TITLES: Record<string, { title: string; sub: string }> = {
-    overview:  { title: 'Resumen General',       sub: 'Métricas y actividad reciente' },
-    pipeline:  { title: 'Pipeline de Ventas',    sub: 'Visualiza el avance de cada lead' },
-    leads:     { title: 'Gestión de Cotizaciones',      sub: 'Todas las solicitudes recibidas' },
-    analytics: { title: 'Analítica',             sub: 'Rendimiento del sitio y conversiones' },
+    overview:      { title: 'Resumen General',         sub: 'Métricas y actividad reciente' },
+    pipeline:      { title: 'Pipeline de Ventas',      sub: 'Visualiza el avance de cada registro' },
+    leads:         { title: 'Leads (Formulario)',       sub: 'Contactos del formulario principal' },
+    cotizaciones:  { title: 'Cotizaciones',            sub: 'Solicitudes recibidas desde el cotizador' },
+    analytics:     { title: 'Analítica',              sub: 'Rendimiento del sitio y conversiones' },
   };
 
   return (
@@ -190,10 +202,11 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
 
         <nav className="flex-1 p-4 space-y-1">
           {[
-            { id: 'overview',  icon: LayoutDashboard, label: 'Resumen' },
-            { id: 'pipeline',  icon: Kanban,          label: 'Pipeline' },
-            { id: 'leads',     icon: Users,           label: 'Cotizaciones', badge: totalLeads },
-            { id: 'analytics', icon: BarChart3,       label: 'Analítica', onClick: fetchMetrics },
+            { id: 'overview',      icon: LayoutDashboard, label: 'Resumen' },
+            { id: 'pipeline',      icon: Kanban,          label: 'Pipeline' },
+            { id: 'leads',         icon: Users,           label: 'Leads', badge: soloLeads.length },
+            { id: 'cotizaciones',  icon: MessageSquare,   label: 'Cotizaciones', badge: soloCotizaciones.length },
+            { id: 'analytics',     icon: BarChart3,       label: 'Analítica', onClick: fetchMetrics },
           ].map(({ id, icon: Icon, label, badge, onClick }) => (
             <button
               key={id}
@@ -244,7 +257,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {activeTab === 'leads' && (
+            {(activeTab === 'leads' || activeTab === 'cotizaciones') && (
               <button
                 onClick={handleExportLeads}
                 className="flex items-center gap-2 text-sm bg-emerald-600/10 text-emerald-400 border border-emerald-600/20 px-3 py-1.5 rounded-lg hover:bg-emerald-600/20 transition"
@@ -269,20 +282,31 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
           {activeTab === 'overview' && (
             <div className="space-y-8">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <StatCard icon={<Users className="h-5 w-5 text-blue-400" />}    label="Cotizaciones"    value={totalLeads} bg="bg-blue-600/10"   sub="Formularios recibidos" />
-                <StatCard icon={<Calendar className="h-5 w-5 text-emerald-400" />} label="Esta Semana"  value={thisWeek}   bg="bg-emerald-600/10" sub="Últimos 7 días" />
-                <StatCard icon={<TrendingUp className="h-5 w-5 text-purple-400" />} label="Cerrados"   value={cerrados}   bg="bg-purple-600/10"  sub="Deals ganados" />
-                <StatCard icon={<MessageSquare className="h-5 w-5 text-orange-400" />} label="Tasa Cierre" value={`${tasaCierre}%`} bg="bg-orange-600/10" sub="Leads → Clientes" />
+                <StatCard icon={<Users className="h-5 w-5 text-blue-400" />}         label="Leads"          value={soloLeads.length}        bg="bg-blue-600/10"   sub="Formulario de contacto" />
+                <StatCard icon={<MessageSquare className="h-5 w-5 text-emerald-400" />} label="Cotizaciones" value={soloCotizaciones.length}  bg="bg-emerald-600/10" sub="Desde el cotizador" />
+                <StatCard icon={<TrendingUp className="h-5 w-5 text-purple-400" />}  label="Cerrados"       value={cerrados}                bg="bg-purple-600/10"  sub="Deals ganados" />
+                <StatCard icon={<Calendar className="h-5 w-5 text-orange-400" />}    label="Esta Semana"   value={thisWeek}                bg="bg-orange-600/10" sub="Últimos 7 días" />
               </div>
 
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-base font-semibold text-white">Cotizaciones Recientes</h2>
-                  <button onClick={() => setActiveTab('leads')} className="text-sm text-blue-400 hover:text-blue-300 flex items-center gap-1 transition">
-                    Ver todos <ChevronRight className="h-4 w-4" />
-                  </button>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-base font-semibold text-white">Leads Recientes</h2>
+                    <button onClick={() => setActiveTab('leads')} className="text-sm text-blue-400 hover:text-blue-300 flex items-center gap-1 transition">
+                      Ver todos <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <LeadsTable leads={soloLeads.slice(0, 5)} onSelect={setSelectedLead} formatDate={formatDate} />
                 </div>
-                <LeadsTable leads={localLeads.slice(0, 5)} onSelect={setSelectedLead} formatDate={formatDate} />
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <h2 className="text-base font-semibold text-white">Cotizaciones Recientes</h2>
+                    <button onClick={() => setActiveTab('cotizaciones')} className="text-sm text-blue-400 hover:text-blue-300 flex items-center gap-1 transition">
+                      Ver todas <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                  <LeadsTable leads={soloCotizaciones.slice(0, 5)} onSelect={setSelectedLead} formatDate={formatDate} />
+                </div>
               </div>
             </div>
           )}
@@ -337,8 +361,31 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
             </div>
           )}
 
-          {/* LEADS TABLE */}
+          {/* LEADS TABLE (Formulario de Contacto) */}
           {activeTab === 'leads' && (
+            <div className="space-y-5">
+              <div className="relative max-w-sm">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
+                <input
+                  type="text"
+                  placeholder="Buscar leads..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <LeadsTable leads={filteredLeads} onSelect={setSelectedLead} formatDate={formatDate} />
+              {filteredLeads.length === 0 && (
+                <div className="text-center py-12 text-zinc-500">
+                  <Users className="h-10 w-10 mx-auto mb-2 opacity-30" />
+                  <p className="text-sm">{soloLeads.length === 0 ? 'Aún no hay leads del formulario.' : 'No se encontraron resultados.'}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* COTIZACIONES TABLE (Desde el Cotizador) */}
+          {activeTab === 'cotizaciones' && (
             <div className="space-y-5">
               <div className="relative max-w-sm">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
@@ -350,11 +397,11 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
                   className="w-full pl-10 pr-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-              <LeadsTable leads={filteredLeads} onSelect={setSelectedLead} formatDate={formatDate} />
-              {filteredLeads.length === 0 && (
+              <LeadsTable leads={filteredCotizaciones} onSelect={setSelectedLead} formatDate={formatDate} />
+              {filteredCotizaciones.length === 0 && (
                 <div className="text-center py-12 text-zinc-500">
-                  <Users className="h-10 w-10 mx-auto mb-2 opacity-30" />
-                  <p className="text-sm">{totalLeads === 0 ? 'Aún no hay cotizaciones registradas.' : 'No se encontraron resultados.'}</p>
+                  <MessageSquare className="h-10 w-10 mx-auto mb-2 opacity-30" />
+                  <p className="text-sm">{soloCotizaciones.length === 0 ? 'Aún no hay cotizaciones registradas.' : 'No se encontraron resultados.'}</p>
                 </div>
               )}
             </div>
