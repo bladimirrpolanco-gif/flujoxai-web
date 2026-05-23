@@ -27,7 +27,7 @@ export function Contact() {
       mensaje: formData.get("mensaje") as string,
     };
 
-    const { error } = await supabase.from('leads').insert([{ ...data, tipo: 'lead' }]);
+    const { error } = await supabase.from('leads').insert([data]);
 
     setLoading(false);
     
