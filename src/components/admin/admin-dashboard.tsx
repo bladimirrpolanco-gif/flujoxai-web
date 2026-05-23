@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
 import {
@@ -71,6 +71,35 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
     'https://whomyggjgyuxfljuvmqa.supabase.co',
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indob215Z2dqZ3l1eGZsanV2bXFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NjQyMjksImV4cCI6MjA5NDM0MDIyOX0.8Up0YHdMAa4b4O2JDgmWOAaiOSTXzcpuAdPHOjhUNxQ'
   );
+
+  // Set up real-time subscription for leads
+  
+  useEffect(() => {
+    const channel = supabase
+      .channel('realtime-leads')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'leads' },
+        (payload) => {
+          // Add new lead at the beginning of the list
+          setLocalLeads((prev) => [payload.new as Lead, ...prev]);
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'leads' },
+        (payload) => {
+          const updatedLead = payload.new as Lead;
+          setLocalLeads((prev) => prev.map((l) => (l.id === updatedLead.id ? updatedLead : l)));
+          setSelectedLead((prevSelected) => prevSelected?.id === updatedLead.id ? updatedLead : prevSelected);
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [supabase]);
 
   const fetchMetrics = async () => {
     setIsLoadingMetrics(true);
