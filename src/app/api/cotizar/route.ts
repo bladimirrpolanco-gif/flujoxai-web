@@ -109,8 +109,7 @@ export async function POST(req: NextRequest) {
         email: lead.email,
         telefono: lead.telefono,
         empresa: lead.empresa || "Particular",
-        mensaje: mensajeCompleto,
-        tipo: "cotizacion"
+        mensaje: mensajeCompleto
       }
     ]);
 

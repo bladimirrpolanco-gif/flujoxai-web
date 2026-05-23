@@ -147,9 +147,15 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
     router.push('/admin/login');
   };
 
-  // Separar leads de cotizaciones por el campo tipo
-  const soloLeads = localLeads.filter((l) => !l.tipo || l.tipo === 'lead');
-  const soloCotizaciones = localLeads.filter((l) => l.tipo === 'cotizacion');
+  // Separar leads de cotizaciones:
+  // Las cotizaciones tienen mensaje que empieza con [AUTOMATIZACIÓN] o [DESARROLLO SOFTWARE]
+  // Los leads son los del formulario de contacto normal
+  const isCotizacion = (l: Lead) =>
+    l.tipo === 'cotizacion' ||
+    (l.mensaje?.startsWith('[AUTOMATIZACIÓN]') || l.mensaje?.startsWith('[DESARROLLO SOFTWARE]'));
+
+  const soloLeads = localLeads.filter((l) => !isCotizacion(l));
+  const soloCotizaciones = localLeads.filter((l) => isCotizacion(l));
 
   const filteredLeads = soloLeads.filter((l) =>
     [l.nombre, l.email, l.empresa, l.telefono].some(
