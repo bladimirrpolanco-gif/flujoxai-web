@@ -9,10 +9,14 @@ export function AnalyticsSensor() {
   const trackedPath = useRef<string | null>(null);
 
   useEffect(() => {
+    // Detect device type
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+    const device = isMobile ? 'Mobile' : 'Desktop';
+
     // Only track if the path is different from the last tracked path
     if (pathname && pathname !== trackedPath.current) {
       trackedPath.current = pathname;
-      trackEvent('visita', { path: pathname });
+      trackEvent('visita', { path: pathname, device });
     }
   }, [pathname]);
 

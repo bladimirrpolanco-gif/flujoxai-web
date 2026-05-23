@@ -9,6 +9,7 @@ import {
   Calendar, RefreshCw, Search, X, BarChart3, MousePointer2,
   Download, Kanban, Menu
 } from 'lucide-react';
+import { AdvancedAnalytics } from './advanced-analytics';
 
 type Estado = 'nuevo' | 'contactado' | 'propuesta' | 'cerrado' | 'perdido';
 
@@ -419,6 +420,9 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
                   </div>
                 </div>
               </div>
+
+              {/* NEW ADVANCED ANALYTICS COMPONENT */}
+              <AdvancedAnalytics metrics={metrics} leads={localLeads} />
             </div>
           )}
 
