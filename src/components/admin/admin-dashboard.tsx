@@ -355,7 +355,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
                         return metrics.filter(m => new Date(m.created_at).toDateString() === d.toDateString()).length;
                       }));
                       return (
-                        <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
+                        <div key={i} className="flex-1 h-full flex flex-col justify-end items-center gap-2 group">
                           <div className="w-full bg-blue-600/30 group-hover:bg-blue-600 transition-all rounded-t-sm relative" style={{ height: `${count > 0 ? (count / maxVal) * 100 : 2}%` }}>
                             <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-[10px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">{count}</div>
                           </div>
