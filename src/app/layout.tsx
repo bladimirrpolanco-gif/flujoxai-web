@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Syne, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AnalyticsSensor } from "@/components/analytics-sensor";
 
 const font = Inter({ subsets: ["latin"] });
 const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
@@ -43,6 +44,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <AnalyticsSensor />
           {children}
         </ThemeProvider>
       </body>
