@@ -168,7 +168,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
   const TAB_TITLES: Record<string, { title: string; sub: string }> = {
     overview:  { title: 'Resumen General',       sub: 'Métricas y actividad reciente' },
     pipeline:  { title: 'Pipeline de Ventas',    sub: 'Visualiza el avance de cada lead' },
-    leads:     { title: 'Gestión de Leads',      sub: 'Todos los clientes potenciales' },
+    leads:     { title: 'Gestión de Cotizaciones',      sub: 'Todas las solicitudes recibidas' },
     analytics: { title: 'Analítica',             sub: 'Rendimiento del sitio y conversiones' },
   };
 
@@ -192,7 +192,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
           {[
             { id: 'overview',  icon: LayoutDashboard, label: 'Resumen' },
             { id: 'pipeline',  icon: Kanban,          label: 'Pipeline' },
-            { id: 'leads',     icon: Users,           label: 'Leads', badge: totalLeads },
+            { id: 'leads',     icon: Users,           label: 'Cotizaciones', badge: totalLeads },
             { id: 'analytics', icon: BarChart3,       label: 'Analítica', onClick: fetchMetrics },
           ].map(({ id, icon: Icon, label, badge, onClick }) => (
             <button
@@ -269,7 +269,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
           {activeTab === 'overview' && (
             <div className="space-y-8">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <StatCard icon={<Users className="h-5 w-5 text-blue-400" />}    label="Total Leads"    value={totalLeads} bg="bg-blue-600/10"   sub="Formularios recibidos" />
+                <StatCard icon={<Users className="h-5 w-5 text-blue-400" />}    label="Cotizaciones"    value={totalLeads} bg="bg-blue-600/10"   sub="Formularios recibidos" />
                 <StatCard icon={<Calendar className="h-5 w-5 text-emerald-400" />} label="Esta Semana"  value={thisWeek}   bg="bg-emerald-600/10" sub="Últimos 7 días" />
                 <StatCard icon={<TrendingUp className="h-5 w-5 text-purple-400" />} label="Cerrados"   value={cerrados}   bg="bg-purple-600/10"  sub="Deals ganados" />
                 <StatCard icon={<MessageSquare className="h-5 w-5 text-orange-400" />} label="Tasa Cierre" value={`${tasaCierre}%`} bg="bg-orange-600/10" sub="Leads → Clientes" />
@@ -277,7 +277,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
 
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h2 className="text-base font-semibold text-white">Leads Recientes</h2>
+                  <h2 className="text-base font-semibold text-white">Cotizaciones Recientes</h2>
                   <button onClick={() => setActiveTab('leads')} className="text-sm text-blue-400 hover:text-blue-300 flex items-center gap-1 transition">
                     Ver todos <ChevronRight className="h-4 w-4" />
                   </button>
@@ -303,7 +303,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
                     </div>
                     <div className="flex-1 p-3 space-y-3 overflow-y-auto max-h-[calc(100vh-220px)]">
                       {colLeads.length === 0 && (
-                        <div className="text-center py-8 text-zinc-600 text-xs">Sin leads</div>
+                        <div className="text-center py-8 text-zinc-600 text-xs">Sin cotizaciones</div>
                       )}
                       {colLeads.map((lead) => (
                         <div
@@ -344,7 +344,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-500" />
                 <input
                   type="text"
-                  placeholder="Buscar leads..."
+                  placeholder="Buscar cotizaciones..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 bg-zinc-800 border border-zinc-700 rounded-lg text-sm text-white placeholder:text-zinc-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -354,7 +354,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
               {filteredLeads.length === 0 && (
                 <div className="text-center py-12 text-zinc-500">
                   <Users className="h-10 w-10 mx-auto mb-2 opacity-30" />
-                  <p className="text-sm">{totalLeads === 0 ? 'Aún no hay leads registrados.' : 'No se encontraron resultados.'}</p>
+                  <p className="text-sm">{totalLeads === 0 ? 'Aún no hay cotizaciones registradas.' : 'No se encontraron resultados.'}</p>
                 </div>
               )}
             </div>
@@ -365,7 +365,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
             <div className="space-y-8">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard icon={<MousePointer2 className="h-5 w-5 text-blue-400" />}    label="Visitas"             value={metrics.filter(m => m.tipo_evento === 'visita').length}            bg="bg-blue-600/10"   sub="Visitas al sitio" />
-                <StatCard icon={<TrendingUp className="h-5 w-5 text-purple-400" />}     label="Leads"               value={metrics.filter(m => m.tipo_evento === 'lead_generado').length}      bg="bg-purple-600/10"  sub="Formularios" />
+                <StatCard icon={<TrendingUp className="h-5 w-5 text-purple-400" />}     label="Cotizaciones"               value={metrics.filter(m => m.tipo_evento === 'lead_generado').length}      bg="bg-purple-600/10"  sub="Formularios" />
                 <StatCard icon={<Phone className="h-5 w-5 text-emerald-400" />}         label="WhatsApp"            value={metrics.filter(m => m.tipo_evento === 'click_whatsapp').length}    bg="bg-emerald-600/10" sub="Clicks WhatsApp" />
                 <StatCard icon={<BarChart3 className="h-5 w-5 text-amber-400" />}       label="Clicks CTA"          value={metrics.filter(m => m.tipo_evento === 'click_cta').length}          bg="bg-amber-600/10"   sub="Clicks Botones" />
               </div>
