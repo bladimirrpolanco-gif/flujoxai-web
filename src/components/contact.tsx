@@ -33,7 +33,7 @@ export function Contact() {
     
     if (error) {
         console.error("Error inserting lead:", error);
-        setErrorMsg("Hubo un error al enviar tu mensaje. Intenta nuevamente.");
+        setErrorMsg("Error: " + (error.message || error.details || JSON.stringify(error)));
     } else {
         trackEvent('lead_generado', { 
             empresa: data.empresa,
