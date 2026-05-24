@@ -27,7 +27,7 @@ const FAQS = [
   },
   {
     q: "¿Puedo ver cómo funciona antes de contratar?",
-    a: "Claro. Ofrecemos una demostración personalizada gratuita donde te mostramos un agente IA configurado para tu tipo de negocio específico. También puedes interactuar con el agente de demostración en esta misma página.",
+    a: "Claro. Puedes interactuar con el agente de demostración en tiempo real que se encuentra en esta misma página. Además, en nuestra llamada de asesoría gratuita te mostraremos ejemplos prácticos de soluciones similares aplicadas a tu sector.",
   },
 ];
 

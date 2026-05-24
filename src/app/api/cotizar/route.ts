@@ -27,31 +27,31 @@ export async function POST(req: NextRequest) {
     let mensajeCompleto = "";
 
     if (categoriaServicio === "automatizacion") {
-      let basePrice = 250;
-      let maxPrice = 500;
+      let basePrice = 190;
+      let maxPrice = 350;
       titleSolucion = "Chatbot Inteligente de Atención";
 
       if (volumen === "100–500") {
-        basePrice += 150; maxPrice += 250;
+        basePrice += 60; maxPrice += 100;
       } else if (volumen === "500–2000") {
-        basePrice += 300; maxPrice += 500;
+        basePrice += 160; maxPrice += 250;
         titleSolucion = "Asistente IA + Gestión Empresarial";
       } else if (volumen === "+2000") {
-        basePrice += 600; maxPrice += 1000;
+        basePrice += 310; maxPrice += 450;
         titleSolucion = "Arquitectura Avanzada de Agentes IA";
       }
 
       const herramientasList = herramientas || [];
       const integraciones = herramientasList.filter((h: string) => h !== "Ninguna" && h !== "WhatsApp");
       if (integraciones.length > 0) {
-        basePrice += (integraciones.length * 50);
-        maxPrice += (integraciones.length * 80);
+        basePrice += (integraciones.length * 30);
+        maxPrice += (integraciones.length * 50);
         if (integraciones.length >= 2 && volumen !== "+2000") {
           titleSolucion = "Ecosistema Integrado Inteligente";
         }
       }
 
-      precio = `$${basePrice} - $${maxPrice} USD`;
+      precio = `~$${basePrice} - $${maxPrice} USD`;
       const herramientasStr = herramientasList.length > 0 ? herramientasList.join(", ") : "Ninguna";
       mensajeCompleto = `[AUTOMATIZACIÓN]
 - Industria: ${tipoNegocio}
@@ -176,13 +176,15 @@ export async function POST(req: NextRequest) {
                 <div class="card-title" style="color: #a1a1aa; font-size: 10px;">Costos Operativos (Infraestructura Externa)</div>
                 <div class="item"><span class="item-label" style="font-size: 12px;">Servidor VPS:</span><span class="item-value" style="font-size: 12px;">~ $80 USD / año</span></div>
                 <div class="item"><span class="item-label" style="font-size: 12px;">Consumo API (IA):</span><span class="item-value" style="font-size: 12px;">~ $30 USD / mes</span></div>
+                <div class="item"><span class="item-label" style="font-size: 12px;">API WhatsApp (Meta):</span><span class="item-value" style="font-size: 12px;">1,000 msjs gratis / mes*</span></div>
+                <p style="font-size: 10px; color: #a1a1aa; margin-top: 8px; margin-bottom: 12px; line-height: 1.4; text-align: left;">* Meta otorga 1,000 conversaciones gratuitas mensuales. Consumos adicionales se facturan directo a Meta. FlujoXAI no cobra recargos por APIs externas.</p>
                 <div style="margin-top: 15px; padding: 10px; background: rgba(16, 185, 129, 0.05); border: 1px solid rgba(16, 185, 129, 0.2); border-radius: 8px;">
                   <div class="item"><span class="item-label" style="font-size: 12px; color: #10b981; font-weight: bold;">Garantía FlujoXAI:</span><span class="item-value" style="font-size: 12px; color: #10b981; font-weight: bold;">1 Mes Gratis</span></div>
                 </div>
               </div>
               
               <div class="price-box">
-                <div class="price-label">Inversión Estimada</div>
+                <div class="price-label">Inversión Aproximada</div>
                 <h2 class="price-amount">${precio}</h2>
                 <div class="price-note">50% INICIAL / 50% A LA ENTREGA</div>
               </div>

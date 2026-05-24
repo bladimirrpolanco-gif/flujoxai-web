@@ -491,7 +491,7 @@ export default function DiagnosticoPage() {
       precioMin += 150; precioMax += 200;
     }
 
-    let precioStr = `$${precioMin} - $${precioMax} USD`;
+    let precioStr = `~$${precioMin} - $${precioMax} USD`;
 
     if (isApp) {
       precioStr = "Requiere Análisis Técnico Extra";
@@ -516,7 +516,7 @@ export default function DiagnosticoPage() {
               <h3 className="text-xl font-bold text-foreground">{titleSolucion}</h3>
             </div>
             <div className="bg-background/80 backdrop-blur px-4 py-2 rounded-lg border border-border/50 text-center">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-0.5">Inversión Estimada</p>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-0.5">Inversión Aproximada</p>
               <p className="text-lg font-black text-emerald-500">{precioStr}</p>
               <p className="text-[10px] text-muted-foreground mt-0.5 font-semibold">50% INICIO / 50% ENTREGA</p>
             </div>
@@ -573,22 +573,22 @@ export default function DiagnosticoPage() {
   };
 
   const renderResultadosAutomatizacion = () => {
-    let basePrice = 250;
-    let maxPrice = 500;
+    let basePrice = 190;
+    let maxPrice = 350;
     let titleSolucion = "Chatbot Inteligente de Atención";
     let nivel = "Medio - Respuesta y Clasificación";
     let ahorros = "20–40 horas mensuales";
 
     // Modificadores por volumen
     if (data.volumen === "100–500") {
-      basePrice += 150; maxPrice += 250;
+      basePrice += 60; maxPrice += 100;
     } else if (data.volumen === "500–2000") {
-      basePrice += 300; maxPrice += 500;
+      basePrice += 160; maxPrice += 250;
       titleSolucion = "Asistente IA + Gestión Empresarial";
       nivel = "Alto - Procesamiento de Ventas/Citas";
       ahorros = "50–100 horas mensuales";
     } else if (data.volumen === "+2000") {
-      basePrice += 600; maxPrice += 1000;
+      basePrice += 310; maxPrice += 450;
       titleSolucion = "Arquitectura Avanzada de Agentes IA";
       nivel = "Empresarial - Procesamiento Masivo";
       ahorros = "100+ horas y escalabilidad total";
@@ -597,15 +597,15 @@ export default function DiagnosticoPage() {
     // Modificadores por integraciones
     const integraciones = data.herramientas.filter(h => h !== "Ninguna" && h !== "WhatsApp");
     if (integraciones.length > 0) {
-      basePrice += (integraciones.length * 50);
-      maxPrice += (integraciones.length * 80);
+      basePrice += (integraciones.length * 30);
+      maxPrice += (integraciones.length * 50);
       if (integraciones.length >= 2 && data.volumen !== "+2000") {
         titleSolucion = "Ecosistema Integrado Inteligente";
         nivel = "Alto - Integración de API Compleja";
       }
     }
 
-    let precioStr = `$${basePrice} - $${maxPrice} USD`;
+    let precioStr = `~$${basePrice} - $${maxPrice} USD`;
 
     return (
       <div className="max-w-3xl mx-auto space-y-8 animate-in slide-in-from-bottom-8 duration-700 py-4">
@@ -624,7 +624,7 @@ export default function DiagnosticoPage() {
               <h3 className="text-xl font-bold text-foreground">{titleSolucion}</h3>
             </div>
             <div className="bg-background/80 backdrop-blur px-4 py-2 rounded-lg border border-border/50 text-center">
-              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-0.5">Inversión Estimada</p>
+              <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold mb-0.5">Inversión Aproximada</p>
               <p className="text-lg font-black text-emerald-500">{precioStr}</p>
               <p className="text-[10px] text-muted-foreground mt-0.5 font-semibold">50% INICIO / 50% ENTREGA</p>
             </div>
@@ -655,17 +655,21 @@ export default function DiagnosticoPage() {
 
             <div className="bg-background/30 rounded-xl p-5 border border-border/50">
               <h4 className="text-sm font-bold text-foreground/80 uppercase tracking-wider flex items-center gap-2 mb-4"><Activity className="w-4 h-4 text-primary"/> Costos Operativos (Infraestructura Externa)</h4>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="flex justify-between items-center bg-background/50 p-3 rounded-lg border border-border/30">
                   <span className="text-sm text-muted-foreground flex items-center gap-2"><Cpu className="w-4 h-4"/> Servidor VPS</span>
-                  <span className="font-bold text-sm">~ $80 USD / año</span>
+                  <span className="font-bold text-sm text-right">~ $80 USD / año</span>
                 </div>
                 <div className="flex justify-between items-center bg-background/50 p-3 rounded-lg border border-border/30">
-                  <span className="text-sm text-muted-foreground flex items-center gap-2"><Zap className="w-4 h-4"/> Consumo de API (IA)</span>
-                  <span className="font-bold text-sm">~ $30 USD / mes</span>
+                  <span className="text-sm text-muted-foreground flex items-center gap-2"><Zap className="w-4 h-4"/> Consumo API (IA)</span>
+                  <span className="font-bold text-sm text-right">~ $30 USD / mes</span>
+                </div>
+                <div className="flex justify-between items-center bg-background/50 p-3 rounded-lg border border-border/30">
+                  <span className="text-sm text-muted-foreground flex items-center gap-2"><MessageSquare className="w-4 h-4"/> WhatsApp (Meta)</span>
+                  <span className="font-bold text-sm text-right">1,000 msjs gratis / mes*</span>
                 </div>
               </div>
-              <p className="text-[10px] text-muted-foreground mt-3 text-center">* La API de IA se cobra por consumo de tokens. El Servidor es un pago anual a un proveedor en la nube externo.</p>
+              <p className="text-[10px] text-muted-foreground mt-3 text-center leading-relaxed">* La API de IA se cobra por tokens consumidos. El servidor VPS es un pago anual directo. La API de WhatsApp (Meta) incluye 1,000 conversaciones mensuales sin costo; el excedente se paga directamente a Meta sin intermediarios.</p>
               
               <div className="mt-4 bg-primary/5 rounded-lg p-3 border border-primary/20">
                 <p className="text-sm font-semibold text-foreground flex items-center gap-2"><CheckCircle2 className="w-4 h-4 text-primary"/> Incluye 1 mes de Garantía y Calibración gratuita.</p>

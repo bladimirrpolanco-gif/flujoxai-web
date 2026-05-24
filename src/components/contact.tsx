@@ -78,9 +78,10 @@ export function Contact() {
             <div className="p-6 bg-card rounded-2xl border shadow-sm mt-8 hidden md:block">
                 <h4 className="font-semibold text-foreground mb-2">Lo que obtendrás:</h4>
                 <ul className="text-sm text-muted-foreground space-y-2 list-disc list-inside">
-                    <li>Auditoría gratuita de procesos</li>
-                    <li>Demostración personalizada</li>
-                    <li>Plan de implementación técnico</li>
+                    <li>Auditoría de procesos</li>
+                    <li>Propuesta de automatización a medida</li>
+                    <li>Plan de implementación técnica</li>
+                    <li>Estimación de ahorro y ROI</li>
                 </ul>
             </div>
           </motion.div>
