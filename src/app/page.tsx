@@ -37,7 +37,7 @@ export default function Home() {
 
       </main>
       <Footer />
-      {/* <WhatsAppButton /> */}
+      <WhatsAppButton />
     </div>
   );
 }
