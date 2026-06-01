@@ -9,6 +9,7 @@ const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", style: ["italic", "normal"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://flujoxai.com"),
   title: "FlujoxAI - Automatización Empresarial con Inteligencia Artificial",
   description: "Potencia tu negocio con agentes de IA especializados en WhatsApp, Instagram y procesos empresariales.",
   keywords: ["automatización con IA", "chatbots WhatsApp", "inteligencia artificial empresarial", "automatización de procesos", "agentes IA", "República Dominicana", "FlujoxAI"],
