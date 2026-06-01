@@ -56,8 +56,8 @@ const stats = [
 const STATIC_SERVICES = [
   {
     icon: MessageSquare,
-    title: "Chatbots IA para WhatsApp",
-    description: "Atiende a tus clientes 24/7 con bots conversacionales que entienden el contexto y responden como humanos.",
+    title: "Chatbots y Agentes AI para WhatsApp",
+    description: "Atiende a tus clientes 24/7 con bots y agentes AI conversacionales que entienden el contexto y responden como humanos.",
     benefits: ["Atención inmediata sin esperas", "Captura leads automáticamente", "Escalabilidad infinita"],
     gradient: "from-blue-500 to-cyan-400",
     glow: "shadow-blue-500/20",

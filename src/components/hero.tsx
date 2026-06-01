@@ -139,7 +139,7 @@ export function Hero() {
             className="text-lg md:text-xl text-muted-foreground mb-10 max-w-2xl leading-relaxed mx-auto lg:mx-0"
           >
             Diseñamos{" "}
-            <span className="text-foreground font-medium">chatbots inteligentes</span>,
+            <span className="text-foreground font-medium">chatbots y agentes AI inteligentes</span>,
             {" "}automatizamos procesos y conectamos tus herramientas para que tu negocio opere solo, sin errores y sin parar.
           </motion.p>
 
