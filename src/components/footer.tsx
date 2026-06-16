@@ -119,7 +119,7 @@ export function Footer() {
           <div className="flex flex-col gap-5">
             <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-300">Producto</h4>
             <ul className="flex flex-col gap-3">
-              <li>
+              {/* <li>
                 <a 
                   href="https://flujobot.flujoxai.com/" 
                   target="_blank" 
@@ -129,7 +129,7 @@ export function Footer() {
                   <span className="h-px w-3 bg-zinc-700 group-hover:bg-primary group-hover:w-4 transition-all" />
                   Flujobot
                 </a>
-              </li>
+              </li> */}
               <li>
                 <Link href="/cotizador" className="text-sm text-zinc-500 hover:text-white transition-colors flex items-center gap-1.5 group">
                   <span className="h-px w-3 bg-zinc-700 group-hover:bg-primary group-hover:w-4 transition-all" />
