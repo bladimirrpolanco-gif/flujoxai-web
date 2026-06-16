@@ -14,8 +14,8 @@ export default function AdminLoginPage() {
   const router = useRouter();
 
   const supabase = createBrowserClient(
-    'https://whomyggjgyuxfljuvmqa.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indob215Z2dqZ3l1eGZsanV2bXFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NjQyMjksImV4cCI6MjA5NDM0MDIyOX0.8Up0YHdMAa4b4O2JDgmWOAaiOSTXzcpuAdPHOjhUNxQ'
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -23,57 +23,22 @@ export default function AdminLoginPage() {
     setLoading(true);
     setError('');
 
-    const targetEmail = email.trim();
-    const targetEmailLower = targetEmail.toLowerCase();
-    const isMainAdmin = targetEmailLower === 'flujoxai@gmail.com' || targetEmailLower === 'soporte@flujoxai.com';
-
     try {
-      // 1. Intentar iniciar sesión normalmente
-      const { error: authError } = await supabase.auth.signInWithPassword({ email: targetEmail, password });
+      const { error: authError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
 
       if (authError) {
-        if (isMainAdmin) {
-          console.log("Fallo el login. Intentando registrar la cuenta automáticamente...");
-          
-          const { error: signUpError } = await supabase.auth.signUp({
-            email: targetEmail,
-            password,
-            options: {
-              data: {
-                nombre: "Administrador FlujoxAI",
-                rol: "admin"
-              }
-            }
-          });
-
-          if (!signUpError) {
-            const { error: finalSignInError } = await supabase.auth.signInWithPassword({
-              email: targetEmail,
-              password
-            });
-
-            if (!finalSignInError) {
-              window.location.href = '/admin';
-              return;
-            } else {
-              setError(`Atención: ${finalSignInError.message} (Revisa tu bandeja de entrada en ${targetEmail} para confirmar la cuenta)`);
-              setLoading(false);
-              return;
-            }
-          } else {
-            setError(`Error al registrar: ${signUpError.message}`);
-            setLoading(false);
-            return;
-          }
-        }
-        
-        setError(`Error: ${authError.message}`);
+        // Mensaje genérico para no revelar si el email existe o no
+        setError('Credenciales incorrectas. Verifica tu email y contraseña.');
         setLoading(false);
       } else {
-        window.location.href = '/admin';
+        router.push('/admin');
+        router.refresh();
       }
-    } catch (err: any) {
-      setError(`Ocurrió un error inesperado: ${err.message || err}`);
+    } catch (err: unknown) {
+      setError('Ocurrió un error inesperado. Intenta de nuevo.');
       setLoading(false);
     }
   };

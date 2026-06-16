@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Button } from "./ui/button";
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 import { trackEvent } from "@/lib/metrics";
 
 
@@ -27,22 +26,22 @@ export function Contact() {
       mensaje: formData.get("mensaje") as string,
     };
 
-    const { error } = await supabase.from('leads').insert([data]);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
 
-    setLoading(false);
-    
-    if (error) {
-        console.error("Error inserting lead:", error);
-        setErrorMsg("Error: " + (error.message || error.details || JSON.stringify(error)));
-    } else {
+      const result = await response.json();
+      setLoading(false);
+      
+      if (!response.ok) {
+        setErrorMsg("Error: " + (result.error || "No se pudo enviar el mensaje."));
+      } else {
         trackEvent('lead_generado', { 
             empresa: data.empresa,
             nombre: data.nombre 
-        });
-
-        // Trigger Phase 7 Notification
-        import('@/lib/notifications').then(({ sendLeadNotification }) => {
-            sendLeadNotification(data);
         });
 
         setSuccess(true);
@@ -50,10 +49,11 @@ export function Contact() {
         
         // Hide success message after 5 seconds
         setTimeout(() => setSuccess(false), 5000);
+      }
+    } catch (err) {
+      setLoading(false);
+      setErrorMsg("Error de conexión. Por favor, inténtalo de nuevo más tarde.");
     }
-
-
-
   };
 
   return (

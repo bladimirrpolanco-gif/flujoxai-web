@@ -8,10 +8,9 @@ export const dynamic = 'force-dynamic';
 export default async function AdminPage() {
   const cookieStore = await cookies();
 
-
   const supabase = createServerClient(
-    'https://whomyggjgyuxfljuvmqa.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indob215Z2dqZ3l1eGZsanV2bXFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NjQyMjksImV4cCI6MjA5NDM0MDIyOX0.8Up0YHdMAa4b4O2JDgmWOAaiOSTXzcpuAdPHOjhUNxQ',
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
         getAll() {
@@ -24,11 +23,10 @@ export default async function AdminPage() {
 
   const { data: { user } } = await supabase.auth.getUser();
 
+  // Bloquear acceso si no hay sesión válida
   if (!user) {
-    console.log("AdminPage: No user found. Using fallback user for debugging...");
+    redirect('/admin/login');
   }
-  
-  const activeUser = user || { email: 'admin@flujoxai.com' };
 
   // Fetch leads
   const { data: leads, error: leadsError } = await supabase
@@ -36,19 +34,14 @@ export default async function AdminPage() {
     .select('*')
     .order('created_at', { ascending: false });
 
-  
-  if (leadsError) console.error("❌ Error fetching leads:", leadsError);
-  console.log("📊 Diagnostic - Leads count:", leads?.length || 0);
-
+  if (leadsError) console.error('Error fetching leads:', leadsError);
 
   // Fetch services
   const { data: servicios, error: sError } = await supabase
     .from('servicios')
     .select('*');
-    // .order('created_at', { ascending: true });
 
-  
-  if (sError) console.error("❌ Error fetching services:", sError);
+  if (sError) console.error('Error fetching services:', sError);
 
   // Fetch knowledge base
   const { data: knowledge } = await supabase
@@ -59,21 +52,14 @@ export default async function AdminPage() {
   const { data: chats, error: cError } = await supabase
     .from('conversaciones')
     .select('*');
-    // .order('created_at', { ascending: false });
 
-
-  if (cError) console.error("❌ Error fetching chats:", cError);
-
+  if (cError) console.error('Error fetching chats:', cError);
 
   return <AdminDashboard 
-    user={activeUser} 
+    user={user} 
     leads={leads ?? []} 
     servicios={servicios ?? []} 
     knowledge={knowledge ?? []} 
     chats={chats ?? []}
   />;
-
-
 }
-
-

@@ -3,9 +3,19 @@ import { createClient } from "@supabase/supabase-js";
 import { Resend } from "resend";
 
 const supabase = createClient(
-  'https://whomyggjgyuxfljuvmqa.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indob215Z2dqZ3l1eGZsanV2bXFhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg3NjQyMjksImV4cCI6MjA5NDM0MDIyOX0.8Up0YHdMAa4b4O2JDgmWOAaiOSTXzcpuAdPHOjhUNxQ'
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
+
+function escapeHtml(unsafe: any): string {
+  if (typeof unsafe !== 'string') return unsafe;
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
 
 const resendApiKey = process.env.RESEND_API_KEY || "re_dummy_key_for_local_testing";
 const resend = new Resend(resendApiKey);
@@ -16,10 +26,27 @@ const FROM_EMAIL = "diagnostico@flujoxai.com";
 export async function POST(req: NextRequest) {
   try {
     const data = await req.json();
-    const { categoriaServicio, tipoNegocio, problema, volumen, herramientas, funcionalidades, tieneDiseno, lead } = data;
+    let { categoriaServicio, tipoNegocio, problema, volumen, herramientas, funcionalidades, tieneDiseno, lead } = data;
 
     if (!lead || !lead.nombre || !lead.email || !lead.telefono) {
       return NextResponse.json({ error: "Faltan datos de contacto obligatorios." }, { status: 400 });
+    }
+
+    // Sanitizar entradas para evitar Inyección HTML (XSS)
+    lead.nombre = escapeHtml(lead.nombre);
+    lead.email = escapeHtml(lead.email);
+    lead.telefono = escapeHtml(lead.telefono);
+    lead.empresa = escapeHtml(lead.empresa || "");
+    tipoNegocio = escapeHtml(tipoNegocio);
+    problema = escapeHtml(problema);
+    volumen = escapeHtml(volumen);
+    tieneDiseno = escapeHtml(tieneDiseno);
+    categoriaServicio = escapeHtml(categoriaServicio);
+    if (herramientas && Array.isArray(herramientas)) {
+      herramientas = herramientas.map(escapeHtml);
+    }
+    if (funcionalidades && Array.isArray(funcionalidades)) {
+      funcionalidades = funcionalidades.map(escapeHtml);
     }
 
     let precio = "";
