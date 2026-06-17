@@ -330,11 +330,12 @@ export function Navbar() {
                     (() => {
                       const subLinks = link.subLinks;
                       return (
-                        <div className="space-y-3">
-                          <span className="block text-xs font-bold text-primary tracking-widest uppercase px-1">
+                        <details className="group">
+                          <summary className="cursor-pointer list-none flex items-center justify-between text-lg font-medium text-muted-foreground hover:text-foreground transition-colors">
                             {link.label}
-                          </span>
-                          <div className="space-y-3 pl-2 border-l border-primary/20 ml-1">
+                            <span className="transition-transform duration-300 group-open:rotate-180 text-xs">▼</span>
+                          </summary>
+                          <div className="space-y-2 pl-3 border-l border-border mt-4 ml-1">
                             {subLinks.map((sub) => {
                               const SubIcon = sub.icon;
                               return (
@@ -344,24 +345,19 @@ export function Navbar() {
                                   onClick={() => setIsMenuOpen(false)}
                                   target={sub.isExternal ? "_blank" : undefined}
                                   rel={sub.isExternal ? "noopener noreferrer" : undefined}
-                                  className="flex items-start gap-3.5 p-2 rounded-xl hover:bg-white/5 transition-colors"
+                                  className="flex items-center gap-3 p-2 rounded-xl hover:bg-neutral-100 dark:hover:bg-white/5 transition-colors"
                                 >
-                                  <div className={`h-9 w-9 rounded-lg flex items-center justify-center flex-shrink-0 ${sub.color}`}>
-                                    <SubIcon className="h-4.5 w-4.5" />
+                                  <div className={`h-8 w-8 rounded-lg flex items-center justify-center flex-shrink-0 ${sub.color}`}>
+                                    <SubIcon className="h-4 w-4" />
                                   </div>
-                                  <div className="flex flex-col min-w-0">
-                                    <span className="text-sm font-bold text-foreground">
-                                      {sub.label}
-                                    </span>
-                                    <span className="text-xs text-muted-foreground mt-0.5 leading-snug">
-                                      {sub.desc}
-                                    </span>
-                                  </div>
+                                  <span className="text-sm font-bold text-foreground">
+                                    {sub.label}
+                                  </span>
                                 </Link>
                               );
                             })}
                           </div>
-                        </div>
+                        </details>
                       );
                     })()
                   ) : (
