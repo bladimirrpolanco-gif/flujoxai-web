@@ -101,14 +101,13 @@ export function Navbar() {
     };
   }, []);
   
-  // Use CSS variables for colors that adapt to theme
   const isBlog = pathname?.startsWith('/blog');
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
     [
-      isBlog ? "rgba(var(--nav-bg), 0.95)" : "rgba(var(--nav-bg), 0)", 
-      "rgba(var(--nav-bg), 0.95)"
+      "rgba(var(--nav-bg), 0)", 
+      "rgba(var(--nav-bg), 0.8)"
     ]
   );
   
@@ -139,14 +138,16 @@ export function Navbar() {
   return (
     <motion.header
       style={{
-        backgroundColor,
+        backgroundColor: isBlog ? undefined : backgroundColor,
         width,
         marginTop,
         borderRadius,
         paddingLeft: paddingX,
         paddingRight: paddingX,
       }}
-      className="fixed top-0 left-1/2 -translate-x-1/2 z-50 border border-white/10 dark:border-white/5 backdrop-blur-xl shadow-2xl transition-all duration-500 ease-out"
+      className={`fixed top-0 left-1/2 -translate-x-1/2 z-50 border border-border/50 dark:border-white/5 backdrop-blur-xl shadow-2xl transition-all duration-500 ease-out ${
+        isBlog ? 'bg-background/95' : ''
+      }`}
     >
       <div className="flex h-14 md:h-16 items-center gap-4 md:gap-8 mx-auto px-4 md:px-6">
         
