@@ -147,8 +147,17 @@ export default async function BlogIndexPage({
 
             {/* ── 2. MENÚ DE CATEGORÍAS ── */}
             <div className="flex flex-col items-center mb-16 relative">
+              <div className="text-center mb-8">
+                <h2 className="font-sans font-extrabold tracking-tight text-3xl text-foreground">
+                  Explora por Categoría
+                </h2>
+                <p className="text-muted-foreground mt-2 text-sm font-medium">
+                  Encuentra el contenido que mejor se adapte a ti
+                </p>
+              </div>
+
               {/* Línea decorativa */}
-              <div className="absolute top-1/2 left-0 w-full h-px bg-border -z-10" />
+              <div className="absolute top-[80px] left-0 w-full h-px bg-border -z-10" />
               
               <div className="bg-background px-4">
                 <div className="flex flex-wrap justify-center gap-1 bg-neutral-100 dark:bg-neutral-900/80 p-1.5 rounded-[2rem] border border-border/60 shadow-sm backdrop-blur-md">
