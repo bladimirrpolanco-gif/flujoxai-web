@@ -86,7 +86,7 @@ export default async function BlogIndexPage({
         ) : (
           <>
             {/* ── 1. SECCIÓN SUPERIOR: DESTACADOS + SIDEBAR ── */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 mb-20">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 mb-20 items-start">
               
               {/* IZQUIERDA: ARTÍCULOS DESTACADOS (2 COLUMNAS) */}
               <div className="lg:col-span-2">
@@ -95,7 +95,7 @@ export default async function BlogIndexPage({
                   Lo más reciente
                 </h2>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 h-full">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
                 {featuredPosts.map((post, idx) => (
                   <Link href={`/blog/${post.slug}`} key={post.id} className="group block h-full">
                     <div
