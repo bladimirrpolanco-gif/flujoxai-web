@@ -5,12 +5,12 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Bot } from 'lucide-react';
 
+export const revalidate = 0;
+
 export const metadata: Metadata = {
   title: 'Blog | FlujoXAI',
   description: 'Descubre los mejores artículos sobre automatización, IA y desarrollo web para potenciar tu negocio.',
 };
-
-export const revalidate = 3600;
 
 export default async function BlogIndexPage() {
   const { data: posts, error } = await supabase

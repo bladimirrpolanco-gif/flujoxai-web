@@ -6,7 +6,7 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { Bot, Calendar, ChevronRight, Tag, Share2 } from 'lucide-react';
 
-export const revalidate = 3600;
+export const revalidate = 0;
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>;
