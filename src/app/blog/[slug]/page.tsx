@@ -233,10 +233,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </h3>
               <div className="space-y-2">
                 {categories.map((cat, i) => (
-                  <div key={cat} className="flex items-center justify-between py-2 border-b border-border/40 last:border-0 group cursor-pointer hover:text-blue-600 transition-colors">
+                  <Link href={`/blog?category=${cat}`} key={cat} className="flex items-center justify-between py-2 border-b border-border/40 last:border-0 group cursor-pointer hover:text-blue-600 transition-colors">
                     <span className="text-sm font-medium">{cat}</span>
                     <span className="text-[11px] text-muted-foreground font-bold">{Math.floor(Math.random() * 8) + 1}</span>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -249,12 +249,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </h3>
               <div className="flex flex-wrap gap-2">
                 {tags.map((tag) => (
-                  <span
+                  <Link
+                    href={`/blog`}
                     key={tag}
                     className="text-[12px] font-semibold px-3 py-1.5 rounded-full bg-muted text-muted-foreground hover:bg-blue-600 hover:text-white transition-all cursor-pointer"
                   >
                     {tag}
-                  </span>
+                  </Link>
                 ))}
               </div>
             </div>
