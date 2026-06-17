@@ -68,8 +68,46 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
     <main className="min-h-screen bg-background text-foreground flex flex-col">
       <Navbar />
 
+      {/* ── HERO AZUL con título del artículo ── */}
+      <section
+        className="w-full pt-32 pb-16 px-6 text-center text-white"
+        style={{
+          background: 'linear-gradient(135deg, #1e40af 0%, #2563eb 60%, #3b82f6 100%)',
+          borderBottomLeftRadius: '60px',
+          borderBottomRightRadius: '60px',
+        }}
+      >
+        {/* Categoría */}
+        <span className="inline-block text-[11px] font-bold text-blue-200 uppercase tracking-widest mb-4">
+          IA & Tech
+        </span>
+
+        {/* Título del artículo */}
+        <h1 className="font-sans font-bold text-3xl md:text-4xl lg:text-5xl tracking-tight leading-[1.15] text-white max-w-3xl mx-auto mb-5">
+          {post.title}
+        </h1>
+
+        {/* Autor + Fecha */}
+        {post.published_at && (
+          <div className="flex items-center justify-center gap-3 mt-4">
+            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+              <Bot className="w-4 h-4 text-white" />
+            </div>
+            <span className="text-sm font-semibold text-white/90">Equipo FlujoXAI</span>
+            <span className="text-white/40">·</span>
+            <time className="text-sm text-blue-100">
+              {new Date(post.published_at).toLocaleDateString('es-DO', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
+            </time>
+          </div>
+        )}
+      </section>
+
       {/* ── CONTENIDO PRINCIPAL ── */}
-      <div className="flex-1 w-full max-w-[1200px] mx-auto px-4 md:px-6 pt-28 pb-20">
+      <div className="flex-1 w-full max-w-[1200px] mx-auto px-4 md:px-6 pt-10 pb-20">
 
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-8 font-medium">
@@ -83,36 +121,6 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* ── COLUMNA IZQUIERDA: Artículo ── */}
           <article className="flex-1 min-w-0">
-
-            {/* Categoría */}
-            <span className="inline-block text-[11px] font-bold text-blue-600 uppercase tracking-widest mb-4">
-              IA & Tech
-            </span>
-
-            {/* Título */}
-            <h1 className="font-sans font-bold text-3xl md:text-4xl lg:text-[42px] tracking-tight leading-[1.15] text-foreground mb-5">
-              {post.title}
-            </h1>
-
-            {/* Autor + Fecha */}
-            {post.published_at && (
-              <div className="flex items-center gap-3 mb-8">
-                <div className="w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center flex-shrink-0">
-                  <Bot className="w-5 h-5 text-blue-600" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-foreground leading-none mb-1">Equipo FlujoXAI</p>
-                  <time className="text-xs text-muted-foreground flex items-center gap-1">
-                    <Calendar className="w-3 h-3" />
-                    {new Date(post.published_at).toLocaleDateString('es-DO', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric',
-                    })}
-                  </time>
-                </div>
-              </div>
-            )}
 
             {/* Imagen Hero */}
             <div className="w-full h-[280px] md:h-[380px] rounded-[20px] overflow-hidden mb-10 bg-neutral-100 dark:bg-neutral-800">
