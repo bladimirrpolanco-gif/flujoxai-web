@@ -284,6 +284,55 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         </div>
       </div>
 
+      {/* ── SECCIÓN: TE PODRÍA INTERESAR ── */}
+      {recentPosts && recentPosts.length > 0 && (
+        <div className="w-full bg-neutral-50 dark:bg-neutral-900/30 border-t border-border mt-10 py-20">
+          <div className="max-w-[1200px] mx-auto px-6">
+            <h2 className="text-2xl font-bold font-sans text-foreground mb-10 flex items-center gap-3">
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+              Sigue leyendo
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {recentPosts.slice(0, 3).map((post) => (
+                <Link
+                  href={`/blog/${post.slug}`}
+                  key={post.id}
+                  className="group flex flex-col h-full bg-white dark:bg-card border border-border rounded-[24px] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                  style={{ boxShadow: '0 10px 30px -10px rgba(0,0,0,0.05)' }}
+                >
+                  {/* Imagen */}
+                  <div className="relative h-[200px] w-full bg-neutral-100 dark:bg-neutral-800 shrink-0 overflow-hidden">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={post.cover_image || `https://picsum.photos/seed/${post.slug}-feature/800/600`}
+                      alt={post.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  </div>
+                  {/* Contenido */}
+                  <div className="p-6 flex flex-col flex-grow">
+                    <span className="text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-3 block">
+                      {post.category || 'Automatización'}
+                    </span>
+                    <h3 className="text-[18px] font-bold tracking-tight leading-snug mb-3 group-hover:text-blue-600 transition-colors font-sans">
+                      {post.title}
+                    </h3>
+                    <p className="text-muted-foreground text-[14px] leading-relaxed line-clamp-2 mb-4 flex-grow">
+                      {post.excerpt}
+                    </p>
+                    <time className="text-xs font-semibold text-muted-foreground mt-auto pt-4 border-t border-border/50">
+                      {new Date(post.published_at).toLocaleDateString('es-DO', {
+                        month: 'short', day: 'numeric', year: 'numeric'
+                      })}
+                    </time>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
       <Footer />
     </main>
   );
