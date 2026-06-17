@@ -28,14 +28,15 @@ export default async function BlogIndexPage({
 
   const activeCategory = typeof resolvedSearchParams.category === 'string' ? resolvedSearchParams.category : 'Todos';
 
-  // Primero filtramos TODOS los artículos
-  const filteredPosts = activeCategory === 'Todos'
-    ? (posts || [])
-    : (posts || []).filter(p => p.category === activeCategory);
+  // 1. Los 2 más recientes SIEMPRE se quedan fijos arriba.
+  const featuredPosts = posts?.slice(0, 2) || [];
 
-  // Luego dividimos en destacados (los 2 primeros) y el resto (grid)
-  const featuredPosts = filteredPosts.slice(0, 2);
-  const gridPosts = filteredPosts.slice(2);
+  // 2. El grid de abajo:
+  // - Si es "Todos", mostramos del 3ro en adelante (para no repetir los de arriba).
+  // - Si es una categoría específica, buscamos en TODOS los artículos para que no falte ninguno.
+  const gridPosts = activeCategory === 'Todos'
+    ? (posts?.slice(2) || [])
+    : (posts || []).filter(p => p.category === activeCategory);
 
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col">
