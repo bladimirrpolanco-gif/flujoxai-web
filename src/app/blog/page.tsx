@@ -15,8 +15,10 @@ export const metadata: Metadata = {
 export default async function BlogIndexPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  const resolvedSearchParams = await searchParams;
+  
   const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
@@ -24,7 +26,7 @@ export default async function BlogIndexPage({
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
 
-  const activeCategory = typeof searchParams.category === 'string' ? searchParams.category : 'Todos';
+  const activeCategory = typeof resolvedSearchParams.category === 'string' ? resolvedSearchParams.category : 'Todos';
 
   const featuredPosts = posts?.slice(0, 2) || [];
   
