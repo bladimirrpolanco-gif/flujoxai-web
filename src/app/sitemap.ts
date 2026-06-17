@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { supabase } from '@/lib/supabase';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://flujobot.flujoxai.com';
+  const baseUrl = 'https://flujoxai.com';
 
   const { data: posts } = await supabase
     .from('posts')
