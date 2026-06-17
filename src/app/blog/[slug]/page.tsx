@@ -54,7 +54,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
   // Cargar artículos recientes para el sidebar (máx 4, excluyendo el actual)
   const { data: recentPosts } = await supabase
     .from('posts')
-    .select('id, title, slug, published_at, excerpt')
+    .select('id, title, slug, published_at, excerpt, cover_image, category')
     .not('published_at', 'is', null)
     .lte('published_at', new Date().toISOString())
     .neq('slug', slug)
