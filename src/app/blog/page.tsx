@@ -140,7 +140,9 @@ export default async function BlogIndexPage({
                         </div>
                       </div>
                     </div>
-                  </Li              </div>
+                  </Link>
+                ))}
+              </div>
             </div>
 
             {/* ── 2. MENÚ DE CATEGORÍAS (CENTRO) ── */}
