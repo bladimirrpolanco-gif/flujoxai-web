@@ -71,7 +71,7 @@ export default async function BlogIndexPage({
       </section>
 
       {/* ── CONTENEDOR PRINCIPAL DEL BLOG ── */}
-      <section className="w-full max-w-[1200px] mx-auto px-6 mt-16 mb-10">
+      <section className="w-full max-w-[1300px] mx-auto px-6 mt-16 mb-10">
         
         {error ? (
           <div className="p-6 rounded-2xl bg-red-50 text-red-700 text-center border border-red-200 mb-12">
@@ -85,14 +85,17 @@ export default async function BlogIndexPage({
           </div>
         ) : (
           <>
-            {/* ── 1. ARTÍCULOS DESTACADOS (2 COLUMNAS FULL WIDTH) ── */}
-            <div className="mb-20">
-              <h2 className="font-sans font-bold text-2xl text-foreground mb-6 flex items-center gap-3">
-                <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-                Lo más reciente
-              </h2>
+            {/* ── 1. SECCIÓN SUPERIOR: DESTACADOS + SIDEBAR ── */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 mb-20">
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+              {/* IZQUIERDA: ARTÍCULOS DESTACADOS (2 COLUMNAS) */}
+              <div className="lg:col-span-2">
+                <h2 className="font-sans font-bold text-2xl text-foreground mb-6 flex items-center gap-3">
+                  <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+                  Lo más reciente
+                </h2>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 h-full">
                 {featuredPosts.map((post, idx) => (
                   <Link href={`/blog/${post.slug}`} key={post.id} className="group block h-full">
                     <div
@@ -145,73 +148,66 @@ export default async function BlogIndexPage({
               </div>
             </div>
 
-            {/* ── 2. MENÚ DE CATEGORÍAS (CENTRO) ── */}
-            <div className="flex flex-col items-center mb-12 relative">
-              <div className="text-center mb-8">
-                <h2 className="font-sans font-extrabold tracking-tight text-3xl text-foreground">
-                  Explora por Categoría
-                </h2>
-                <p className="text-muted-foreground mt-2 text-sm font-medium">
-                  Encuentra el contenido que mejor se adapte a ti
-                </p>
-              </div>
-
-              {/* Línea decorativa */}
-              <div className="absolute top-[80px] left-0 w-full h-px bg-border -z-10" />
-              
-              <div className="bg-background px-4">
-                <div className="flex flex-wrap justify-center gap-1 bg-neutral-100 dark:bg-neutral-900/80 p-1.5 rounded-[2rem] border border-border/60 shadow-sm backdrop-blur-md">
-                  {['Todos', 'Chatbots', 'Automatización', 'CRM', 'Tendencias', 'IA & Tech', 'Estrategia'].map((cat) => {
-                    const isActive = activeCategory === cat;
-                    return (
-                      <Link
-                        key={cat}
-                        href={cat === 'Todos' ? '/blog' : `/blog?category=${cat}`}
-                        scroll={false}
-                        className={`text-[15px] font-medium px-6 py-2.5 rounded-full transition-all duration-300 ${
-                          isActive
-                            ? 'bg-white dark:bg-neutral-800 text-blue-600 dark:text-blue-400 shadow-sm ring-1 ring-black/5 dark:ring-white/10'
-                            : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50'
-                        }`}
-                      >
-                        {cat}
-                      </Link>
-                    );
-                  })}
+              {/* DERECHA: SIDEBAR (FILTRO + BANNER) */}
+              <aside className="lg:col-span-1 flex flex-col gap-6 pt-0 lg:pt-[3.25rem]">
+                
+                {/* BLOQUE 1: FILTRO DE CATEGORÍAS */}
+                <div className="bg-white dark:bg-card rounded-[28px] p-7 border border-border shadow-sm">
+                  <h3 className="font-sans font-bold text-xl text-foreground mb-5">Explora por Categoría</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {['Todos', 'Chatbots', 'Automatización', 'CRM', 'Tendencias', 'IA & Tech', 'Estrategia'].map((cat) => {
+                      const isActive = activeCategory === cat;
+                      return (
+                        <Link
+                          key={cat}
+                          href={cat === 'Todos' ? '/blog' : `/blog?category=${cat}`}
+                          scroll={false}
+                          className={`text-sm font-semibold px-4 py-2 rounded-full transition-all duration-300 ${
+                            isActive
+                              ? 'bg-blue-600 text-white shadow-md'
+                              : 'bg-neutral-100 dark:bg-neutral-800 text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-700'
+                          }`}
+                        >
+                          {cat}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+
+                {/* BLOQUE 2: BANNER PROMOCIONAL (OPCIÓN 3) */}
+                <div className="bg-gradient-to-br from-[#0F172A] to-[#1E3A8A] text-white rounded-[28px] p-8 relative overflow-hidden shadow-xl flex flex-col">
+                  {/* Destello de fondo */}
+                  <div className="absolute -top-12 -right-12 w-40 h-40 bg-blue-500 rounded-full blur-3xl opacity-30" />
+                  <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-purple-500 rounded-full blur-3xl opacity-20" />
+                  
+                  <div className="relative z-10 flex flex-col flex-grow">
+                    <span className="text-blue-300 text-xs font-black tracking-widest uppercase mb-3">Servicios Premium</span>
+                    <h3 className="text-2xl font-bold mb-4 leading-tight">¿Listo para automatizar tu empresa?</h3>
+                    <p className="text-blue-100/80 text-sm mb-8 leading-relaxed">
+                      No pierdas más tiempo en tareas manuales. Implementa agentes de IA y multiplica tus ventas hoy mismo.
+                    </p>
+                    
+                    <div className="mt-auto">
+                      <Link 
+                        href="/#contact" 
+                        className="flex items-center justify-center w-full bg-white hover:bg-blue-50 text-blue-900 font-bold py-3.5 px-4 rounded-xl transition-colors"
+                      >
+                        Cotizar Gratis
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+
+              </aside>
             </div>
 
-            {/* ── 3. BANNER PROMOCIONAL HORIZONTAL ── */}
-            <div className="bg-gradient-to-r from-[#0F172A] via-[#1E3A8A] to-[#3B82F6] text-white rounded-[28px] p-8 md:p-10 relative overflow-hidden shadow-xl mb-20 flex flex-col md:flex-row items-center justify-between gap-8 border border-white/10">
-              {/* Elementos de fondo */}
-              <div className="absolute -top-12 -left-12 w-64 h-64 bg-blue-500 rounded-full blur-[80px] opacity-20" />
-              <div className="absolute -bottom-12 -right-12 w-64 h-64 bg-purple-500 rounded-full blur-[80px] opacity-20" />
-              
-              <div className="relative z-10 flex-1 text-center md:text-left">
-                <span className="text-blue-300 text-xs font-black tracking-widest uppercase mb-3 block">Servicios Premium</span>
-                <h3 className="text-2xl md:text-3xl font-bold mb-3 leading-tight">¿Listo para automatizar tu empresa?</h3>
-                <p className="text-blue-100/90 text-sm md:text-base leading-relaxed max-w-2xl mx-auto md:mx-0">
-                  No pierdas más tiempo en tareas manuales. Implementa agentes de IA personalizados y multiplica tus ventas hoy mismo sin esfuerzo.
-                </p>
-              </div>
-              
-              <div className="relative z-10 shrink-0 w-full md:w-auto">
-                <Link 
-                  href="/#contact" 
-                  className="flex items-center justify-center bg-white hover:bg-blue-50 text-blue-900 font-bold py-4 px-10 rounded-xl transition-all hover:scale-105 shadow-lg shadow-black/20"
-                >
-                  Cotizar Gratis
-                </Link>
-              </div>
-            </div>
-
-            {/* ── 4. GRID DE ARTÍCULOS RESTANTES (3 COLUMNAS) ── */}
+            {/* ── 2. ARTÍCULOS RESTANTES ── */}
             <div className="mb-20">
               <h2 className="font-sans font-bold text-2xl text-foreground mb-8">
                 {activeCategory === 'Todos' ? 'Más artículos' : `Artículos sobre ${activeCategory}`}
               </h2>
-            {/* ── GRID DE ARTÍCULOS ── */}
+            {/* ── 3. GRID DE ARTÍCULOS RECIENTES ── */}
             {gridPosts.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {gridPosts.map((post) => (
