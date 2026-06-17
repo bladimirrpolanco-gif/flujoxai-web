@@ -20,8 +20,8 @@ export default async function BlogIndexPage() {
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
 
-  const heroPost = posts?.[0];
-  const gridPosts = posts?.slice(1) || [];
+  const featuredPosts = posts?.slice(0, 2) || [];
+  const gridPosts = posts?.slice(2) || [];
 
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col">
@@ -62,7 +62,7 @@ export default async function BlogIndexPage() {
           <div className="p-6 rounded-2xl bg-red-50 text-red-700 text-center border border-red-200 mb-12">
             Error cargando los artículos: {error.message}
           </div>
-        ) : !heroPost ? (
+        ) : featuredPosts.length === 0 ? (
           <div className="p-16 rounded-3xl text-center text-muted-foreground border border-dashed border-border bg-muted/30">
             <Bot className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
             <h3 className="text-xl font-bold text-foreground mb-2">Aún no hay artículos publicados</h3>
@@ -70,58 +70,64 @@ export default async function BlogIndexPage() {
           </div>
         ) : (
           <>
-            {/* ── 1. ARTÍCULO PRINCIPAL (HERO POST) ── */}
+            {/* ── 1. ARTÍCULOS DESTACADOS (2 COLUMNAS) ── */}
             <div className="mb-20">
               <h2 className="font-sans font-bold text-2xl text-foreground mb-6 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
                 Lo más reciente
               </h2>
               
-              <Link href={`/blog/${heroPost.slug}`} className="group block">
-                <div
-                  className="flex flex-col lg:flex-row bg-white dark:bg-card border border-border rounded-[32px] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/5 hover:-translate-y-1"
-                  style={{ boxShadow: '0 20px 40px -10px rgba(0,0,0,0.06)' }}
-                >
-                  {/* Imagen (Izquierda en PC, Arriba en Móvil) */}
-                  <div className="relative w-full lg:w-3/5 h-[280px] sm:h-[400px] lg:h-[460px] bg-neutral-100 dark:bg-neutral-800 shrink-0 overflow-hidden">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={heroPost.cover_image || `https://picsum.photos/seed/${heroPost.slug}-hero/1200/800`}
-                      alt={heroPost.title}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  </div>
-
-                  {/* Contenido (Derecha en PC, Abajo en Móvil) */}
-                  <div className="p-8 sm:p-10 lg:p-12 flex flex-col justify-center w-full lg:w-2/5">
-                    <span className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[13px] font-bold px-4 py-1.5 rounded-full tracking-wide w-fit mb-6">
-                      Destacado
-                    </span>
-                    <h2 className="font-sans font-extrabold text-foreground tracking-tight leading-[1.15] text-3xl sm:text-4xl lg:text-[2.75rem] mb-6 group-hover:text-blue-600 transition-colors">
-                      {heroPost.title}
-                    </h2>
-                    <p className="text-muted-foreground text-base sm:text-lg mb-8 font-medium leading-relaxed line-clamp-3">
-                      {heroPost.excerpt}
-                    </p>
-
-                    <div className="flex items-center gap-3 text-muted-foreground text-sm font-semibold mt-auto pt-8 border-t border-border/50">
-                      <div className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                        <Bot className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+                {featuredPosts.map((post, idx) => (
+                  <Link href={`/blog/${post.slug}`} key={post.id} className="group block h-full">
+                    <div
+                      className="flex flex-col h-full bg-white dark:bg-card border border-border rounded-[28px] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                      style={{ boxShadow: '0 20px 40px -10px rgba(0,0,0,0.05)' }}
+                    >
+                      {/* Imagen (Arriba) */}
+                      <div className="relative h-[200px] sm:h-[240px] w-full bg-neutral-100 dark:bg-neutral-800 shrink-0 overflow-hidden">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={post.cover_image || `https://picsum.photos/seed/${post.slug}-feature/800/600`}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
                       </div>
-                      <div className="flex flex-col">
-                        <span className="text-foreground">Equipo FlujoXAI</span>
-                        <time className="text-xs font-medium">
-                          {new Date(heroPost.published_at).toLocaleDateString('es-DO', {
-                            month: 'long',
-                            day: 'numeric',
-                            year: 'numeric',
-                          })}
-                        </time>
+
+                      {/* Contenido (Abajo) */}
+                      <div className="p-7 flex flex-col flex-grow">
+                        <h2 className="font-sans font-bold text-foreground tracking-tight leading-snug line-clamp-2 text-xl md:text-2xl mb-3 group-hover:text-blue-600 transition-colors">
+                          {post.title}
+                        </h2>
+                        <p className="text-muted-foreground line-clamp-2 text-sm mb-6 font-medium flex-grow">
+                          {post.excerpt}
+                        </p>
+
+                        {/* Pie de tarjeta: autor izquierda, categoría derecha */}
+                        <div className="flex items-center justify-between pt-5 border-t border-border mt-auto">
+                          <div className="flex items-center gap-2 text-muted-foreground text-xs font-semibold">
+                            <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                              <Bot className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <span>Equipo FlujoXAI</span>
+                            <span className="mx-1 opacity-50">·</span>
+                            <time>
+                              {new Date(post.published_at).toLocaleDateString('es-DO', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                              })}
+                            </time>
+                          </div>
+                          <span className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[11px] font-bold px-3 py-1 rounded-full tracking-wide">
+                            {idx === 0 ? 'IA & Tech' : 'Estrategia'}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              </Link>
+                  </Link>
+                ))}
+              </div>
             </div>
 
             {/* ── 2. MENÚ DE CATEGORÍAS ── */}
