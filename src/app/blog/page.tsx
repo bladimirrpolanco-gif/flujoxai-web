@@ -28,7 +28,7 @@ export default async function BlogIndexPage() {
       <Navbar />
       
       {/* HEADER SECTION WITH OVERLAP */}
-      <div className="relative w-full">
+      <div className="relative w-full isolate z-0">
         {/* Background Gradient Header */}
         <div className="absolute top-0 left-0 w-full h-[550px] bg-gradient-to-br from-blue-700 via-blue-600 to-[#1d4ed8] rounded-b-[40px] md:rounded-b-[80px] -z-10 overflow-hidden">
           {/* Decorative shapes inside gradient */}
