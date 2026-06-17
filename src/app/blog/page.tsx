@@ -15,7 +15,7 @@ export const revalidate = 3600;
 export default async function BlogIndexPage() {
   const { data: posts, error } = await supabase
     .from('posts')
-    .select('id, title, slug, excerpt, published_at')
+    .select('id, title, slug, excerpt, published_at, cover_image')
     .not('published_at', 'is', null)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
@@ -73,7 +73,7 @@ export default async function BlogIndexPage() {
                   <div className="absolute inset-0 bg-neutral-800">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`https://picsum.photos/seed/${post.slug}-feature/800/600`}
+                      src={post.cover_image || `https://picsum.photos/seed/${post.slug}-feature/800/600`}
                       alt={post.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
@@ -156,7 +156,7 @@ export default async function BlogIndexPage() {
                 <div className="h-[200px] overflow-hidden bg-muted rounded-[20px] m-2 mb-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src={`https://picsum.photos/seed/${post.slug}-regular/600/400`}
+                    src={post.cover_image || `https://picsum.photos/seed/${post.slug}-regular/600/400`}
                     alt={post.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                   />

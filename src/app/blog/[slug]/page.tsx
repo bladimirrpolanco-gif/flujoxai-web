@@ -126,7 +126,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="w-full h-[280px] md:h-[380px] rounded-[20px] overflow-hidden mb-10 bg-neutral-100 dark:bg-neutral-800">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={`https://picsum.photos/seed/${post.slug}-hero/1200/600`}
+                src={post.cover_image || `https://picsum.photos/seed/${post.slug}-hero/1200/600`}
                 alt={post.title}
                 className="w-full h-full object-cover"
               />

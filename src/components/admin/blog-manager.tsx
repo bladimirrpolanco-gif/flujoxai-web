@@ -4,7 +4,8 @@ import { useState, useEffect } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import {
   Plus, Edit2, Trash2, Eye, EyeOff, Save, X, Search,
-  FileText, Calendar, CheckCircle, Clock, AlertCircle, ExternalLink
+  FileText, Calendar, CheckCircle, Clock, AlertCircle, ExternalLink,
+  Upload, Image, Link2
 } from 'lucide-react';
 
 interface Post {
@@ -14,6 +15,7 @@ interface Post {
   content: string;
   excerpt: string;
   seo_keywords: string;
+  cover_image: string | null;
   published_at: string | null;
   created_at: string;
   updated_at: string;
@@ -30,6 +32,7 @@ const EMPTY_FORM = {
   excerpt: '',
   seo_keywords: '',
   published_at: '',
+  cover_image: '',
 };
 
 function slugify(text: string) {
@@ -47,6 +50,7 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
   const [editingPost, setEditingPost] = useState<Post | null>(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [search, setSearch] = useState('');
   const [saveMsg, setSaveMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
@@ -79,6 +83,7 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
       content: post.content,
       excerpt: post.excerpt ?? '',
       seo_keywords: post.seo_keywords ?? '',
+      cover_image: post.cover_image ?? '',
       published_at: post.published_at
         ? new Date(post.published_at).toISOString().slice(0, 16)
         : '',
@@ -102,6 +107,7 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
       content: form.content.trim(),
       excerpt: form.excerpt.trim(),
       seo_keywords: form.seo_keywords.trim(),
+      cover_image: form.cover_image.trim() || null,
       published_at: asDraft
         ? null
         : (form.published_at ? new Date(form.published_at).toISOString() : new Date().toISOString()),
@@ -431,6 +437,90 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
 
           {/* Columna lateral */}
           <div className="space-y-4">
+
+            {/* Imagen de Portada */}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5">
+              <h3 className="text-sm font-bold text-white mb-4">🖼️ Imagen de Portada</h3>
+
+              {/* Preview */}
+              {form.cover_image ? (
+                <div className="relative mb-3 rounded-xl overflow-hidden h-36 bg-zinc-800">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={form.cover_image}
+                    alt="Portada"
+                    className="w-full h-full object-cover"
+                    onError={(e) => { (e.target as HTMLImageElement).src = ''; }}
+                  />
+                  <button
+                    onClick={() => setForm((f) => ({ ...f, cover_image: '' }))}
+                    className="absolute top-2 right-2 bg-black/70 text-white rounded-full p-1 hover:bg-red-500/80 transition"
+                    title="Quitar imagen"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ) : (
+                <div className="mb-3 rounded-xl border-2 border-dashed border-zinc-700 h-28 flex flex-col items-center justify-center text-zinc-600">
+                  <Image className="w-7 h-7 mb-1.5" />
+                  <p className="text-xs">Sin imagen</p>
+                </div>
+              )}
+
+              {/* Upload desde el dispositivo */}
+              <label className="flex items-center justify-center gap-2 w-full bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition cursor-pointer mb-3">
+                <Upload className="w-4 h-4" />
+                {uploading ? 'Subiendo…' : 'Subir imagen'}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  disabled={uploading}
+                  onChange={async (e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    setUploading(true);
+
+                    // Subir a Supabase Storage bucket "blog-images"
+                    const ext = file.name.split('.').pop();
+                    const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+                    const { data, error } = await supabase.storage
+                      .from('blog-images')
+                      .upload(filename, file, { upsert: false });
+
+                    if (error) {
+                      setSaveMsg({ type: 'err', text: `Error subiendo imagen: ${error.message}` });
+                    } else {
+                      const { data: urlData } = supabase.storage
+                        .from('blog-images')
+                        .getPublicUrl(data.path);
+                      setForm((f) => ({ ...f, cover_image: urlData.publicUrl }));
+                    }
+                    setUploading(false);
+                    e.target.value = '';
+                  }}
+                />
+              </label>
+
+              {/* O pegar URL */}
+              <div className="flex items-center gap-2 mb-1.5">
+                <div className="flex-1 h-px bg-zinc-700" />
+                <span className="text-[11px] text-zinc-600 font-medium">o pegar URL</span>
+                <div className="flex-1 h-px bg-zinc-700" />
+              </div>
+              <div className="flex items-center gap-2 bg-zinc-800 border border-zinc-700 rounded-xl overflow-hidden focus-within:ring-2 focus-within:ring-blue-600">
+                <Link2 className="w-4 h-4 text-zinc-500 ml-3 flex-shrink-0" />
+                <input
+                  type="url"
+                  placeholder="https://..."
+                  value={form.cover_image}
+                  onChange={(e) => setForm((f) => ({ ...f, cover_image: e.target.value }))}
+                  className="flex-1 bg-transparent py-2.5 pr-3 text-white text-xs focus:outline-none placeholder-zinc-600"
+                />
+              </div>
+              <p className="text-[11px] text-zinc-600 mt-1.5">Proporción recomendada: 16:9 (1200×630px)</p>
+            </div>
 
             {/* Publicación */}
             <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5">
