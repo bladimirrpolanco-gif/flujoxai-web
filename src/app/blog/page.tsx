@@ -256,6 +256,7 @@ export default async function BlogIndexPage({
                 </p>
               </div>
             )}
+            </div>
           </>
         )}
       </section>
