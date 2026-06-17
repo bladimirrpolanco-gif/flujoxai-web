@@ -28,8 +28,13 @@ export default async function BlogIndexPage() {
         
         <div className="max-w-5xl mx-auto relative z-10">
           <header className="mb-20 text-center">
-            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 font-syne bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-primary dark:from-blue-400 dark:to-primary">
-              Insights & Automatización
+            <h1 className="font-sans mb-6 leading-[0.95] perspective-1000 text-[clamp(2.5rem,4.5vw,4.5rem)]">
+              <span className="block text-foreground font-black tracking-tight">
+                Insights &
+              </span>
+              <span className="block text-[#2563EB] italic font-light tracking-normal mt-2 md:mt-3 whitespace-nowrap text-[0.85em] md:text-[0.9em]" style={{ fontFamily: 'var(--font-playfair)' }}>
+                Automatización
+              </span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto font-medium">
               Estrategias, guías y casos de uso para transformar tu negocio con Inteligencia Artificial.
