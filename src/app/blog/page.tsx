@@ -84,6 +84,7 @@ export default async function BlogIndexPage({
             <p>Vuelve pronto para leer nuestro contenido.</p>
           </div>
         ) : (
+          <>
             {/* ── 1. ARTÍCULOS DESTACADOS (2 COLUMNAS FULL WIDTH) ── */}
             <div className="mb-20">
               <h2 className="font-sans font-bold text-2xl text-foreground mb-6 flex items-center gap-3">
