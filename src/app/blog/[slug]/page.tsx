@@ -135,17 +135,17 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             {/* Contenido del artículo */}
             <div
               className="
-                prose prose-neutral dark:prose-invert max-w-none
-                prose-headings:font-sans prose-headings:font-bold prose-headings:tracking-tight
-                prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
-                prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
-                prose-p:text-base prose-p:leading-relaxed prose-p:text-foreground/80
-                prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:font-medium prose-a:no-underline
+                prose prose-lg prose-neutral dark:prose-invert max-w-none
+                prose-headings:font-sans prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-foreground
+                prose-h2:text-[26px] prose-h2:mt-12 prose-h2:mb-5 prose-h2:leading-snug
+                prose-h3:text-[20px] prose-h3:mt-8 prose-h3:mb-3 prose-h3:leading-snug
+                prose-p:text-[16px] prose-p:leading-[1.85] prose-p:text-foreground/80 prose-p:mb-5
+                prose-a:text-blue-600 hover:prose-a:text-blue-500 prose-a:font-semibold prose-a:no-underline
                 prose-strong:text-foreground prose-strong:font-bold
-                prose-ul:space-y-2 prose-ol:space-y-2
-                prose-li:text-foreground/80 prose-li:leading-relaxed
-                prose-img:rounded-[16px] prose-img:shadow-sm
-                prose-blockquote:border-l-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:dark:bg-blue-900/20 prose-blockquote:py-1 prose-blockquote:pr-4 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
+                prose-ul:my-5 prose-ul:space-y-2 prose-ol:my-5 prose-ol:space-y-2
+                prose-li:text-[16px] prose-li:leading-[1.75] prose-li:text-foreground/80
+                prose-img:rounded-[16px] prose-img:shadow-md
+                prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:dark:bg-blue-900/20 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:rounded-r-xl prose-blockquote:not-italic prose-blockquote:text-foreground/90 prose-blockquote:my-8
               "
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
