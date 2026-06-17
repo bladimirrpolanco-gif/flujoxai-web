@@ -12,7 +12,11 @@ export const metadata: Metadata = {
   description: 'Descubre los mejores artículos sobre automatización, IA y desarrollo web para potenciar tu negocio.',
 };
 
-export default async function BlogIndexPage() {
+export default async function BlogIndexPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const { data: posts, error } = await supabase
     .from('posts')
     .select('*')
@@ -20,8 +24,15 @@ export default async function BlogIndexPage() {
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
 
+  const activeCategory = typeof searchParams.category === 'string' ? searchParams.category : 'Todos';
+
   const featuredPosts = posts?.slice(0, 2) || [];
-  const gridPosts = posts?.slice(2) || [];
+  
+  // Filtrar los gridPosts según la categoría seleccionada (los destacados siempre se muestran igual)
+  const allGridPosts = posts?.slice(2) || [];
+  const gridPosts = activeCategory === 'Todos' 
+    ? allGridPosts 
+    : allGridPosts.filter(p => p.category === activeCategory);
 
   return (
     <main className="min-h-screen bg-background text-foreground flex flex-col">
@@ -120,7 +131,7 @@ export default async function BlogIndexPage() {
                             </time>
                           </div>
                           <span className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[11px] font-bold px-3 py-1 rounded-full tracking-wide">
-                            {idx === 0 ? 'IA & Tech' : 'Estrategia'}
+                            {post.category || 'Automatización'}
                           </span>
                         </div>
                       </div>
@@ -137,18 +148,23 @@ export default async function BlogIndexPage() {
               
               <div className="bg-background px-4">
                 <div className="flex flex-wrap justify-center gap-1 bg-neutral-100 dark:bg-neutral-900/80 p-1.5 rounded-[2rem] border border-border/60 shadow-sm backdrop-blur-md">
-                  {['Todos', 'Chatbots', 'Automatización', 'CRM', 'Tendencias'].map((cat, i) => (
-                    <button
-                      key={cat}
-                      className={`text-[15px] font-medium px-6 py-2.5 rounded-full transition-all duration-300 ${
-                        i === 0
-                          ? 'bg-white dark:bg-neutral-800 text-blue-600 dark:text-blue-400 shadow-sm ring-1 ring-black/5 dark:ring-white/10'
-                          : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50'
-                      }`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
+                  {['Todos', 'Chatbots', 'Automatización', 'CRM', 'Tendencias', 'IA & Tech', 'Estrategia'].map((cat) => {
+                    const isActive = activeCategory === cat;
+                    return (
+                      <Link
+                        key={cat}
+                        href={cat === 'Todos' ? '/blog' : `/blog?category=${cat}`}
+                        scroll={false}
+                        className={`text-[15px] font-medium px-6 py-2.5 rounded-full transition-all duration-300 ${
+                          isActive
+                            ? 'bg-white dark:bg-neutral-800 text-blue-600 dark:text-blue-400 shadow-sm ring-1 ring-black/5 dark:ring-white/10'
+                            : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50'
+                        }`}
+                      >
+                        {cat}
+                      </Link>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -175,7 +191,7 @@ export default async function BlogIndexPage() {
 
                     <div className="p-7 flex flex-col flex-grow bg-white dark:bg-card border-x border-b border-border/40 rounded-b-[28px]">
                       <span className="text-[12px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-3 block">
-                        Automatización
+                        {post.category || 'Automatización'}
                       </span>
                       <h3 className="text-[22px] font-bold tracking-tight leading-snug mb-4 group-hover:text-blue-600 transition-colors font-sans">
                         {post.title}

@@ -16,6 +16,7 @@ interface Post {
   excerpt: string;
   seo_keywords: string;
   cover_image: string | null;
+  category: string | null;
   published_at: string | null;
   created_at: string;
   updated_at: string;
@@ -33,6 +34,7 @@ const EMPTY_FORM = {
   seo_keywords: '',
   published_at: '',
   cover_image: '',
+  category: 'Automatización',
 };
 
 function slugify(text: string) {
@@ -84,6 +86,7 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
       excerpt: post.excerpt ?? '',
       seo_keywords: post.seo_keywords ?? '',
       cover_image: post.cover_image ?? '',
+      category: post.category ?? 'Automatización',
       published_at: post.published_at
         ? new Date(post.published_at).toISOString().slice(0, 16)
         : '',
@@ -108,6 +111,7 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
       excerpt: form.excerpt.trim(),
       seo_keywords: form.seo_keywords.trim(),
       cover_image: form.cover_image.trim() || null,
+      category: form.category.trim() || null,
       published_at: asDraft
         ? null
         : (form.published_at ? new Date(form.published_at).toISOString() : new Date().toISOString()),
@@ -401,6 +405,25 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
                   className="flex-1 bg-transparent py-3 pr-4 text-blue-400 font-mono text-sm focus:outline-none"
                 />
               </div>
+            </div>
+
+            {/* Categoría */}
+            <div>
+              <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
+                Categoría *
+              </label>
+              <select
+                value={form.category}
+                onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 appearance-none cursor-pointer"
+              >
+                <option value="Chatbots">Chatbots</option>
+                <option value="Automatización">Automatización</option>
+                <option value="CRM">CRM</option>
+                <option value="Tendencias">Tendencias</option>
+                <option value="IA & Tech">IA & Tech</option>
+                <option value="Estrategia">Estrategia</option>
+              </select>
             </div>
 
             {/* Resumen */}
