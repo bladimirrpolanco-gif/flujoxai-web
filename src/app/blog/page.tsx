@@ -31,7 +31,7 @@ export default async function BlogIndexPage() {
 
         {error ? (
           <div className="p-4 bg-red-900/50 border border-red-500 rounded-lg text-red-200 text-center">
-            Error cargando los artículos. Por favor intenta de nuevo más tarde.
+            Error cargando los artículos: {error.message || JSON.stringify(error)}
           </div>
         ) : !posts || posts.length === 0 ? (
           <div className="text-center text-neutral-500 py-12">
