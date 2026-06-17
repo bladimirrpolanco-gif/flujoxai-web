@@ -7,9 +7,10 @@ import {
   Bot, Users, TrendingUp, LogOut, LayoutDashboard,
   Mail, Phone, Building2, MessageSquare, ChevronRight,
   Calendar, RefreshCw, Search, X, BarChart3, MousePointer2,
-  Download, Kanban, Menu
+  Download, Kanban, Menu, FileText
 } from 'lucide-react';
 import { AdvancedAnalytics } from './advanced-analytics';
+import { BlogManager } from './blog-manager';
 
 type Estado = 'nuevo' | 'contactado' | 'propuesta' | 'cerrado' | 'perdido';
 
@@ -39,6 +40,7 @@ interface AdminDashboardProps {
   servicios: any[];
   knowledge: any[];
   chats: any[];
+  posts?: any[];
 }
 
 const PIPELINE_COLUMNS: { key: Estado; label: string; color: string; dot: string }[] = [
@@ -57,8 +59,8 @@ const ESTADO_STYLES: Record<Estado, string> = {
   perdido:    'bg-red-600/20 text-red-400',
 };
 
-export function AdminDashboard({ user, leads }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'leads' | 'cotizaciones' | 'analytics'>('overview');
+export function AdminDashboard({ user, leads, posts = [] }: AdminDashboardProps) {
+  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'leads' | 'cotizaciones' | 'analytics' | 'blog'>('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
@@ -188,6 +190,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
     leads:         { title: 'Leads (Formulario)',       sub: 'Contactos del formulario principal' },
     cotizaciones:  { title: 'Cotizaciones',            sub: 'Solicitudes recibidas desde el cotizador' },
     analytics:     { title: 'Analítica',              sub: 'Rendimiento del sitio y conversiones' },
+    blog:          { title: 'Blog',                   sub: 'Crear, editar y publicar artículos' },
   };
 
   return (
@@ -213,6 +216,7 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
             { id: 'leads',         icon: Users,           label: 'Leads', badge: soloLeads.length },
             { id: 'cotizaciones',  icon: MessageSquare,   label: 'Cotizaciones', badge: soloCotizaciones.length },
             { id: 'analytics',     icon: BarChart3,       label: 'Analítica', onClick: fetchMetrics },
+            { id: 'blog',          icon: FileText,        label: 'Blog', badge: posts.length },
           ].map(({ id, icon: Icon, label, badge, onClick }) => (
             <button
               key={id}
@@ -505,6 +509,13 @@ export function AdminDashboard({ user, leads }: AdminDashboardProps) {
 
               {/* NEW ADVANCED ANALYTICS COMPONENT */}
               <AdvancedAnalytics metrics={metrics} leads={localLeads} />
+            </div>
+          )}
+
+          {/* ─── BLOG ─── */}
+          {activeTab === 'blog' && (
+            <div className="p-4 md:p-8">
+              <BlogManager initialPosts={posts} />
             </div>
           )}
 

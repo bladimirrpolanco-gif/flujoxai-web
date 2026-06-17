@@ -55,11 +55,20 @@ export default async function AdminPage() {
 
   if (cError) console.error('Error fetching chats:', cError);
 
+  // Fetch blog posts
+  const { data: posts, error: pError } = await supabase
+    .from('posts')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (pError) console.error('Error fetching posts:', pError);
+
   return <AdminDashboard 
     user={user} 
     leads={leads ?? []} 
     servicios={servicios ?? []} 
     knowledge={knowledge ?? []} 
     chats={chats ?? []}
+    posts={posts ?? []}
   />;
 }
