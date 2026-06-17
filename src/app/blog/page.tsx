@@ -15,7 +15,7 @@ export const revalidate = 3600;
 export default async function BlogIndexPage() {
   const { data: posts, error } = await supabase
     .from('posts')
-    .select('id, title, slug, excerpt, published_at, cover_image')
+    .select('*')
     .not('published_at', 'is', null)
     .lte('published_at', new Date().toISOString())
     .order('published_at', { ascending: false });
