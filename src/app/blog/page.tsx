@@ -54,19 +54,26 @@ export default async function BlogIndexPage() {
       {/* ── CONTENEDOR PRINCIPAL DEL BLOG ── */}
       <section className="w-full max-w-[1100px] mx-auto px-6 mt-12 mb-10">
         
-        {/* Título + filtros de categoría — SIEMPRE VISIBLES ARRIBA */}
-        <div className="flex flex-col items-center mb-12">
-          <h2 className="font-sans font-bold text-3xl text-foreground mb-8">
-            Últimos Artículos
-          </h2>
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+        {/* Encabezado de la sección y Filtros */}
+        <div className="flex flex-col items-center mb-14">
+          <div className="text-center mb-10">
+            <h2 className="font-sans font-extrabold text-3xl md:text-4xl text-foreground mb-4 tracking-tight">
+              Explora Nuestro Blog
+            </h2>
+            <p className="text-muted-foreground text-base md:text-lg max-w-xl mx-auto">
+              Encuentra artículos, guías y casos de éxito sobre cómo la automatización y la IA pueden transformar tu negocio.
+            </p>
+          </div>
+
+          {/* Menú de Categorías (Estilo Segmented Control Premium) */}
+          <div className="flex flex-wrap justify-center gap-1 bg-neutral-100 dark:bg-neutral-900/50 p-1.5 rounded-[2rem] border border-border/60 shadow-sm">
             {['Todos', 'Chatbots', 'Automatización', 'CRM', 'Tendencias'].map((cat, i) => (
               <button
                 key={cat}
-                className={`text-sm font-semibold px-5 py-2 rounded-full transition-all ${
+                className={`text-[15px] font-medium px-6 py-2.5 rounded-full transition-all duration-300 ${
                   i === 0
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                    ? 'bg-white dark:bg-neutral-800 text-blue-600 dark:text-blue-400 shadow-sm ring-1 ring-black/5 dark:ring-white/10'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-neutral-200/50 dark:hover:bg-neutral-800/50'
                 }`}
               >
                 {cat}
