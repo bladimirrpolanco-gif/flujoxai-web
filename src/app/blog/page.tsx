@@ -64,37 +64,35 @@ export default async function BlogIndexPage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
             {featuredPosts.map((post, idx) => (
-              <Link href={`/blog/${post.slug}`} key={post.id} className="group block">
+              <Link href={`/blog/${post.slug}`} key={post.id} className="group block h-full">
                 <div
-                  className="relative h-[340px] md:h-[380px] rounded-[28px] overflow-hidden transition-all duration-300 hover:-translate-y-2"
-                  style={{ boxShadow: '0 20px 40px -10px rgba(0,0,0,0.18)' }}
+                  className="flex flex-col h-full bg-white dark:bg-card border border-border rounded-[28px] overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
+                  style={{ boxShadow: '0 20px 40px -10px rgba(0,0,0,0.05)' }}
                 >
-                  {/* Imagen de fondo */}
-                  <div className="absolute inset-0 bg-neutral-800">
+                  {/* Imagen (Arriba) */}
+                  <div className="relative h-[200px] sm:h-[240px] w-full bg-neutral-100 dark:bg-neutral-800 shrink-0 overflow-hidden">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={post.cover_image || `https://picsum.photos/seed/${post.slug}-feature/800/600`}
                       alt={post.title}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    {/* Degradado oscuro de abajo hacia arriba */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-black/10" />
                   </div>
 
-                  {/* Contenido dentro de la tarjeta */}
-                  <div className="absolute inset-0 p-7 flex flex-col justify-end">
-                    <h2 className="font-sans font-bold text-white tracking-tight leading-snug line-clamp-2 text-2xl md:text-3xl mb-3">
+                  {/* Contenido (Abajo) */}
+                  <div className="p-7 flex flex-col flex-grow">
+                    <h2 className="font-sans font-bold text-foreground tracking-tight leading-snug line-clamp-2 text-xl md:text-2xl mb-3 group-hover:text-blue-600 transition-colors">
                       {post.title}
                     </h2>
-                    <p className="text-neutral-200/90 line-clamp-2 text-sm mb-5 font-medium">
+                    <p className="text-muted-foreground line-clamp-2 text-sm mb-6 font-medium flex-grow">
                       {post.excerpt}
                     </p>
 
                     {/* Pie de tarjeta: autor izquierda, categoría derecha */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 text-white/80 text-xs font-semibold">
-                        <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center">
-                          <Bot className="w-3.5 h-3.5 text-white" />
+                    <div className="flex items-center justify-between pt-5 border-t border-border mt-auto">
+                      <div className="flex items-center gap-2 text-muted-foreground text-xs font-semibold">
+                        <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                          <Bot className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                         </div>
                         <span>Equipo FlujoXAI</span>
                         <span className="mx-1 opacity-50">·</span>
@@ -106,7 +104,7 @@ export default async function BlogIndexPage() {
                           })}
                         </time>
                       </div>
-                      <span className="bg-white text-black text-[11px] font-bold px-4 py-1.5 rounded-full tracking-wide">
+                      <span className="bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-[11px] font-bold px-3 py-1 rounded-full tracking-wide">
                         {idx === 0 ? 'IA & Tech' : 'Estrategia'}
                       </span>
                     </div>
