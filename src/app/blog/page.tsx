@@ -51,7 +51,32 @@ export default async function BlogIndexPage() {
         </p>
       </section>
 
-      {/* ── TARJETAS DESTACADAS (van DEBAJO del fondo azul) ── */}
+      {/* ── CONTENEDOR PRINCIPAL DEL BLOG ── */}
+      <section className="w-full max-w-[1100px] mx-auto px-6 mt-12 mb-10">
+        
+        {/* Título + filtros de categoría — SIEMPRE VISIBLES ARRIBA */}
+        <div className="flex flex-col items-center mb-12">
+          <h2 className="font-sans font-bold text-3xl text-foreground mb-8">
+            Últimos Artículos
+          </h2>
+          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
+            {['Todos', 'Chatbots', 'Automatización', 'CRM', 'Tendencias'].map((cat, i) => (
+              <button
+                key={cat}
+                className={`text-sm font-semibold px-5 py-2 rounded-full transition-all ${
+                  i === 0
+                    ? 'bg-blue-600 text-white shadow-md'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── TARJETAS DESTACADAS ── */}
       <section className="w-full max-w-[1100px] mx-auto px-6 mt-12 mb-16">
         {error ? (
           <div className="p-6 rounded-2xl bg-red-50 text-red-700 text-center border border-red-200">
@@ -116,30 +141,8 @@ export default async function BlogIndexPage() {
         )}
       </section>
 
-      {/* ── TODOS LOS ARTÍCULOS ── */}
+      {/* ── TODOS LOS ARTÍCULOS (Grid secundario) ── */}
       <section className="w-full max-w-[1100px] mx-auto px-6 pb-24">
-
-        {/* Título + filtros de categoría — SIEMPRE VISIBLES */}
-        <div className="flex flex-col items-center mb-10">
-          <h2 className="font-sans font-bold text-3xl text-foreground mb-8">
-            Todos los Artículos
-          </h2>
-          <div className="flex flex-wrap justify-center gap-2 md:gap-3">
-            {['Todos', 'Chatbots', 'Automatización', 'CRM', 'Tendencias'].map((cat, i) => (
-              <button
-                key={cat}
-                className={`text-sm font-semibold px-5 py-2 rounded-full transition-all ${
-                  i === 0
-                    ? 'bg-blue-600 text-white shadow-md'
-                    : 'text-muted-foreground hover:text-foreground hover:bg-muted'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-
         {/* Grid de tarjetas regulares (si las hay) */}
         {regularPosts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
