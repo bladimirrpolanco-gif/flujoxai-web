@@ -65,7 +65,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               <span className="mr-2 group-hover:-translate-x-1 transition-transform">←</span> Volver a todos los artículos
             </Link>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 font-syne leading-[1.1] text-foreground">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-6 font-sans leading-[1.1] text-foreground">
               {post.title}
             </h1>
             
@@ -90,7 +90,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           
           <div 
             className="prose prose-neutral dark:prose-invert max-w-none 
-                       prose-headings:font-syne prose-headings:font-bold 
+                       prose-headings:font-sans prose-headings:font-black 
+                       prose-headings:tracking-tight
                        prose-a:text-primary hover:prose-a:text-primary/80 
                        prose-p:leading-relaxed prose-p:text-lg
                        prose-img:rounded-2xl prose-img:border prose-img:border-border prose-img:shadow-sm"

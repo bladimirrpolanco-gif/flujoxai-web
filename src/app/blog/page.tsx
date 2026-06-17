@@ -63,7 +63,7 @@ export default async function BlogIndexPage() {
                         day: 'numeric'
                       })}
                     </time>
-                    <h2 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors font-syne leading-tight">
+                    <h2 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors font-sans tracking-tight leading-tight">
                       {post.title}
                     </h2>
                     {post.excerpt && (
