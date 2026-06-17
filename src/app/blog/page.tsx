@@ -71,7 +71,7 @@ export default async function BlogIndexPage({
       </section>
 
       {/* ── CONTENEDOR PRINCIPAL DEL BLOG ── */}
-      <section className="w-full max-w-[1400px] mx-auto px-6 mt-16 mb-10">
+      <section className="w-full max-w-[1300px] mx-auto px-6 mt-16 mb-10">
         
         {error ? (
           <div className="p-6 rounded-2xl bg-red-50 text-red-700 text-center border border-red-200 mb-12">
@@ -85,64 +85,17 @@ export default async function BlogIndexPage({
           </div>
         ) : (
           <>
-            {/* ── 1. SECCIÓN SUPERIOR: FAQ + DESTACADOS + SIDEBAR (4 COLUMNAS) ── */}
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-20 items-start">
+            {/* ── 1. SECCIÓN SUPERIOR: DESTACADOS + SIDEBAR ── */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 mb-20">
               
-              {/* IZQUIERDA: SIDEBAR FAQ (1 COLUMNA) */}
-              <aside className="lg:col-span-1 flex flex-col gap-6 pt-0 lg:pt-[3.25rem]">
-                <div className="bg-white dark:bg-card rounded-[28px] p-7 border border-border shadow-sm">
-                  <h3 className="font-sans font-bold text-xl text-foreground mb-5 flex items-center gap-2">
-                    <span className="text-blue-600">💡</span> Preguntas Rápidas
-                  </h3>
-                  <div className="space-y-4">
-                    <details className="group border-b border-border/50 pb-3">
-                      <summary className="font-semibold text-sm cursor-pointer list-none flex justify-between items-center text-foreground group-open:text-blue-600 transition-colors">
-                        ¿Qué es la automatización?
-                        <span className="text-muted-foreground transition-transform duration-300 group-open:rotate-180">↓</span>
-                      </summary>
-                      <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
-                        Es el uso de software e IA para realizar tareas repetitivas sin intervención humana, ahorrando tiempo y reduciendo errores.
-                      </p>
-                    </details>
-                    <details className="group border-b border-border/50 pb-3">
-                      <summary className="font-semibold text-sm cursor-pointer list-none flex justify-between items-center text-foreground group-open:text-blue-600 transition-colors">
-                        ¿Qué es un Agente de IA?
-                        <span className="text-muted-foreground transition-transform duration-300 group-open:rotate-180">↓</span>
-                      </summary>
-                      <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
-                        Un programa inteligente capaz de entender el contexto, tomar decisiones y ejecutar acciones complejas de forma autónoma.
-                      </p>
-                    </details>
-                    <details className="group border-b border-border/50 pb-3">
-                      <summary className="font-semibold text-sm cursor-pointer list-none flex justify-between items-center text-foreground group-open:text-blue-600 transition-colors">
-                        ¿Sirve para mi negocio?
-                        <span className="text-muted-foreground transition-transform duration-300 group-open:rotate-180">↓</span>
-                      </summary>
-                      <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
-                        Casi cualquier negocio puede beneficiarse. Desde contestar WhatsApp automáticamente hasta gestionar inventarios completos.
-                      </p>
-                    </details>
-                    <details className="group">
-                      <summary className="font-semibold text-sm cursor-pointer list-none flex justify-between items-center text-foreground group-open:text-blue-600 transition-colors">
-                        ¿Es muy costoso?
-                        <span className="text-muted-foreground transition-transform duration-300 group-open:rotate-180">↓</span>
-                      </summary>
-                      <p className="text-xs text-muted-foreground mt-3 leading-relaxed">
-                        La inversión inicial se recupera rápidamente gracias al aumento de eficiencia y la reducción de costos operativos a largo plazo.
-                      </p>
-                    </details>
-                  </div>
-                </div>
-              </aside>
-
-              {/* CENTRO: ARTÍCULOS DESTACADOS (2 COLUMNAS) */}
+              {/* IZQUIERDA: ARTÍCULOS DESTACADOS (2 COLUMNAS) */}
               <div className="lg:col-span-2">
                 <h2 className="font-sans font-bold text-2xl text-foreground mb-6 flex items-center gap-3">
                   <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
                   Lo más reciente
                 </h2>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 h-full">
                 {featuredPosts.map((post, idx) => (
                   <Link href={`/blog/${post.slug}`} key={post.id} className="group block h-full">
                     <div
