@@ -203,13 +203,13 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                       <div className="w-16 h-14 rounded-[12px] overflow-hidden bg-muted flex-shrink-0">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={`https://picsum.photos/seed/${p.slug}-thumb/200/150`}
+                          src={p.cover_image || `https://picsum.photos/seed/${p.slug}-thumb/200/150`}
                           alt={p.title}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-[11px] text-blue-600 font-bold uppercase tracking-wider mb-1">Automatización</p>
+                        <p className="text-[11px] text-blue-600 font-bold uppercase tracking-wider mb-1">{p.category || 'Automatización'}</p>
                         <p className="text-sm font-semibold text-foreground leading-snug line-clamp-2 group-hover:text-blue-600 transition-colors">
                           {p.title}
                         </p>
