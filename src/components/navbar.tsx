@@ -63,6 +63,7 @@ const navLinks: NavLink[] = [
       },
     ]
   },
+  { href: '/blog', label: 'Blog' },
   { href: '/cotizador', label: 'Cotizador' },
   { href: '#faq', label: 'FAQ' },
   { href: '#contacto', label: 'Contacto' },

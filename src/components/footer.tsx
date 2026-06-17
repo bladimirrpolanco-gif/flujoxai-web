@@ -35,6 +35,7 @@ const SERVICES = [
 const COMPANY = [
   { label: "Inicio",                href: "/" },
   { label: "Servicios",             href: "#servicios" },
+  { label: "Blog",                  href: "/blog" },
   { label: "Contacto",              href: "#contacto" },
   { label: "Política de Privacidad",href: "/privacidad" },
   { label: "Términos de Servicio",  href: "/terminos"  },
