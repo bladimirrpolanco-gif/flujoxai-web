@@ -102,6 +102,14 @@ export function Navbar() {
   }, []);
   
   const isBlog = pathname?.startsWith('/blog');
+  const [isScrolled, setIsScrolled] = useState(false);
+  
+  useEffect(() => {
+    return scrollY.onChange((latest) => {
+      setIsScrolled(latest > 20);
+    });
+  }, [scrollY]);
+
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
@@ -135,19 +143,20 @@ export function Navbar() {
     return () => observer.disconnect();
   }, []);
 
+  // Determinar si los textos del navbar deben ser blancos (cuando estamos en blog y NO hemos scrolleado)
+  const isNavTextWhite = isBlog && !isScrolled && theme !== 'dark';
+
   return (
     <motion.header
       style={{
-        backgroundColor: isBlog ? undefined : backgroundColor,
+        backgroundColor,
         width,
         marginTop,
         borderRadius,
         paddingLeft: paddingX,
         paddingRight: paddingX,
       }}
-      className={`fixed top-0 left-1/2 -translate-x-1/2 z-50 border border-border/50 dark:border-white/5 backdrop-blur-xl shadow-2xl transition-all duration-500 ease-out ${
-        isBlog ? 'bg-background/95' : ''
-      }`}
+      className={`fixed top-0 left-1/2 -translate-x-1/2 z-50 border border-border/50 dark:border-white/5 backdrop-blur-xl shadow-2xl transition-all duration-500 ease-out`}
     >
       <div className="flex h-14 md:h-16 items-center gap-4 md:gap-8 mx-auto px-4 md:px-6">
         
@@ -155,12 +164,12 @@ export function Navbar() {
         <Link href="/" className="flex items-center gap-2.5 group shrink-0">
           <motion.div 
             whileHover={{ scale: 1.1, rotate: 5 }}
-            className="h-8 w-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20"
+            className={`h-8 w-8 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 ${isNavTextWhite ? 'bg-white' : 'bg-primary'}`}
           >
-            <Bot className="h-4.5 w-4.5 text-primary-foreground" />
+            <Bot className={`h-4.5 w-4.5 ${isNavTextWhite ? 'text-primary' : 'text-primary-foreground'}`} />
           </motion.div>
-          <span className="font-bold text-lg tracking-tight text-foreground hidden sm:block">
-            Flujo<span className="gradient-text">xAI</span>
+          <span className={`font-bold text-lg tracking-tight hidden sm:block ${isNavTextWhite ? 'text-white' : 'text-foreground'}`}>
+            Flujo<span className={isNavTextWhite ? 'text-white/80' : 'gradient-text'}>xAI</span>
           </span>
         </Link>
 
@@ -177,7 +186,9 @@ export function Navbar() {
                       e.stopPropagation();
                       setOpenDropdown(isOpen ? null : link.label);
                     }}
-                    className="flex items-center gap-1 py-1.5 px-1 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                    className={`flex items-center gap-1 py-1.5 px-1 transition-colors cursor-pointer ${
+                      isNavTextWhite ? 'text-white/80 hover:text-white' : 'text-muted-foreground hover:text-foreground'
+                    }`}
                   >
                     {link.label}
                     <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
@@ -193,7 +204,7 @@ export function Navbar() {
                         transition={{ duration: 0.15 }}
                         className="absolute top-full left-1/2 -translate-x-1/2 pt-3 z-50 w-[560px]"
                       >
-                        <div className="bg-background/95 backdrop-blur-xl border border-white/10 dark:border-white/5 rounded-3xl shadow-2xl p-4 grid grid-cols-2 gap-3">
+                        <div className="bg-background/95 backdrop-blur-xl border border-border/50 dark:border-white/5 rounded-3xl shadow-2xl p-4 grid grid-cols-2 gap-3">
                           {subLinks.map((sub, index) => {
                             const SubIcon = sub.icon;
                             const isLastOdd = subLinks.length % 2 !== 0 && index === subLinks.length - 1;
@@ -204,7 +215,7 @@ export function Navbar() {
                                 onClick={() => setOpenDropdown(null)}
                                 target={sub.isExternal ? "_blank" : undefined}
                                 rel={sub.isExternal ? "noopener noreferrer" : undefined}
-                                className={`flex gap-3.5 p-3 rounded-2xl text-left hover:bg-white/5 transition-all duration-300 group/item cursor-pointer ${isLastOdd ? 'col-span-2' : ''}`}
+                                className={`flex gap-3.5 p-3 rounded-2xl text-left hover:bg-muted/50 transition-all duration-300 group/item cursor-pointer ${isLastOdd ? 'col-span-2' : ''}`}
                               >
                                 <div className={`h-10 w-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 group-hover/item:scale-110 group-hover/item:rotate-6 group-hover/item:-translate-y-0.5 ${sub.color}`}>
                                   <SubIcon className="h-5 w-5" />
@@ -241,14 +252,16 @@ export function Navbar() {
                 target={link.isExternal ? "_blank" : undefined}
                 rel={link.isExternal ? "noopener noreferrer" : undefined}
                 className={`transition-all duration-300 relative py-1.5 px-1 ${
-                  isActive ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
+                  isActive 
+                    ? (isNavTextWhite ? "text-white font-bold" : "text-foreground font-bold") 
+                    : (isNavTextWhite ? "text-white/80 hover:text-white" : "text-muted-foreground hover:text-foreground")
                 }`}
               >
                 {link.label}
                 {isActive && (
                   <motion.span 
                     layoutId="activeNav"
-                    className="absolute bottom-0 left-0 h-0.5 w-full bg-primary"
+                    className={`absolute bottom-0 left-0 h-0.5 w-full ${isNavTextWhite ? 'bg-white' : 'bg-primary'}`}
                     transition={{ type: "spring", stiffness: 350, damping: 25 }}
                   />
                 )}

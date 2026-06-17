@@ -30,13 +30,13 @@ export default async function BlogIndexPage() {
       {/* HEADER SECTION WITH OVERLAP */}
       <div className="relative w-full isolate z-0">
         {/* Background Gradient Header */}
-        <div className="absolute top-0 left-0 w-full h-[700px] bg-gradient-to-br from-blue-700 via-blue-600 to-[#1d4ed8] rounded-b-[40px] md:rounded-b-[80px] -z-10 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-[550px] bg-gradient-to-br from-blue-700 via-blue-600 to-[#1d4ed8] rounded-b-[40px] md:rounded-b-[80px] -z-10 overflow-hidden">
           {/* Decorative shapes inside gradient */}
           <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-white/5 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/3" />
           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-black/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
         </div>
         
-        <div className="pt-[220px] pb-32 px-6 max-w-7xl mx-auto text-center">
+        <div className="pt-40 pb-[160px] px-6 max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight mb-8 font-sans">
             Insights & <span className="font-light italic opacity-90" style={{ fontFamily: 'var(--font-playfair)' }}>Automatización</span>
           </h1>
@@ -46,7 +46,7 @@ export default async function BlogIndexPage() {
         </div>
 
         {/* FEATURED CARDS OVERLAPPING */}
-        <div className="max-w-7xl mx-auto px-6 -mt-10 mb-20 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 -mt-32 mb-20 relative z-10">
           {error ? (
              <div className="p-6 bg-white/10 backdrop-blur-md rounded-2xl text-white text-center">
                 Error cargando los artículos: {error.message}
