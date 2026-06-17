@@ -36,7 +36,7 @@ export default async function BlogIndexPage() {
           <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-black/10 rounded-full blur-[100px] translate-y-1/3 -translate-x-1/4" />
         </div>
         
-        <div className="pt-36 pb-12 px-6 max-w-7xl mx-auto text-center">
+        <div className="pt-48 pb-24 px-6 max-w-7xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6 font-sans">
             Insights & <span className="font-light italic opacity-90" style={{ fontFamily: 'var(--font-playfair)' }}>Automatización</span>
           </h1>
@@ -46,7 +46,7 @@ export default async function BlogIndexPage() {
         </div>
 
         {/* FEATURED CARDS OVERLAPPING */}
-        <div className="max-w-7xl mx-auto px-6 -mt-4 mb-20 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 -mt-16 mb-20 relative z-10">
           {error ? (
              <div className="p-6 bg-white/10 backdrop-blur-md rounded-2xl text-white text-center">
                 Error cargando los artículos: {error.message}

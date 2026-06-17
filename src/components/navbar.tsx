@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
 import { useTheme } from "next-themes";
 import { trackEvent } from "@/lib/metrics";
+import { usePathname } from "next/navigation";
 
 interface NavLink {
   href?: string;
@@ -75,6 +76,7 @@ export function Navbar() {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const { theme } = useTheme();
   const { scrollY } = useScroll();
+  const pathname = usePathname();
   
   useEffect(() => {
     const handleOutsideClick = (e: MouseEvent) => {
@@ -100,12 +102,13 @@ export function Navbar() {
   }, []);
   
   // Use CSS variables for colors that adapt to theme
+  const isBlog = pathname?.startsWith('/blog');
   const backgroundColor = useTransform(
     scrollY,
     [0, 100],
     [
-      "rgba(var(--nav-bg), 0)", 
-      "rgba(var(--nav-bg), 0.8)"
+      isBlog ? "rgba(var(--nav-bg), 0.95)" : "rgba(var(--nav-bg), 0)", 
+      "rgba(var(--nav-bg), 0.95)"
     ]
   );
   
@@ -224,8 +227,11 @@ export function Navbar() {
               );
             }
 
-            const id = link.href?.startsWith('#') ? link.href.substring(1) : '';
-            const isActive = activeSection === id && id !== '';
+            const isHash = link.href?.startsWith('#');
+            const id = isHash ? link.href!.substring(1) : '';
+            const isActive = isHash 
+              ? (activeSection === id && id !== '') 
+              : (pathname === link.href || (link.href !== '/' && pathname?.startsWith(link.href!)));
             
             return (
               <Link
@@ -234,7 +240,7 @@ export function Navbar() {
                 target={link.isExternal ? "_blank" : undefined}
                 rel={link.isExternal ? "noopener noreferrer" : undefined}
                 className={`transition-all duration-300 relative py-1.5 px-1 ${
-                  isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                  isActive ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {link.label}
