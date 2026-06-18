@@ -146,6 +146,61 @@ export default async function BlogIndexPage({
                   </Link>
                 ))}
               </div>
+            {/* ── 2. ARTÍCULOS RESTANTES ── */}
+            <div className="mt-16 mb-8">
+              <h2 className="font-sans font-bold text-2xl text-foreground mb-8">
+                {activeCategory === 'Todos' ? 'Más artículos' : `Artículos sobre ${activeCategory}`}
+              </h2>
+            {/* ── 3. GRID DE ARTÍCULOS RECIENTES ── */}
+            {gridPosts.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8">
+                {gridPosts.map((post) => (
+                  <Link
+                    href={`/blog/${post.slug}`}
+                    key={post.id}
+                    className="group flex flex-col h-full bg-card rounded-[28px] overflow-hidden transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-border/50"
+                    style={{ boxShadow: '0 4px 20px -5px rgba(0,0,0,0.05)' }}
+                  >
+                    {/* Imagen */}
+                    <div className="h-[220px] overflow-hidden bg-neutral-100 dark:bg-neutral-800 shrink-0">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={post.cover_image || `https://picsum.photos/seed/${post.slug}-regular/600/400`}
+                        alt={post.title}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
+                    </div>
+
+                    <div className="p-7 flex flex-col flex-grow bg-white dark:bg-card border-x border-b border-border/40 rounded-b-[28px]">
+                      <span className="text-[12px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-3 block">
+                        {post.category || 'Automatización'}
+                      </span>
+                      <h3 className="text-[22px] font-bold tracking-tight leading-snug mb-4 group-hover:text-blue-600 transition-colors font-sans">
+                        {post.title}
+                      </h3>
+                      <p className="text-muted-foreground text-[15px] leading-relaxed line-clamp-2 mb-6 font-medium flex-grow">
+                        {post.excerpt}
+                      </p>
+                      
+                      <time className="text-xs font-semibold text-muted-foreground mt-auto pt-5 border-t border-border/50">
+                        {new Date(post.published_at).toLocaleDateString('es-DO', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </time>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-16">
+                <p className="text-muted-foreground text-lg">
+                  Pronto publicaremos más artículos. ¡Mantente atento!
+                </p>
+              </div>
+            )}
+            </div>
             </div>
 
               {/* DERECHA: SIDEBAR (FILTRO + BANNER) */}
@@ -267,61 +322,6 @@ export default async function BlogIndexPage({
               </aside>
             </div>
 
-            {/* ── 2. ARTÍCULOS RESTANTES ── */}
-            <div className="mb-20">
-              <h2 className="font-sans font-bold text-2xl text-foreground mb-8">
-                {activeCategory === 'Todos' ? 'Más artículos' : `Artículos sobre ${activeCategory}`}
-              </h2>
-            {/* ── 3. GRID DE ARTÍCULOS RECIENTES ── */}
-            {gridPosts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {gridPosts.map((post) => (
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    key={post.id}
-                    className="group flex flex-col h-full bg-card rounded-[28px] overflow-hidden transition-all duration-300 hover:-translate-y-2 border border-transparent hover:border-border/50"
-                    style={{ boxShadow: '0 4px 20px -5px rgba(0,0,0,0.05)' }}
-                  >
-                    {/* Imagen */}
-                    <div className="h-[220px] overflow-hidden bg-neutral-100 dark:bg-neutral-800 shrink-0">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={post.cover_image || `https://picsum.photos/seed/${post.slug}-regular/600/400`}
-                        alt={post.title}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    </div>
-
-                    <div className="p-7 flex flex-col flex-grow bg-white dark:bg-card border-x border-b border-border/40 rounded-b-[28px]">
-                      <span className="text-[12px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-3 block">
-                        {post.category || 'Automatización'}
-                      </span>
-                      <h3 className="text-[22px] font-bold tracking-tight leading-snug mb-4 group-hover:text-blue-600 transition-colors font-sans">
-                        {post.title}
-                      </h3>
-                      <p className="text-muted-foreground text-[15px] leading-relaxed line-clamp-2 mb-6 font-medium flex-grow">
-                        {post.excerpt}
-                      </p>
-                      
-                      <time className="text-xs font-semibold text-muted-foreground mt-auto pt-5 border-t border-border/50">
-                        {new Date(post.published_at).toLocaleDateString('es-DO', {
-                          month: 'short',
-                          day: 'numeric',
-                          year: 'numeric',
-                        })}
-                      </time>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-16">
-                <p className="text-muted-foreground text-lg">
-                  Pronto publicaremos más artículos. ¡Mantente atento!
-                </p>
-              </div>
-            )}
-            </div>
           </>
         )}
       </section>
