@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AnalyticsSensor } from "@/components/analytics-sensor";
 import { CookieBanner } from "@/components/cookie-banner";
+import Script from "next/script";
 
 const font = Inter({ subsets: ["latin"] });
 const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
@@ -39,6 +40,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning className={`${syne.variable} ${playfair.variable}`}>
+      <head>
+        <Script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4251785159537645"
+          crossOrigin="anonymous"
+          strategy="afterInteractive"
+        />
+      </head>
       <body className={`${font.className} antialiased selection:bg-primary/30`}>
         <ThemeProvider
           attribute="class"
