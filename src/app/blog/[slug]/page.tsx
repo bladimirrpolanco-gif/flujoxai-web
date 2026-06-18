@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 
   const { data: post } = await supabase
     .from('posts')
-    .select('title, excerpt, seo_keywords')
+    .select('title, excerpt, seo_keywords, meta_title, focus_keyword')
     .eq('slug', slug)
     .single();
 
@@ -25,12 +25,15 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
     return { title: 'Artículo no encontrado | FlujoXAI' };
   }
 
+  const pageTitle = post.meta_title || `${post.title} | FlujoXAI`;
+  const pageKeywords = [post.focus_keyword, post.seo_keywords].filter(Boolean).join(', ');
+
   return {
-    title: `${post.title} | FlujoXAI`,
+    title: pageTitle,
     description: post.excerpt,
-    keywords: post.seo_keywords,
+    keywords: pageKeywords,
     openGraph: {
-      title: post.title,
+      title: pageTitle,
       description: post.excerpt,
       type: 'article',
     },

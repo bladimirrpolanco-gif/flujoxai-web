@@ -7,6 +7,7 @@ import {
   FileText, Calendar, CheckCircle, Clock, AlertCircle, ExternalLink,
   Upload, Image, Link2
 } from 'lucide-react';
+import { RichTextEditor } from './rich-text-editor';
 
 interface Post {
   id: string;
@@ -15,6 +16,8 @@ interface Post {
   content: string;
   excerpt: string;
   seo_keywords: string;
+  meta_title: string | null;
+  focus_keyword: string | null;
   cover_image: string | null;
   category: string | null;
   published_at: string | null;
@@ -32,6 +35,8 @@ const EMPTY_FORM = {
   content: '',
   excerpt: '',
   seo_keywords: '',
+  meta_title: '',
+  focus_keyword: '',
   published_at: '',
   cover_image: '',
   category: 'Automatización',
@@ -85,6 +90,8 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
       content: post.content,
       excerpt: post.excerpt ?? '',
       seo_keywords: post.seo_keywords ?? '',
+      meta_title: post.meta_title ?? '',
+      focus_keyword: post.focus_keyword ?? '',
       cover_image: post.cover_image ?? '',
       category: post.category ?? 'Automatización',
       published_at: post.published_at
@@ -110,6 +117,8 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
       content: form.content.trim(),
       excerpt: form.excerpt.trim(),
       seo_keywords: form.seo_keywords.trim(),
+      meta_title: form.meta_title.trim() || null,
+      focus_keyword: form.focus_keyword.trim() || null,
       cover_image: form.cover_image.trim() || null,
       category: form.category.trim() || null,
       published_at: asDraft
@@ -429,31 +438,26 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
             {/* Resumen */}
             <div>
               <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
-                Resumen / Excerpt
+                Meta Descripción / Resumen *
               </label>
               <textarea
                 rows={2}
                 value={form.excerpt}
                 onChange={(e) => setForm((f) => ({ ...f, excerpt: e.target.value }))}
-                placeholder="Una o dos frases que resumen el artículo (aparece en las tarjetas del blog y en Google)..."
+                placeholder="Aparece en las tarjetas del blog y como descripción en Google..."
                 className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
               />
             </div>
 
             {/* Contenido HTML */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wider">
-                  Contenido (HTML) *
-                </label>
-                <span className="text-[11px] text-zinc-600">Usa &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;strong&gt;...</span>
-              </div>
-              <textarea
-                rows={18}
+              <label className="block text-xs font-bold text-zinc-400 uppercase tracking-wider mb-2">
+                Contenido del Artículo *
+              </label>
+              <RichTextEditor
                 value={form.content}
-                onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-                placeholder={`<h2>Título de sección</h2>\n<p>Tu párrafo aquí...</p>\n\n<h3>Subtítulo</h3>\n<p>Más contenido...</p>\n\n<ul>\n  <li>Punto 1</li>\n  <li>Punto 2</li>\n</ul>`}
-                className="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-green-400 font-mono text-sm placeholder-zinc-700 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-y"
+                onChange={(value) => setForm((f) => ({ ...f, content: value }))}
+                placeholder="Empieza a escribir tu increíble artículo..."
               />
             </div>
           </div>
@@ -573,34 +577,50 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
               </div>
             </div>
 
-            {/* SEO */}
-            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5">
-              <h3 className="text-sm font-bold text-white mb-4">🔍 SEO</h3>
-              <div>
-                <label className="block text-xs font-semibold text-zinc-500 mb-1.5">Palabras clave</label>
-                <textarea
-                  rows={3}
-                  value={form.seo_keywords}
-                  onChange={(e) => setForm((f) => ({ ...f, seo_keywords: e.target.value }))}
-                  placeholder="automatización, IA, chatbots, RD..."
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-3 py-2.5 text-white text-sm placeholder-zinc-600 focus:outline-none focus:ring-2 focus:ring-blue-600 resize-none"
-                />
-                <p className="text-[11px] text-zinc-600 mt-1.5">Separadas por coma. Ayudan a posicionar en Google.</p>
+            {/* SEO AVANZADO */}
+            <div className="bg-gradient-to-b from-blue-900/20 to-zinc-900 border border-blue-900/30 rounded-2xl p-5 shadow-lg shadow-blue-900/5">
+              <div className="flex items-center gap-2 mb-4">
+                <span className="bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">SEO</span>
+                <h3 className="text-sm font-bold text-white">Posicionamiento en Google</h3>
               </div>
-            </div>
+              
+              <div className="space-y-4">
+                {/* Título SEO */}
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-400 mb-1.5">Título SEO (Meta Title)</label>
+                  <input
+                    type="text"
+                    value={form.meta_title}
+                    onChange={(e) => setForm((f) => ({ ...f, meta_title: e.target.value }))}
+                    placeholder={form.title || "Sobrescribe el título normal..."}
+                    className="w-full bg-zinc-900/50 border border-zinc-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  />
+                  <p className="text-[10px] text-zinc-500 mt-1">Si lo dejas vacío, se usará el título del artículo.</p>
+                </div>
 
-            {/* Guía rápida */}
-            <div className="bg-blue-600/10 border border-blue-600/20 rounded-2xl p-5">
-              <h3 className="text-sm font-bold text-blue-400 mb-3">💡 HTML rápido</h3>
-              <div className="space-y-1.5 text-xs font-mono text-zinc-400">
-                <p>&lt;h2&gt;Sección&lt;/h2&gt;</p>
-                <p>&lt;h3&gt;Subtítulo&lt;/h3&gt;</p>
-                <p>&lt;p&gt;Párrafo&lt;/p&gt;</p>
-                <p>&lt;strong&gt;Negrita&lt;/strong&gt;</p>
-                <p>&lt;em&gt;Cursiva&lt;/em&gt;</p>
-                <p>&lt;ul&gt;&lt;li&gt;Item&lt;/li&gt;&lt;/ul&gt;</p>
-                <p>&lt;ol&gt;&lt;li&gt;Paso&lt;/li&gt;&lt;/ol&gt;</p>
-                <p>&lt;blockquote&gt;Cita&lt;/blockquote&gt;</p>
+                {/* Focus Keyword */}
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-400 mb-1.5">Palabra Clave Principal</label>
+                  <input
+                    type="text"
+                    value={form.focus_keyword}
+                    onChange={(e) => setForm((f) => ({ ...f, focus_keyword: e.target.value }))}
+                    placeholder="Ej: agencias de IA en RD..."
+                    className="w-full bg-zinc-900/50 border border-zinc-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  />
+                </div>
+
+                {/* Palabras clave secundarias */}
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-400 mb-1.5">Otras Keywords</label>
+                  <input
+                    type="text"
+                    value={form.seo_keywords}
+                    onChange={(e) => setForm((f) => ({ ...f, seo_keywords: e.target.value }))}
+                    placeholder="automatización, chatbots..."
+                    className="w-full bg-zinc-900/50 border border-zinc-700 rounded-xl px-3 py-2.5 text-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  />
+                </div>
               </div>
             </div>
           </div>
