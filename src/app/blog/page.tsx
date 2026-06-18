@@ -151,7 +151,72 @@ export default async function BlogIndexPage({
               {/* DERECHA: SIDEBAR (FILTRO + BANNER) */}
               <aside className="lg:col-span-1 flex flex-col gap-6 pt-0 lg:pt-[3.25rem]">
                 
-                {/* BLOQUE 1: FILTRO DE CATEGORÍAS */}
+                {/* BLOQUE 1: ÚLTIMAS NOTICIAS (ESTILO WIDGET) */}
+                <div className="bg-white dark:bg-card rounded-t-none rounded-b-[28px] border-t-[5px] border-t-blue-600 border border-border shadow-sm overflow-hidden flex flex-col">
+                  <div className="p-4 border-b border-border/40 bg-neutral-50/50 dark:bg-neutral-900/20">
+                    <h3 className="font-sans font-black text-blue-900 dark:text-blue-400 uppercase tracking-widest text-[13px] flex items-center gap-2">
+                      Últimas Noticias
+                    </h3>
+                  </div>
+                  
+                  <div className="flex-1 max-h-[300px] overflow-y-auto p-5 space-y-5 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-neutral-300 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-700 [&::-webkit-scrollbar-thumb]:rounded-full">
+                    
+                    {/* Item 1 */}
+                    <div className="relative pl-3">
+                      <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-amber-400" />
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Hace 24 minutos</span>
+                        <span className="bg-blue-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">IA</span>
+                      </div>
+                      <p className="text-sm font-bold text-foreground leading-snug hover:text-blue-600 cursor-pointer transition-colors mt-1.5">
+                        Anthropic lanza Claude 3.5 Sonnet, superando oficialmente a GPT-4o en velocidad y razonamiento.
+                      </p>
+                    </div>
+
+                    <div className="w-full h-px bg-border/40" />
+
+                    {/* Item 2 */}
+                    <div className="relative pl-3">
+                      <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-amber-400" />
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Hace 2 horas</span>
+                      </div>
+                      <p className="text-sm font-bold text-foreground leading-snug hover:text-blue-600 cursor-pointer transition-colors mt-1.5">
+                        Google actualiza la API de Gemini eliminando las cuotas mensuales para desarrolladores verificados.
+                      </p>
+                    </div>
+
+                    <div className="w-full h-px bg-border/40" />
+
+                    {/* Item 3 */}
+                    <div className="relative pl-3">
+                      <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-amber-400" />
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Ayer</span>
+                        <span className="bg-emerald-600 text-white text-[9px] font-bold px-1.5 py-0.5 rounded uppercase tracking-wider">OpenAI</span>
+                      </div>
+                      <p className="text-sm font-bold text-foreground leading-snug hover:text-blue-600 cursor-pointer transition-colors mt-1.5">
+                        OpenAI retrasa el lanzamiento de Voice Engine por preocupaciones de seguridad en el clonado de voz.
+                      </p>
+                    </div>
+
+                    <div className="w-full h-px bg-border/40" />
+
+                    {/* Item 4 */}
+                    <div className="relative pl-3">
+                      <div className="absolute left-0 top-1.5 w-1.5 h-1.5 rounded-full bg-amber-400" />
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">Hace 2 días</span>
+                      </div>
+                      <p className="text-sm font-bold text-foreground leading-snug hover:text-blue-600 cursor-pointer transition-colors mt-1.5">
+                        Nvidia alcanza los 3 billones de dólares de valoración impulsada por la demanda de chips para centros de datos de IA.
+                      </p>
+                    </div>
+
+                  </div>
+                </div>
+
+                {/* BLOQUE 2: FILTRO DE CATEGORÍAS */}
                 <div className="bg-white dark:bg-card rounded-[28px] p-7 border border-border shadow-sm">
                   <h3 className="font-sans font-bold text-xl text-foreground mb-5">Explora por Categoría</h3>
                   <div className="flex flex-wrap gap-2">
