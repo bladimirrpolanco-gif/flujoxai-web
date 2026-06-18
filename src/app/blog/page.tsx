@@ -85,6 +85,22 @@ export default async function BlogIndexPage({
           </div>
         ) : (
           <>
+            {/* ── ALERTA DE NOTICIAS (LATEST NEWS) ── */}
+            <div className="mb-10 w-full bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800/40 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/40 shrink-0">
+                  <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+                </div>
+                <p className="text-sm font-medium text-blue-900 dark:text-blue-100 leading-snug">
+                  <span className="font-bold mr-2">🚀 Último Minuto:</span>
+                  Anthropic acaba de lanzar Claude 3.5 Sonnet, superando a GPT-4o. Mientras que Google actualiza la ventana de contexto de Gemini 1.5 Pro.
+                </p>
+              </div>
+              <Link href="/blog" className="text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider hover:underline whitespace-nowrap shrink-0 ml-11 sm:ml-0">
+                Leer análisis &rarr;
+              </Link>
+            </div>
+
             {/* ── 1. SECCIÓN SUPERIOR: DESTACADOS + SIDEBAR ── */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 xl:gap-12 mb-20">
               
