@@ -1,0 +1,3 @@
+# FlujoXAI Ads.txt file
+# Reemplaza este contenido con el fragmento de código que te proporcione Google AdSense
+# Formato: google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

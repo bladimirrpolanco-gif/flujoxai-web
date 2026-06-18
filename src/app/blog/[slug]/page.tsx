@@ -4,6 +4,7 @@ import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
+import { AdPlaceholder } from '@/components/ad-placeholder';
 import { Bot, Calendar, ChevronRight, Tag, Share2 } from 'lucide-react';
 
 export const revalidate = 0;
@@ -178,6 +179,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
             </div>
 
+            {/* Banner publicitario al final del artículo */}
+            <div className="mt-12 w-full">
+              <AdPlaceholder height="150px" />
+            </div>
+
             {/* Volver al Blog */}
             <div className="mt-8">
               <Link
@@ -192,6 +198,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
           {/* ── COLUMNA DERECHA: Sidebar ── */}
           <aside className="w-full lg:w-[300px] xl:w-[320px] flex-shrink-0 space-y-8">
+
+            {/* Primer Anuncio (Top Sidebar) */}
+            <AdPlaceholder height="250px" />
 
             {/* Últimas Publicaciones */}
             <div className="bg-card rounded-[20px] p-6 border border-border/60">
@@ -261,6 +270,11 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </Link>
                 ))}
               </div>
+            </div>
+
+            {/* Segundo Anuncio (Sticky) */}
+            <div className="sticky top-24">
+              <AdPlaceholder height="600px" />
             </div>
 
             {/* CTA Card */}
