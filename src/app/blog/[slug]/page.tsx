@@ -274,7 +274,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
             {/* Segundo Anuncio (Sticky) */}
             <div className="sticky top-24">
-              <AdPlaceholder height="600px" />
+              <AdPlaceholder height="250px" />
             </div>
 
             {/* CTA Card */}
