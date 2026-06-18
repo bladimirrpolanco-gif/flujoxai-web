@@ -3,6 +3,7 @@ import { Inter, Syne, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AnalyticsSensor } from "@/components/analytics-sensor";
+import { CookieBanner } from "@/components/cookie-banner";
 
 const font = Inter({ subsets: ["latin"] });
 const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
@@ -46,6 +47,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AnalyticsSensor />
+          <CookieBanner />
           {children}
         </ThemeProvider>
       </body>

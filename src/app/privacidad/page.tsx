@@ -83,7 +83,21 @@ export default function PrivacidadPage() {
             </p>
           </Section>
 
-          <Section title="6. Sus derechos">
+          <Section title="6. Cookies y Tecnologías de Rastreo Web">
+            <p>
+              Además de los datos de WhatsApp, cuando visita nuestro sitio web (flujoxai.com), recopilamos información no identificable personalmente para mejorar su experiencia y medir la eficacia de nuestras campañas publicitarias.
+            </p>
+            <p>Utilizamos las siguientes tecnologías:</p>
+            <ul>
+              <li><strong>Cookies analíticas y de rendimiento:</strong> Para entender cómo los visitantes interactúan con la página web (ej. Google Analytics).</li>
+              <li><strong>Píxeles de seguimiento publicitario:</strong> Utilizamos etiquetas como el Píxel de Meta (Facebook/Instagram) y Google Ads para mostrarle anuncios relevantes de nuestros servicios basados en las páginas que ha visitado, así como para medir las conversiones.</li>
+            </ul>
+            <p>
+              Usted puede aceptar o rechazar el uso de cookies no esenciales mediante nuestro banner de consentimiento. Además, puede configurar su navegador para bloquear estas tecnologías, aunque algunas funciones del sitio podrían verse afectadas.
+            </p>
+          </Section>
+
+          <Section title="7. Sus derechos">
             <p>
               Usted tiene derecho a acceder, rectificar y solicitar la eliminación de sus datos. Para ejercer cualquiera de estos derechos, escríbanos a{" "}
               <a href="mailto:soporte@flujoxai.com" className="text-primary hover:underline">
