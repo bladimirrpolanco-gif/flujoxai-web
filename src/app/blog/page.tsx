@@ -151,7 +151,31 @@ export default async function BlogIndexPage({
               {/* DERECHA: SIDEBAR (FILTRO + BANNER) */}
               <aside className="lg:col-span-1 flex flex-col gap-6 pt-0 lg:pt-[3.25rem]">
                 
-                {/* BLOQUE 1: ÚLTIMAS NOTICIAS (ESTILO WIDGET) */}
+                {/* BLOQUE 1: FILTRO DE CATEGORÍAS */}
+                <div className="bg-white dark:bg-card rounded-[28px] p-7 border border-border shadow-sm">
+                  <h3 className="font-sans font-bold text-xl text-foreground mb-5">Explora por Categoría</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {['Todos', 'Chatbots', 'Automatización', 'CRM', 'Tendencias', 'IA & Tech', 'Estrategia'].map((cat) => {
+                      const isActive = activeCategory === cat;
+                      return (
+                        <Link
+                          key={cat}
+                          href={cat === 'Todos' ? '/blog' : `/blog?category=${cat}`}
+                          scroll={false}
+                          className={`text-sm font-semibold px-4 py-2 rounded-full transition-all duration-300 ${
+                            isActive
+                              ? 'bg-blue-600 text-white shadow-md'
+                              : 'bg-neutral-100 dark:bg-neutral-800 text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-700'
+                          }`}
+                        >
+                          {cat}
+                        </Link>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* BLOQUE 2: ÚLTIMAS NOTICIAS (ESTILO WIDGET) */}
                 <div className="bg-white dark:bg-card rounded-t-none rounded-b-[28px] border-t-[5px] border-t-blue-600 border border-border shadow-sm overflow-hidden flex flex-col">
                   <div className="p-4 border-b border-border/40 bg-neutral-50/50 dark:bg-neutral-900/20">
                     <h3 className="font-sans font-black text-blue-900 dark:text-blue-400 uppercase tracking-widest text-[13px] flex items-center gap-2">
@@ -213,30 +237,6 @@ export default async function BlogIndexPage({
                       </p>
                     </div>
 
-                  </div>
-                </div>
-
-                {/* BLOQUE 2: FILTRO DE CATEGORÍAS */}
-                <div className="bg-white dark:bg-card rounded-[28px] p-7 border border-border shadow-sm">
-                  <h3 className="font-sans font-bold text-xl text-foreground mb-5">Explora por Categoría</h3>
-                  <div className="flex flex-wrap gap-2">
-                    {['Todos', 'Chatbots', 'Automatización', 'CRM', 'Tendencias', 'IA & Tech', 'Estrategia'].map((cat) => {
-                      const isActive = activeCategory === cat;
-                      return (
-                        <Link
-                          key={cat}
-                          href={cat === 'Todos' ? '/blog' : `/blog?category=${cat}`}
-                          scroll={false}
-                          className={`text-sm font-semibold px-4 py-2 rounded-full transition-all duration-300 ${
-                            isActive
-                              ? 'bg-blue-600 text-white shadow-md'
-                              : 'bg-neutral-100 dark:bg-neutral-800 text-muted-foreground hover:text-foreground hover:bg-neutral-200 dark:hover:bg-neutral-700'
-                          }`}
-                        >
-                          {cat}
-                        </Link>
-                      );
-                    })}
                   </div>
                 </div>
 
