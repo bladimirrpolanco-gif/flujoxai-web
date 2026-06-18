@@ -90,7 +90,7 @@ export default function PrivacidadPage() {
             <p>Utilizamos las siguientes tecnologías:</p>
             <ul>
               <li><strong>Cookies analíticas y de rendimiento:</strong> Para entender cómo los visitantes interactúan con la página web (ej. Google Analytics).</li>
-              <li><strong>Píxeles de seguimiento publicitario:</strong> Utilizamos etiquetas como el Píxel de Meta (Facebook/Instagram) y Google Ads para mostrarle anuncios relevantes de nuestros servicios basados en las páginas que ha visitado, así como para medir las conversiones.</li>
+              <li><strong>Píxeles de seguimiento publicitario:</strong> Utilizamos etiquetas como Google Ads para mostrarle anuncios relevantes de nuestros servicios basados en las páginas que ha visitado, así como para medir las conversiones.</li>
             </ul>
             <p>
               Usted puede aceptar o rechazar el uso de cookies no esenciales mediante nuestro banner de consentimiento. Además, puede configurar su navegador para bloquear estas tecnologías, aunque algunas funciones del sitio podrían verse afectadas.
