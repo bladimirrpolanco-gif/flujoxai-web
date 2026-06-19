@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { AdPlaceholder } from '@/components/ad-placeholder';
+import { ShareButton } from '@/components/share-button';
 import { Bot, Calendar, ChevronRight, Tag, Share2 } from 'lucide-react';
 
 export const revalidate = 0;
@@ -160,26 +161,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               {/* Compartir */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
-                  <Share2 className="w-4 h-4" />
-                  Compartir este artículo
+                  Comparte este artículo
                 </p>
-                <div className="flex gap-3">
-                  <a
-                    href={`https://wa.me/?text=${encodeURIComponent(post.title + ' ' + 'https://flujoxai.com/blog/' + post.slug)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#25d366] text-white text-[11px] font-bold px-4 py-2 rounded-full transition-opacity hover:opacity-80"
-                  >
-                    WhatsApp
-                  </a>
-                  <a
-                    href={`https://www.linkedin.com/sharing/share-offsite/?url=https://flujoxai.com/blog/${post.slug}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#0077b5] text-white text-[11px] font-bold px-4 py-2 rounded-full transition-opacity hover:opacity-80"
-                  >
-                    LinkedIn
-                  </a>
+                <div>
+                  <ShareButton title={post.title} url={`https://flujoxai.com/blog/${post.slug}`} />
                 </div>
               </div>
 
