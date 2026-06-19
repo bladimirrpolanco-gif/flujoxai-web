@@ -154,28 +154,59 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
-            {/* Síguenos */}
-            <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
-                Síguenos en nuestras redes
-              </p>
-              <div className="flex flex-wrap gap-3">
-                {[
-                  { label: 'Instagram', color: 'bg-gradient-to-r from-[#f09433] via-[#e6683c] to-[#bc1888]', href: `https://www.instagram.com/flujoxai/` },
-                  { label: 'Facebook', color: 'bg-[#1877f2]', href: `https://web.facebook.com/profile.php?id=61575443542288` },
-                  { label: 'LinkedIn', color: 'bg-[#0077b5]', href: `https://www.linkedin.com/in/flujox-ai-0240073b4/` },
-                ].map((s) => (
+            {/* Compartir y Síguenos */}
+            <div className="mt-12 pt-8 border-t border-border flex flex-col gap-6">
+              
+              {/* Compartir */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                  <Share2 className="w-4 h-4" />
+                  Compartir este artículo
+                </p>
+                <div className="flex gap-3">
                   <a
-                    key={s.label}
-                    href={s.href}
+                    href={`https://wa.me/?text=${encodeURIComponent(post.title + ' ' + 'https://flujoxai.com/blog/' + post.slug)}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`${s.color} text-white text-[11px] font-bold px-4 py-2 rounded-full transition-opacity hover:opacity-80`}
+                    className="bg-[#25d366] text-white text-[11px] font-bold px-4 py-2 rounded-full transition-opacity hover:opacity-80"
                   >
-                    {s.label}
+                    WhatsApp
                   </a>
-                ))}
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=https://flujoxai.com/blog/${post.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-[#0077b5] text-white text-[11px] font-bold px-4 py-2 rounded-full transition-opacity hover:opacity-80"
+                  >
+                    LinkedIn
+                  </a>
+                </div>
               </div>
+
+              {/* Síguenos */}
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pt-6 border-t border-border/50">
+                <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
+                  Síguenos en nuestras redes
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  {[
+                    { label: 'Instagram', color: 'bg-gradient-to-r from-[#f09433] via-[#e6683c] to-[#bc1888]', href: `https://www.instagram.com/flujoxai/` },
+                    { label: 'Facebook', color: 'bg-[#1877f2]', href: `https://web.facebook.com/profile.php?id=61575443542288` },
+                    { label: 'LinkedIn', color: 'bg-[#0077b5]', href: `https://www.linkedin.com/in/flujox-ai-0240073b4/` },
+                  ].map((s) => (
+                    <a
+                      key={s.label}
+                      href={s.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`${s.color} text-white text-[11px] font-bold px-4 py-2 rounded-full transition-opacity hover:opacity-80`}
+                    >
+                      {s.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
             </div>
 
             {/* Banner publicitario al final del artículo */}
