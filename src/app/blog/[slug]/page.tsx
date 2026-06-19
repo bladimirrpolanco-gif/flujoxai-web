@@ -154,17 +154,16 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
 
-            {/* Compartir */}
-            <div className="mt-12 pt-8 border-t border-border flex items-center justify-between">
+            {/* Síguenos */}
+            <div className="mt-12 pt-8 border-t border-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <p className="text-sm font-semibold text-muted-foreground flex items-center gap-2">
-                <Share2 className="w-4 h-4" />
-                Comparte este artículo
+                Síguenos en nuestras redes
               </p>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 {[
-                  { label: 'LinkedIn', color: 'bg-[#0077b5]', href: `https://www.linkedin.com/sharing/share-offsite/?url=https://flujoxai.com/blog/${post.slug}` },
-                  { label: 'Twitter / X', color: 'bg-black', href: `https://twitter.com/intent/tweet?url=https://flujoxai.com/blog/${post.slug}&text=${encodeURIComponent(post.title)}` },
-                  { label: 'WhatsApp', color: 'bg-[#25d366]', href: `https://wa.me/?text=${encodeURIComponent(post.title + ' ' + 'https://flujoxai.com/blog/' + post.slug)}` },
+                  { label: 'Instagram', color: 'bg-gradient-to-r from-[#f09433] via-[#e6683c] to-[#bc1888]', href: `https://www.instagram.com/flujoxai/` },
+                  { label: 'Facebook', color: 'bg-[#1877f2]', href: `https://web.facebook.com/profile.php?id=61575443542288` },
+                  { label: 'LinkedIn', color: 'bg-[#0077b5]', href: `https://www.linkedin.com/in/flujox-ai-0240073b4/` },
                 ].map((s) => (
                   <a
                     key={s.label}
