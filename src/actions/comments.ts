@@ -46,8 +46,32 @@ export async function getComments(post_slug: string) {
   return data;
 }
 
+import { cookies } from 'next/headers';
+import { createServerClient } from '@supabase/ssr';
+
+// Helper for admin operations
+async function getAdminSupabase() {
+  const cookieStore = await cookies();
+  return createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
+        },
+        setAll() {},
+      },
+    }
+  );
+}
+
 export async function deleteComment(id: string) {
-  const { error } = await supabase.from('comments').delete().eq('id', id);
+  const adminSupabase = await getAdminSupabase();
+  const { data: { user } } = await adminSupabase.auth.getUser();
+  if (!user) return { error: 'No autorizado' };
+
+  const { error } = await adminSupabase.from('comments').delete().eq('id', id);
   if (error) {
     console.error('Error deleting comment:', error);
     return { error: 'Error al borrar el comentario' };
@@ -56,14 +80,18 @@ export async function deleteComment(id: string) {
 }
 
 export async function replyToComment(id: string, reply: string) {
-  // Primero obtenemos el comentario para saber a qué artículo (slug) pertenece
-  const { data: comment } = await supabase
+  const adminSupabase = await getAdminSupabase();
+  const { data: { user } } = await adminSupabase.auth.getUser();
+  if (!user) return { error: 'No autorizado' };
+
+  // Primero obtenemos el comentario
+  const { data: comment } = await adminSupabase
     .from('comments')
     .select('post_slug')
     .eq('id', id)
     .single();
 
-  const { error } = await supabase
+  const { error } = await adminSupabase
     .from('comments')
     .update({ admin_reply: reply })
     .eq('id', id);
@@ -73,7 +101,6 @@ export async function replyToComment(id: string, reply: string) {
     return { error: 'Error al enviar la respuesta' };
   }
 
-  // Si encontramos el slug, limpiamos el caché de esa página para que se vea la respuesta de inmediato
   if (comment?.post_slug) {
     revalidatePath(`/blog/${comment.post_slug}`);
   }
