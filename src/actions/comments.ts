@@ -56,6 +56,13 @@ export async function deleteComment(id: string) {
 }
 
 export async function replyToComment(id: string, reply: string) {
+  // Primero obtenemos el comentario para saber a qué artículo (slug) pertenece
+  const { data: comment } = await supabase
+    .from('comments')
+    .select('post_slug')
+    .eq('id', id)
+    .single();
+
   const { error } = await supabase
     .from('comments')
     .update({ admin_reply: reply })
@@ -65,5 +72,11 @@ export async function replyToComment(id: string, reply: string) {
     console.error('Error replying to comment:', error);
     return { error: 'Error al enviar la respuesta' };
   }
+
+  // Si encontramos el slug, limpiamos el caché de esa página para que se vea la respuesta de inmediato
+  if (comment?.post_slug) {
+    revalidatePath(`/blog/${comment.post_slug}`);
+  }
+
   return { success: true };
 }
