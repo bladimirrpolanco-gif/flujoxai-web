@@ -1,5 +1,6 @@
 import { getComments } from '@/actions/comments';
 import { CommentForm } from './comments-form';
+import { ExpandableText } from './expandable-text';
 import { User, Calendar } from 'lucide-react';
 
 export async function CommentsSection({ postSlug }: { postSlug: string }) {
@@ -44,7 +45,7 @@ export async function CommentsSection({ postSlug }: { postSlug: string }) {
                 </div>
               </div>
               <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed whitespace-pre-line mt-2">
-                {comment.content}
+                <ExpandableText text={comment.content} maxLength={150} />
               </p>
 
               {/* Respuesta del Administrador */}
@@ -57,7 +58,7 @@ export async function CommentsSection({ postSlug }: { postSlug: string }) {
                     <span className="text-xs font-bold text-primary">Equipo FlujoXAI</span>
                   </div>
                   <p className="text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed whitespace-pre-line">
-                    {comment.admin_reply}
+                    <ExpandableText text={comment.admin_reply} maxLength={150} />
                   </p>
                 </div>
               )}
