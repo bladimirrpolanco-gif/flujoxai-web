@@ -1,11 +1,9 @@
 'use server';
 
-import { createClient } from '@/lib/supabase/server';
+import { supabase } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 
 export async function createComment(formData: FormData) {
-  const supabase = createClient();
-  
   const post_slug = formData.get('post_slug') as string;
   const author_name = formData.get('author_name') as string;
   const author_email = formData.get('author_email') as string;
@@ -20,7 +18,7 @@ export async function createComment(formData: FormData) {
     author_name,
     author_email,
     content,
-    status: 'approved', // Por defecto los aprobamos para que aparezcan de inmediato, luego puedes cambiarlo a 'pending' si recibes mucho spam
+    status: 'approved', // Por defecto los aprobamos para que aparezcan de inmediato
   });
 
   if (error) {
@@ -33,8 +31,6 @@ export async function createComment(formData: FormData) {
 }
 
 export async function getComments(post_slug: string) {
-  const supabase = createClient();
-
   const { data, error } = await supabase
     .from('comments')
     .select('*')
