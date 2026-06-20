@@ -63,6 +63,14 @@ export default async function AdminPage() {
 
   if (pError) console.error('Error fetching posts:', pError);
 
+  // Fetch comments
+  const { data: comments, error: comError } = await supabase
+    .from('comments')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (comError) console.error('Error fetching comments:', comError);
+
   return <AdminDashboard 
     user={user} 
     leads={leads ?? []} 
@@ -70,5 +78,6 @@ export default async function AdminPage() {
     knowledge={knowledge ?? []} 
     chats={chats ?? []}
     posts={posts ?? []}
+    comments={comments ?? []}
   />;
 }

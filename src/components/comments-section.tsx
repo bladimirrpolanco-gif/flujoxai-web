@@ -43,9 +43,24 @@ export async function CommentsSection({ postSlug }: { postSlug: string }) {
                   </p>
                 </div>
               </div>
-              <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed whitespace-pre-line">
+              <p className="text-sm text-zinc-700 dark:text-zinc-300 leading-relaxed whitespace-pre-line mt-2">
                 {comment.content}
               </p>
+
+              {/* Respuesta del Administrador */}
+              {comment.admin_reply && (
+                <div className="mt-4 ml-6 sm:ml-10 bg-primary/5 dark:bg-primary/10 border-l-2 border-primary p-4 rounded-r-xl">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 rounded-full bg-primary flex items-center justify-center text-white">
+                      <User className="w-3 h-3" />
+                    </div>
+                    <span className="text-xs font-bold text-primary">Equipo FlujoXAI</span>
+                  </div>
+                  <p className="text-sm text-zinc-800 dark:text-zinc-200 leading-relaxed whitespace-pre-line">
+                    {comment.admin_reply}
+                  </p>
+                </div>
+              )}
             </div>
           ))
         )}

@@ -45,3 +45,25 @@ export async function getComments(post_slug: string) {
 
   return data;
 }
+
+export async function deleteComment(id: string) {
+  const { error } = await supabase.from('comments').delete().eq('id', id);
+  if (error) {
+    console.error('Error deleting comment:', error);
+    return { error: 'Error al borrar el comentario' };
+  }
+  return { success: true };
+}
+
+export async function replyToComment(id: string, reply: string) {
+  const { error } = await supabase
+    .from('comments')
+    .update({ admin_reply: reply })
+    .eq('id', id);
+
+  if (error) {
+    console.error('Error replying to comment:', error);
+    return { error: 'Error al enviar la respuesta' };
+  }
+  return { success: true };
+}
