@@ -6,6 +6,7 @@ import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
 import { AdPlaceholder } from '@/components/ad-placeholder';
 import { ShareButton } from '@/components/share-button';
+import { CommentsSection } from '@/components/comments-section';
 import { Bot, Calendar, ChevronRight, Tag, Share2 } from 'lucide-react';
 
 export const revalidate = 0;
@@ -193,6 +194,9 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               </div>
 
             </div>
+
+            {/* Componente de Comentarios */}
+            <CommentsSection postSlug={post.slug} />
 
             {/* Banner publicitario al final del artículo */}
             <div className="mt-12 w-full">
