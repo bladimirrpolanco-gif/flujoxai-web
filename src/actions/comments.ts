@@ -6,11 +6,11 @@ import { revalidatePath } from 'next/cache';
 export async function createComment(formData: FormData) {
   const post_slug = formData.get('post_slug') as string;
   const author_name = formData.get('author_name') as string;
-  const author_email = formData.get('author_email') as string;
+  const author_email = 'anonimo@flujoxai.com'; // Dummy email since UI doesn't ask for it anymore
   const content = formData.get('content') as string;
 
-  if (!post_slug || !author_name || !author_email || !content) {
-    return { error: 'Todos los campos son requeridos' };
+  if (!post_slug || !author_name || !content) {
+    return { error: 'El nombre y el mensaje son requeridos' };
   }
 
   const { error } = await supabase.from('comments').insert({

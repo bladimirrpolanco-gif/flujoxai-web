@@ -61,33 +61,18 @@ export function CommentForm({ postSlug }: { postSlug: string }) {
         </div>
       )}
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="author_name" className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            Nombre <span className="text-red-500">*</span>
-          </label>
-          <input 
-            type="text" 
-            id="author_name" 
-            name="author_name" 
-            required 
-            placeholder="Ej. Carlos Pérez"
-            className="bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-          />
-        </div>
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="author_email" className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
-            Correo electrónico <span className="text-red-500">*</span>
-          </label>
-          <input 
-            type="email" 
-            id="author_email" 
-            name="author_email" 
-            required 
-            placeholder="No se publicará"
-            className="bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-          />
-        </div>
+      <div className="flex flex-col gap-1.5">
+        <label htmlFor="author_name" className="text-sm font-medium text-zinc-600 dark:text-zinc-400">
+          Nombre <span className="text-red-500">*</span>
+        </label>
+        <input 
+          type="text" 
+          id="author_name" 
+          name="author_name" 
+          required 
+          placeholder="Ej. Carlos Pérez"
+          className="bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+        />
       </div>
 
       <div className="flex flex-col gap-1.5">
