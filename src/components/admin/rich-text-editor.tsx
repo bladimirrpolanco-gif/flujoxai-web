@@ -3,7 +3,8 @@
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
-import { Bold, Italic, Strikethrough, List, ListOrdered, Link as LinkIcon, Heading2, Heading3, Undo, Redo } from 'lucide-react';
+import Image from '@tiptap/extension-image';
+import { Bold, Italic, Strikethrough, List, ListOrdered, Link as LinkIcon, Heading2, Heading3, Undo, Redo, Image as ImageIcon } from 'lucide-react';
 import { useEffect } from 'react';
 
 interface RichTextEditorProps {
@@ -27,6 +28,13 @@ const MenuBar = ({ editor }: { editor: any }) => {
     }
     
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+  };
+
+  const addImage = () => {
+    const url = window.prompt('URL de la imagen:');
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
+    }
   };
 
   const btnClass = "p-2 rounded hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors disabled:opacity-50";
@@ -103,6 +111,14 @@ const MenuBar = ({ editor }: { editor: any }) => {
         <LinkIcon className="w-4 h-4" />
       </button>
 
+      <button
+        onClick={(e) => { e.preventDefault(); addImage(); }}
+        className={btnClass}
+        title="Insertar imagen"
+      >
+        <ImageIcon className="w-4 h-4" />
+      </button>
+
       <div className="w-px h-6 bg-zinc-700 mx-1 self-center" />
 
       <button
@@ -133,6 +149,11 @@ export function RichTextEditor({ value, onChange, placeholder }: RichTextEditorP
         openOnClick: false,
         HTMLAttributes: {
           class: 'text-blue-400 underline cursor-pointer',
+        },
+      }),
+      Image.configure({
+        HTMLAttributes: {
+          class: 'rounded-xl max-w-full h-auto shadow-md my-4',
         },
       }),
     ],
