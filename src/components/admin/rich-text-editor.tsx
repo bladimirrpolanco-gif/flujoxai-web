@@ -4,8 +4,9 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
-import { Bold, Italic, Strikethrough, List, ListOrdered, Link as LinkIcon, Heading2, Heading3, Undo, Redo, Image as ImageIcon } from 'lucide-react';
-import { useEffect } from 'react';
+import { Bold, Italic, Strikethrough, List, ListOrdered, Link as LinkIcon, Heading2, Heading3, Undo, Redo, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import { createBrowserClient } from '@supabase/ssr';
 
 interface RichTextEditorProps {
   value: string;
@@ -30,11 +31,42 @@ const MenuBar = ({ editor }: { editor: any }) => {
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   };
 
-  const addImage = () => {
-    const url = window.prompt('URL de la imagen:');
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const ext = file.name.split('.').pop();
+    const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+    const { data, error } = await supabase.storage
+      .from('blog-images')
+      .upload(filename, file, { upsert: false });
+
+    if (!error && data) {
+      const { data: urlData } = supabase.storage
+        .from('blog-images')
+        .getPublicUrl(data.path);
+      
+      editor.chain().focus().setImage({ src: urlData.publicUrl }).run();
+    } else {
+      alert('Error al subir la imagen: ' + error?.message);
     }
+    
+    setIsUploading(false);
+    if (fileInputRef.current) fileInputRef.current.value = '';
+  };
+
+  const addImage = () => {
+    fileInputRef.current?.click();
   };
 
   const btnClass = "p-2 rounded hover:bg-zinc-700 text-zinc-400 hover:text-white transition-colors disabled:opacity-50";
@@ -114,10 +146,18 @@ const MenuBar = ({ editor }: { editor: any }) => {
       <button
         onClick={(e) => { e.preventDefault(); addImage(); }}
         className={btnClass}
-        title="Insertar imagen"
+        disabled={isUploading}
+        title="Subir imagen desde tu PC"
       >
-        <ImageIcon className="w-4 h-4" />
+        {isUploading ? <Loader2 className="w-4 h-4 animate-spin" /> : <ImageIcon className="w-4 h-4" />}
       </button>
+      <input 
+        type="file" 
+        accept="image/*" 
+        ref={fileInputRef} 
+        onChange={handleImageUpload} 
+        className="hidden" 
+      />
 
       <div className="w-px h-6 bg-zinc-700 mx-1 self-center" />
 
