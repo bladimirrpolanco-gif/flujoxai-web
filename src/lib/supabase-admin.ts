@@ -5,18 +5,23 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+// Evitamos lanzar un error directamente en la evaluación del módulo para no romper el build de Vercel.
 if (!supabaseUrl) {
-  throw new Error('Missing env: NEXT_PUBLIC_SUPABASE_URL');
+  console.warn('⚠️ Missing env: NEXT_PUBLIC_SUPABASE_URL');
 }
 
 if (!serviceRoleKey) {
-  throw new Error('Missing env: SUPABASE_SERVICE_ROLE_KEY');
+  console.warn('⚠️ Missing env: SUPABASE_SERVICE_ROLE_KEY');
 }
 
-export const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey, {
-  auth: {
-    persistSession: false,
-    autoRefreshToken: false,
-    detectSessionInUrl: false,
-  },
-});
+export const supabaseAdmin = createClient(
+  supabaseUrl || 'https://missing-url.supabase.co',
+  serviceRoleKey || 'missing-key',
+  {
+    auth: {
+      persistSession: false,
+      autoRefreshToken: false,
+      detectSessionInUrl: false,
+    },
+  }
+);

@@ -37,7 +37,7 @@ export function ScrollToTop() {
         scale: isVisible ? 1 : 0.5,
         pointerEvents: isVisible ? "auto" : "none"
       }}
-      className="fixed bottom-8 right-8 z-[60]"
+      className="fixed bottom-28 right-6 z-[60]"
     >
       <button
         onClick={scrollToTop}
