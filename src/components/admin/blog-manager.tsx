@@ -8,6 +8,7 @@ import {
   Upload, Image, Link2
 } from 'lucide-react';
 import { RichTextEditor } from './rich-text-editor';
+import { sanitizeRichTextHtml } from '@/lib/sanitize-html';
 
 interface Post {
   id: string;
@@ -114,7 +115,7 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
     const payload = {
       title: form.title.trim(),
       slug: form.slug.trim(),
-      content: form.content.trim(),
+      content: sanitizeRichTextHtml(form.content.trim()),
       excerpt: form.excerpt.trim(),
       seo_keywords: form.seo_keywords.trim(),
       meta_title: form.meta_title.trim() || null,
@@ -375,7 +376,7 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
           {form.excerpt && <p className="text-zinc-400 text-base mb-6 italic">{form.excerpt}</p>}
           <div
             className="prose prose-invert prose-sm max-w-none prose-headings:font-bold prose-headings:text-white prose-p:text-zinc-300 prose-a:text-blue-400"
-            dangerouslySetInnerHTML={{ __html: form.content || '<p class="text-zinc-500">El contenido aparecerá aquí…</p>' }}
+            dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(form.content) || '<p class="text-zinc-500">El contenido aparecerá aquí…</p>' }}
           />
         </div>
       ) : (

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import OpenAI from 'openai';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
     }));
 
     // Obtener contexto dinámico de Supabase
-    const { data: knowledge } = await supabase
+    const { data: knowledge } = await supabaseAdmin
       .from('conocimiento_bot')
       .select('valor')
       .eq('clave', 'base_knowledge')
@@ -95,7 +95,7 @@ PAUTAS:
     const lastUserMessage = messages[messages.length - 1]?.content;
 
     if (lastUserMessage) {
-      await supabase.from('conversaciones').insert([
+      await supabaseAdmin.from('conversaciones').insert([
         { sesion_id: sessionId, remitente: 'usuario', mensaje: lastUserMessage, metadata: { businessType } },
         { sesion_id: sessionId, remitente: 'bot', mensaje: reply, metadata: { businessType } }
       ]).select();

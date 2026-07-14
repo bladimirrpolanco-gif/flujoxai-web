@@ -2,6 +2,7 @@ import { cookies } from 'next/headers';
 import { createServerClient } from '@supabase/ssr';
 import { redirect } from 'next/navigation';
 import { AdminDashboard } from '@/components/admin/admin-dashboard';
+import { isAdminUser } from '@/lib/admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,7 +25,8 @@ export default async function AdminPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   // Bloquear acceso si no hay sesión válida
-  if (!user) {
+  const hasAdminAccess = user ? await isAdminUser(supabase, user.id) : false;
+  if (!user || !hasAdminAccess) {
     redirect('/admin/login');
   }
 

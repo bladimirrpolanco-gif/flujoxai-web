@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import { supabaseAdmin } from '@/lib/supabase-admin';
 import crypto from 'crypto';
 
 const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN;
@@ -26,11 +26,14 @@ function verifyMetaSignature(rawBody: string, signature: string | null): boolean
 // Meta llama a este endpoint cuando recibe un mensaje de WhatsApp
 export async function POST(req: NextRequest) {
   try {
+    if (!APP_SECRET) {
+      return new NextResponse('Webhook not configured', { status: 503 });
+    }
+
     const rawBody = await req.text();
     const signature = req.headers.get('x-hub-signature-256');
 
-    // Verificar firma solo si APP_SECRET está configurado
-    if (APP_SECRET && !verifyMetaSignature(rawBody, signature)) {
+    if (!verifyMetaSignature(rawBody, signature)) {
       return new NextResponse('Unauthorized', { status: 401 });
     }
 
@@ -41,7 +44,7 @@ export async function POST(req: NextRequest) {
     // 3. Responder vía API oficial de Meta
     // 4. Guardar en tabla 'conversaciones'
 
-    await supabase.from('notificaciones').insert([{
+    await supabaseAdmin.from('notificaciones').insert([{
       tipo: 'whatsapp',
       destinatario: 'webhook_receiver',
       estado: 'mensaje_recibido',
@@ -49,7 +52,7 @@ export async function POST(req: NextRequest) {
     }]);
 
     return NextResponse.json({ status: 'received' }, { status: 200 });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Internal Error' }, { status: 500 });
   }
 }

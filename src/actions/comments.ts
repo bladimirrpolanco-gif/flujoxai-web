@@ -2,6 +2,7 @@
 
 import { supabase } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
+import { isAdminUser } from '@/lib/admin';
 
 export async function createComment(formData: FormData) {
   const post_slug = formData.get('post_slug') as string;
@@ -69,7 +70,7 @@ async function getAdminSupabase() {
 export async function deleteComment(id: string) {
   const adminSupabase = await getAdminSupabase();
   const { data: { user } } = await adminSupabase.auth.getUser();
-  if (!user) return { error: 'No autorizado' };
+  if (!user || !(await isAdminUser(adminSupabase, user.id))) return { error: 'No autorizado' };
 
   const { error } = await adminSupabase.from('comments').delete().eq('id', id);
   if (error) {
@@ -82,7 +83,7 @@ export async function deleteComment(id: string) {
 export async function replyToComment(id: string, reply: string) {
   const adminSupabase = await getAdminSupabase();
   const { data: { user } } = await adminSupabase.auth.getUser();
-  if (!user) return { error: 'No autorizado' };
+  if (!user || !(await isAdminUser(adminSupabase, user.id))) return { error: 'No autorizado' };
 
   // Primero obtenemos el comentario
   const { data: comment } = await adminSupabase

@@ -7,6 +7,7 @@ import { Footer } from '@/components/footer';
 import { AdPlaceholder } from '@/components/ad-placeholder';
 import { ShareButton } from '@/components/share-button';
 import { CommentsSection } from '@/components/comments-section';
+import { sanitizeRichTextHtml } from '@/lib/sanitize-html';
 import { Bot, Calendar, ChevronRight, Tag, Share2 } from 'lucide-react';
 
 export const revalidate = 0;
@@ -153,7 +154,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                 prose-img:rounded-[16px] prose-img:shadow-md
                 prose-blockquote:border-l-4 prose-blockquote:border-blue-500 prose-blockquote:bg-blue-50 prose-blockquote:dark:bg-blue-900/20 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:rounded-r-xl prose-blockquote:not-italic prose-blockquote:text-foreground/90 prose-blockquote:my-8
               "
-              dangerouslySetInnerHTML={{ __html: post.content }}
+              dangerouslySetInnerHTML={{ __html: sanitizeRichTextHtml(post.content) }}
             />
 
             {/* Compartir y Síguenos */}

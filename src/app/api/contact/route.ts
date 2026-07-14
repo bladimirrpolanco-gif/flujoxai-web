@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sendLeadNotification } from "@/lib/notifications";
 
 // Sanitización para evitar Inyección de HTML / XSS
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     };
 
     // Insertar en la base de datos de forma segura desde el servidor
-    const { error: dbError } = await supabase.from('leads').insert([safeData]);
+    const { error: dbError } = await supabaseAdmin.from('leads').insert([safeData]);
 
     if (dbError) {
       console.error("Error al registrar lead en Supabase:", dbError);

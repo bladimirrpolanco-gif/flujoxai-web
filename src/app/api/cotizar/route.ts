@@ -1,11 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import { Resend } from "resend";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 function escapeHtml(unsafe: any): string {
   if (typeof unsafe !== 'string') return unsafe;
@@ -135,7 +130,7 @@ export async function POST(req: NextRequest) {
 - Presupuesto: ${precio} (50/50)`;
     }
 
-    const { error: dbError } = await supabase.from("leads").insert([
+    const { error: dbError } = await supabaseAdmin.from("leads").insert([
       {
         nombre: lead.nombre,
         email: lead.email,

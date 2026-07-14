@@ -1,4 +1,4 @@
-import { supabase } from './supabase';
+import { supabaseAdmin } from './supabase-admin';
 
 export type NotificationType = 'email' | 'whatsapp';
 
@@ -27,7 +27,7 @@ export async function sendLeadNotification(leadData: {
   };
 
   try {
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('notificaciones')
       .insert([notificationLog]);
 
