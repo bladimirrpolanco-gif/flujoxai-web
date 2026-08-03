@@ -27,6 +27,7 @@ import {
   Sparkles,
   Loader2,
   Globe,
+  Share2,
 } from "lucide-react";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
@@ -351,6 +352,24 @@ function TemplateCard({
     }
   };
 
+  const handleShare = async () => {
+    const url = `${window.location.origin}/recursos?id=${template.id}`;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: template.title,
+          text: `Mira esta increíble plantilla de n8n: ${template.title}`,
+          url: url,
+        });
+      } catch (err) {
+        // user cancelled or error
+      }
+    } else {
+      await navigator.clipboard.writeText(url);
+      onToast("¡Enlace copiado al portapapeles!");
+    }
+  };
+
   return (
     <motion.div
       layout
@@ -447,7 +466,18 @@ function TemplateCard({
           ) : (
             <Download className="h-3.5 w-3.5" />
           )}
-          {downloading ? "Descargando..." : downloaded ? "¡Listo!" : "Descargar .json"}
+          <span className="hidden sm:inline">{downloading ? "Descargando..." : downloaded ? "¡Listo!" : "Descargar"}</span>
+        </motion.button>
+
+        {/* Share */}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={handleShare}
+          className="flex-shrink-0 w-9 h-9 flex items-center justify-center rounded-xl bg-muted/50 hover:bg-muted text-foreground border border-border/50 hover:border-border transition-colors"
+          title="Compartir plantilla"
+        >
+          <Share2 className="h-4 w-4" />
         </motion.button>
       </div>
     </motion.div>
