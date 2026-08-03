@@ -29,6 +29,8 @@ import {
   Globe,
   Share2,
 } from "lucide-react";
+
+import { DownloadModal } from "@/components/download-modal";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 
@@ -300,8 +302,20 @@ function TemplateCard({
   const [copied, setCopied] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const [downloaded, setDownloaded] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pendingAction, setPendingAction] = useState<"copy" | "download" | null>(null);
 
-  const handleCopy = async () => {
+  const requireUnlock = (action: "copy" | "download") => {
+    if (typeof window !== "undefined" && localStorage.getItem("flujoxai_unlocked") === "true") {
+      if (action === "copy") executeCopy();
+      else executeDownload();
+    } else {
+      setPendingAction(action);
+      setIsModalOpen(true);
+    }
+  };
+
+  const executeCopy = async () => {
     setCopying(true);
     try {
       let text = "";
@@ -322,7 +336,7 @@ function TemplateCard({
     }
   };
 
-  const handleDownload = async () => {
+  const executeDownload = async () => {
     setDownloading(true);
     try {
       let text = "";
@@ -370,6 +384,7 @@ function TemplateCard({
   };
 
   return (
+    <>
     <motion.div
       id={`template-${template.id}`}
       layout
@@ -429,7 +444,7 @@ function TemplateCard({
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          onClick={handleCopy}
+          onClick={() => requireUnlock("copy")}
           disabled={copying || copying}
           className={`flex-1 flex items-center justify-center gap-2 h-9 rounded-xl text-xs font-bold transition-all duration-200 border ${
             copied
@@ -451,7 +466,7 @@ function TemplateCard({
         <motion.button
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          onClick={handleDownload}
+          onClick={() => requireUnlock("download")}
           disabled={downloading}
           className={`flex-1 flex items-center justify-center gap-2 h-9 rounded-xl text-xs font-bold transition-all duration-200 border ${
             downloaded
@@ -481,6 +496,18 @@ function TemplateCard({
         </motion.button>
       </div>
     </motion.div>
+
+    <DownloadModal 
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      templateName={template.title}
+      onSuccess={() => {
+        setIsModalOpen(false);
+        if (pendingAction === "copy") executeCopy();
+        if (pendingAction === "download") executeDownload();
+      }}
+    />
+    </>
   );
 }
 
