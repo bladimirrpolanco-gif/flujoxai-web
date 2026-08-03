@@ -617,47 +617,54 @@ export default function RecursosPage() {
 
       {/* ── FILTERS ── */}
       <section className="sticky top-16 z-40 bg-background/80 backdrop-blur-xl border-b border-border/40 py-4 px-4">
-        <div className="max-w-6xl mx-auto space-y-3">
-          <div className="relative max-w-md mx-auto md:mx-0">
-            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-            <input
-              type="text"
-              placeholder="Buscar plantillas..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full h-9 pl-9 pr-4 rounded-full bg-muted/50 border border-border/60 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all"
-            />
+        <div className="max-w-6xl mx-auto space-y-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="relative w-full md:max-w-sm">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Buscar plantillas..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full h-9 pl-9 pr-4 rounded-full bg-muted/50 border border-border/60 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary/50 transition-all"
+              />
+            </div>
+
+            <div className="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-1 md:pb-0 scrollbar-hide">
+              <span className="text-xs font-semibold text-muted-foreground mr-1 whitespace-nowrap">Nivel:</span>
+              {difficulties.map((diff) => (
+                <motion.button
+                  key={diff}
+                  whileHover={{ scale: 1.04 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() => setActiveDifficulty(diff)}
+                  className={`h-8 px-4 shrink-0 rounded-full text-xs font-bold transition-all duration-200 border ${
+                    activeDifficulty === diff
+                      ? "bg-foreground text-background border-foreground shadow-lg shadow-foreground/10"
+                      : "bg-muted/50 text-muted-foreground border-border/50 hover:text-foreground hover:border-border"
+                  }`}
+                >
+                  {diff}
+                </motion.button>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2">
+          
+          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+            <span className="text-xs font-semibold text-muted-foreground mr-1 whitespace-nowrap">Categoría:</span>
             {categories.map((cat) => (
               <motion.button
                 key={cat}
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => setActiveCategory(cat)}
-                className={`h-8 px-4 rounded-full text-xs font-bold transition-all duration-200 border ${
+                className={`h-8 px-4 shrink-0 rounded-full text-xs font-bold transition-all duration-200 border ${
                   activeCategory === cat
                     ? "bg-foreground text-background border-foreground shadow-lg shadow-foreground/10"
                     : "bg-muted/50 text-muted-foreground border-border/50 hover:text-foreground hover:border-border"
                 }`}
               >
                 {cat}
-              </motion.button>
-            ))}
-            <div className="w-px h-8 bg-border/40 mx-1" />
-            {difficulties.map((diff) => (
-              <motion.button
-                key={diff}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() => setActiveDifficulty(diff)}
-                className={`h-8 px-4 rounded-full text-xs font-bold transition-all duration-200 border ${
-                  activeDifficulty === diff
-                    ? "bg-foreground text-background border-foreground shadow-lg shadow-foreground/10"
-                    : "bg-muted/50 text-muted-foreground border-border/50 hover:text-foreground hover:border-border"
-                }`}
-              >
-                {diff}
               </motion.button>
             ))}
           </div>
