@@ -397,7 +397,7 @@ function TemplateCard({
 
       {/* Tags */}
       <div className="px-5 py-3 flex flex-wrap gap-1.5">
-        {template.tags.map((tag) => (
+        {template.tags?.map((tag: string) => (
           <span key={tag} className="text-[11px] px-2 py-0.5 rounded-md bg-muted/60 text-muted-foreground border border-border/40">
             #{tag}
           </span>
