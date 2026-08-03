@@ -378,19 +378,19 @@ function TemplateCard({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.3 }}
-      className={`group relative rounded-2xl border ${template.borderColor} bg-card/60 backdrop-blur-sm overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col`}
+      className={`group relative rounded-2xl border border-border/50 bg-card/60 backdrop-blur-sm overflow-hidden hover:shadow-2xl hover:border-primary/50 transition-all duration-500 flex flex-col`}
     >
       {/* Top shimmer line */}
-      <div className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r ${template.color.replace("/20", "/60").replace("/10", "/40")}`} />
+      <div className={`absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent`} />
 
       {/* Header */}
-      <div className={`p-5 bg-gradient-to-br ${template.color}`}>
+      <div className={`p-5 bg-gradient-to-br from-primary/5 to-transparent`}>
         <div className="flex items-start justify-between mb-3">
-          <div className={`h-11 w-11 rounded-xl flex items-center justify-center ${template.iconBg} ring-1 ring-white/10`}>
+          <div className={`h-11 w-11 rounded-xl flex items-center justify-center bg-primary/10 text-primary ring-1 ring-primary/20`}>
             <Icon className="h-5 w-5" />
           </div>
           <div className="flex items-center gap-2 flex-wrap justify-end">
-            <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border ${template.badgeColor}`}>
+            <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full border bg-primary/10 text-primary border-primary/20`}>
               {template.category}
             </span>
             <span className="text-[11px] font-medium px-2.5 py-1 rounded-full bg-white/5 border border-white/10 text-muted-foreground">
@@ -637,7 +637,7 @@ export default function RecursosPage() {
                 onClick={() => setActiveCategory(cat)}
                 className={`h-8 px-4 rounded-full text-xs font-bold transition-all duration-200 border ${
                   activeCategory === cat
-                    ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20"
+                    ? "bg-foreground text-background border-foreground shadow-lg shadow-foreground/10"
                     : "bg-muted/50 text-muted-foreground border-border/50 hover:text-foreground hover:border-border"
                 }`}
               >
@@ -653,7 +653,7 @@ export default function RecursosPage() {
                 onClick={() => setActiveDifficulty(diff)}
                 className={`h-8 px-4 rounded-full text-xs font-bold transition-all duration-200 border ${
                   activeDifficulty === diff
-                    ? "bg-cyan-500 text-white border-cyan-500 shadow-lg shadow-cyan-500/20"
+                    ? "bg-foreground text-background border-foreground shadow-lg shadow-foreground/10"
                     : "bg-muted/50 text-muted-foreground border-border/50 hover:text-foreground hover:border-border"
                 }`}
               >
