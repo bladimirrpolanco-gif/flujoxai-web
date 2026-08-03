@@ -41,7 +41,6 @@ const ICON_MAP: Record<string, any> = {
   MessageSquare,
   Workflow,
   CalendarCheck,
-  Sparkles,
   Zap,
   AreaChart,
   Sparkles
