@@ -32,7 +32,7 @@ const navLinks: NavLink[] = [
         label: 'Automatizaciones', 
         desc: 'Conectamos tus sistemas para eliminar trabajo manual.', 
         icon: Zap,
-        color: 'bg-violet-500/10 text-violet-500 dark:bg-violet-500/20'
+        color: 'bg-cyan-500/10 text-cyan-500 dark:bg-cyan-500/20'
       },
       { 
         href: '#integraciones', 

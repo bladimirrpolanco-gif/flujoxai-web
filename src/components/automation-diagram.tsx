@@ -14,7 +14,7 @@ const OUTPUT_NODES = [
 const HERO_NODES = [
   { icon: MonitorSmartphone, label: "Web & App",     sub: "Desarrollo",        from: "from-emerald-500", to: "to-green-400",  glow: "shadow-emerald-500/40", x: 50, y: 10, type: "in",  delay: 0.1 },
   { slug: "whatsapp",        label: "Chatbot",       sub: "Respuestas 24/7",   from: "from-[#25D366]",   to: "to-[#1DA851]",  glow: "shadow-[#25D366]/40",   x: 18, y: 25, type: "in",  delay: 0 },
-  { icon: Workflow,          label: "Integraciones", sub: "APIs & Sistemas",   from: "from-purple-500",  to: "to-pink-500",   glow: "shadow-purple-500/40",  x: 82, y: 25, type: "in",  delay: 0.2 },
+  { icon: Workflow,          label: "Integraciones", sub: "APIs & Sistemas",   from: "from-cyan-500",  to: "to-blue-500",   glow: "shadow-cyan-500/40",  x: 82, y: 25, type: "in",  delay: 0.2 },
   { slug: "gmail",           label: "Email",         sub: "Confirma",          from: "from-[#EA4335]",   to: "to-[#ff6f63]",  glow: "shadow-[#EA4335]/40",   x: 12, y: 60, type: "out", delay: 0.6 },
   { icon: Slack,             label: "Slack",         sub: "Notifica",          from: "from-[#E01E5A]",   to: "to-[#36C5F0]",  glow: "shadow-[#E01E5A]/40",   x: 88, y: 60, type: "out", delay: 0 },
   { icon: Target,            label: "Publicidad IA", sub: "Campañas",          from: "from-orange-500",  to: "to-amber-400",  glow: "shadow-orange-500/40",  x: 28, y: 90, type: "out", delay: 0.4 },

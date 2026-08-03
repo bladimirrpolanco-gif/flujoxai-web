@@ -50,7 +50,7 @@ interface AdminDashboardProps {
 const PIPELINE_COLUMNS: { key: Estado; label: string; color: string; dot: string }[] = [
   { key: 'nuevo',      label: 'Nuevo',      color: 'border-t-blue-500',   dot: 'bg-blue-500'   },
   { key: 'contactado', label: 'Contactado', color: 'border-t-amber-500',  dot: 'bg-amber-500'  },
-  { key: 'propuesta',  label: 'Propuesta',  color: 'border-t-purple-500', dot: 'bg-purple-500' },
+  { key: 'propuesta',  label: 'Propuesta',  color: 'border-t-cyan-500', dot: 'bg-cyan-500' },
   { key: 'cerrado',    label: 'Cerrado',    color: 'border-t-emerald-500',dot: 'bg-emerald-500'},
   { key: 'perdido',    label: 'Perdido',    color: 'border-t-red-500',    dot: 'bg-red-500'    },
 ];
@@ -58,7 +58,7 @@ const PIPELINE_COLUMNS: { key: Estado; label: string; color: string; dot: string
 const ESTADO_STYLES: Record<Estado, string> = {
   nuevo:      'bg-blue-600/20 text-blue-400',
   contactado: 'bg-amber-500/20 text-amber-400',
-  propuesta:  'bg-purple-500/20 text-purple-400',
+  propuesta:  'bg-cyan-500/20 text-cyan-400',
   cerrado:    'bg-emerald-600/20 text-emerald-400',
   perdido:    'bg-red-600/20 text-red-400',
 };
@@ -302,7 +302,7 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard icon={<Users className="h-5 w-5 text-blue-400" />}         label="Leads"          value={soloLeads.length}        bg="bg-blue-600/10"   sub="Formulario de contacto" />
                 <StatCard icon={<MessageSquare className="h-5 w-5 text-emerald-400" />} label="Cotizaciones" value={soloCotizaciones.length}  bg="bg-emerald-600/10" sub="Desde el cotizador" />
-                <StatCard icon={<TrendingUp className="h-5 w-5 text-purple-400" />}  label="Cerrados"       value={cerrados}                bg="bg-purple-600/10"  sub="Deals ganados" />
+                <StatCard icon={<TrendingUp className="h-5 w-5 text-cyan-400" />}  label="Cerrados"       value={cerrados}                bg="bg-cyan-600/10"  sub="Deals ganados" />
                 <StatCard icon={<Calendar className="h-5 w-5 text-orange-400" />}    label="Esta Semana"   value={thisWeek}                bg="bg-orange-600/10" sub="Últimos 7 días" />
               </div>
 
@@ -430,7 +430,7 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
             <div className="space-y-8">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard icon={<MousePointer2 className="h-5 w-5 text-blue-400" />}    label="Visitas"             value={metrics.filter(m => m.tipo_evento === 'visita').length}            bg="bg-blue-600/10"   sub="Visitas al sitio" />
-                <StatCard icon={<TrendingUp className="h-5 w-5 text-purple-400" />}     label="Cotizaciones"               value={metrics.filter(m => m.tipo_evento === 'lead_generado').length}      bg="bg-purple-600/10"  sub="Formularios" />
+                <StatCard icon={<TrendingUp className="h-5 w-5 text-cyan-400" />}     label="Cotizaciones"               value={metrics.filter(m => m.tipo_evento === 'lead_generado').length}      bg="bg-cyan-600/10"  sub="Formularios" />
                 <StatCard icon={<Phone className="h-5 w-5 text-emerald-400" />}         label="WhatsApp"            value={metrics.filter(m => m.tipo_evento === 'click_whatsapp').length}    bg="bg-emerald-600/10" sub="Clicks WhatsApp" />
                 <StatCard icon={<BarChart3 className="h-5 w-5 text-amber-400" />}       label="Clicks CTA"          value={metrics.filter(m => m.tipo_evento === 'click_cta').length}          bg="bg-amber-600/10"   sub="Clicks Botones" />
               </div>

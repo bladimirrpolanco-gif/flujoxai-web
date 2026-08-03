@@ -192,7 +192,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
                 type="text"
                 value={form.title}
                 onChange={e => setForm({ ...form, title: e.target.value })}
-                className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-violet-500"
+                className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-cyan-500"
                 placeholder="Ej. Mi Chatbot de WhatsApp"
               />
             </div>
@@ -202,7 +202,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
               <textarea
                 value={form.description}
                 onChange={e => setForm({ ...form, description: e.target.value })}
-                className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm h-24 focus:outline-none focus:border-violet-500 resize-none"
+                className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm h-24 focus:outline-none focus:border-cyan-500 resize-none"
                 placeholder="Breve descripción de lo que hace este workflow..."
               />
             </div>
@@ -213,7 +213,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
                 <select
                   value={form.category}
                   onChange={e => setForm({ ...form, category: e.target.value })}
-                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-violet-500"
+                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-cyan-500"
                 >
                   {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
@@ -223,7 +223,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
                 <select
                   value={form.difficulty}
                   onChange={e => setForm({ ...form, difficulty: e.target.value })}
-                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-violet-500"
+                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-cyan-500"
                 >
                   {DIFFICULTIES.map(d => <option key={d} value={d}>{d}</option>)}
                 </select>
@@ -236,7 +236,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
                 <select
                   value={form.icon}
                   onChange={e => setForm({ ...form, icon: e.target.value })}
-                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-violet-500"
+                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-cyan-500"
                 >
                   {ICONS.map(i => <option key={i} value={i}>{i}</option>)}
                 </select>
@@ -247,7 +247,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
                   type="text"
                   value={form.tags}
                   onChange={e => setForm({ ...form, tags: e.target.value })}
-                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-violet-500"
+                  className="w-full bg-zinc-900 border border-white/10 rounded-xl px-4 py-2 text-sm focus:outline-none focus:border-cyan-500"
                   placeholder="IA, OpenAI, Ventas"
                 />
               </div>
@@ -260,7 +260,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
               <textarea
                 value={form.json_content}
                 onChange={e => setForm({ ...form, json_content: e.target.value })}
-                className="w-full flex-1 bg-zinc-950 font-mono text-xs border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-violet-500 min-h-[300px]"
+                className="w-full flex-1 bg-zinc-950 font-mono text-xs border border-white/10 rounded-xl px-4 py-4 focus:outline-none focus:border-cyan-500 min-h-[300px]"
                 placeholder='Pega aquí el código JSON de tu workflow. Ej: {"nodes": [...], "connections": {...}}'
                 spellCheck={false}
               />
@@ -272,7 +272,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 bg-violet-600 hover:bg-violet-500 text-white px-6 py-2.5 rounded-xl font-medium transition-all disabled:opacity-50"
+            className="flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2.5 rounded-xl font-medium transition-all disabled:opacity-50"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Guardar Plantilla
@@ -291,7 +291,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
         </div>
         <button
           onClick={openNew}
-          className="flex items-center justify-center gap-2 bg-violet-600 hover:bg-violet-500 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
+          className="flex items-center justify-center gap-2 bg-cyan-600 hover:bg-cyan-500 text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
         >
           <Plus className="h-4 w-4" />
           Nueva Plantilla
@@ -305,7 +305,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
           placeholder="Buscar por título o categoría..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full bg-zinc-900 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-violet-500 transition-colors"
+          className="w-full bg-zinc-900 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-cyan-500 transition-colors"
         />
       </div>
 
@@ -328,7 +328,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
-                className="bg-zinc-900 border border-white/10 rounded-xl p-5 hover:border-violet-500/50 transition-colors group flex flex-col"
+                className="bg-zinc-900 border border-white/10 rounded-xl p-5 hover:border-cyan-500/50 transition-colors group flex flex-col"
               >
                 <div className="flex justify-between items-start mb-3">
                   <div className="flex gap-2">
@@ -342,7 +342,7 @@ export function TemplatesManager({ initialTemplates }: TemplatesManagerProps) {
                   <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
                       onClick={() => openEdit(t)}
-                      className="p-1.5 bg-zinc-800 hover:bg-violet-600 rounded text-zinc-400 hover:text-white transition-colors"
+                      className="p-1.5 bg-zinc-800 hover:bg-cyan-600 rounded text-zinc-400 hover:text-white transition-colors"
                       title="Editar"
                     >
                       <Edit2 className="h-3.5 w-3.5" />

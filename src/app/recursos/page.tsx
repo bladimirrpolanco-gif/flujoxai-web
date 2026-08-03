@@ -67,10 +67,10 @@ const templates = [
     difficulty: "Avanzado",
     tags: ["WhatsApp", "RAG", "OpenAI", "IA"],
     icon: Bot,
-    color: "from-violet-500/20 to-purple-500/10",
-    borderColor: "border-violet-500/30",
-    badgeColor: "bg-violet-500/15 text-violet-400 border-violet-500/30",
-    iconBg: "bg-violet-500/15 text-violet-400",
+    color: "from-cyan-500/20 to-blue-500/10",
+    borderColor: "border-cyan-500/30",
+    badgeColor: "bg-cyan-500/15 text-cyan-400 border-cyan-500/30",
+    iconBg: "bg-cyan-500/15 text-cyan-400",
     stars: 4.9,
     sourceUrl: "https://github.com/enescingoz/awesome-n8n-templates/blob/main/WhatsApp/Complete%20business%20WhatsApp%20AI-Powered%20RAG%20Chatbot%20using%20OpenAI.json",
     rawUrl: `${BASE}/WhatsApp/Complete%20business%20WhatsApp%20AI-Powered%20RAG%20Chatbot%20using%20OpenAI.json`,
@@ -139,7 +139,7 @@ const templates = [
     difficulty: "Básico",
     tags: ["IA", "Sentiment", "CRM", "Clientes"],
     icon: Database,
-    color: "from-rose-500/20 to-pink-500/10",
+    color: "from-cyan-500/20 to-teal-500/10",
     borderColor: "border-rose-500/30",
     badgeColor: "bg-rose-500/15 text-rose-400 border-rose-500/30",
     iconBg: "bg-rose-500/15 text-rose-400",
@@ -175,10 +175,10 @@ const templates = [
     difficulty: "Intermedio",
     tags: ["Redes Sociales", "IA", "Contenido", "Marketing"],
     icon: Instagram,
-    color: "from-pink-500/20 to-fuchsia-500/10",
-    borderColor: "border-pink-500/30",
-    badgeColor: "bg-pink-500/15 text-pink-400 border-pink-500/30",
-    iconBg: "bg-pink-500/15 text-pink-400",
+    color: "from-teal-500/20 to-emerald-500/10",
+    borderColor: "border-teal-500/30",
+    badgeColor: "bg-teal-500/15 text-teal-400 border-teal-500/30",
+    iconBg: "bg-teal-500/15 text-teal-400",
     stars: 4.7,
     sourceUrl: "https://github.com/enescingoz/awesome-n8n-templates/blob/main/OpenAI_and_LLMs/AI-Powered%20Social%20Media%20Amplifier.json",
     rawUrl: `${BASE}/OpenAI_and_LLMs/AI-Powered%20Social%20Media%20Amplifier.json`,
@@ -211,10 +211,10 @@ const templates = [
     difficulty: "Avanzado",
     tags: ["Voz", "OpenAI", "ElevenLabs", "Gemini"],
     icon: Sparkles,
-    color: "from-purple-500/20 to-violet-500/10",
-    borderColor: "border-purple-500/30",
-    badgeColor: "bg-purple-500/15 text-purple-400 border-purple-500/30",
-    iconBg: "bg-purple-500/15 text-purple-400",
+    color: "from-blue-500/20 to-cyan-500/10",
+    borderColor: "border-blue-500/30",
+    badgeColor: "bg-blue-500/15 text-blue-400 border-blue-500/30",
+    iconBg: "bg-blue-500/15 text-blue-400",
     stars: 4.9,
     sourceUrl: "https://github.com/enescingoz/awesome-n8n-templates/blob/main/OpenAI_and_LLMs/AI%20Voice%20Chat%20using%20Webhook%2C%20Memory%20Manager%2C%20OpenAI%2C%20Google%20Gemini%20%26%20ElevenLabs.json",
     rawUrl: `${BASE}/OpenAI_and_LLMs/AI%20Voice%20Chat%20using%20Webhook%2C%20Memory%20Manager%2C%20OpenAI%2C%20Google%20Gemini%20%26%20ElevenLabs.json`,
@@ -507,10 +507,10 @@ export default function RecursosPage() {
         const mappedData = data.map(dbT => ({
           ...dbT,
           icon: iconMap[dbT.icon] || Bot,
-          color: "from-violet-500/20 to-purple-500/10",
-          borderColor: "border-violet-500/30",
-          badgeColor: "bg-violet-500/15 text-violet-400 border-violet-500/30",
-          iconBg: "bg-violet-500/15 text-violet-400",
+          color: "from-cyan-500/20 to-blue-500/10",
+          borderColor: "border-cyan-500/30",
+          badgeColor: "bg-cyan-500/15 text-cyan-400 border-cyan-500/30",
+          iconBg: "bg-cyan-500/15 text-cyan-400",
           stars: 5.0,
           fileName: `plantilla-${dbT.title.replace(/\s+/g, '-').toLowerCase()}.json`
         }));
@@ -561,7 +561,7 @@ export default function RecursosPage() {
       <section className="relative pt-32 pb-16 px-4 overflow-hidden">
         <div className="absolute inset-0 hero-grid opacity-30 pointer-events-none" />
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute top-20 right-1/4 w-[300px] h-[200px] bg-violet-500/10 rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute top-20 right-1/4 w-[300px] h-[200px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
 
         <div className="max-w-4xl mx-auto text-center relative z-10">
           <motion.div
@@ -653,7 +653,7 @@ export default function RecursosPage() {
                 onClick={() => setActiveDifficulty(diff)}
                 className={`h-8 px-4 rounded-full text-xs font-bold transition-all duration-200 border ${
                   activeDifficulty === diff
-                    ? "bg-violet-500 text-white border-violet-500 shadow-lg shadow-violet-500/20"
+                    ? "bg-cyan-500 text-white border-cyan-500 shadow-lg shadow-cyan-500/20"
                     : "bg-muted/50 text-muted-foreground border-border/50 hover:text-foreground hover:border-border"
                 }`}
               >
@@ -711,7 +711,7 @@ export default function RecursosPage() {
             viewport={{ once: true }}
             className="relative rounded-3xl overflow-hidden border border-primary/20 p-8 md:p-12 text-center"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-violet-500/5 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-cyan-500/5 to-transparent" />
             <div className="relative z-10">
               <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-semibold mb-5">
                 <Sparkles className="h-4 w-4" />

@@ -67,16 +67,16 @@ const STATIC_SERVICES = [
     title: "Automatización de Procesos",
     description: "Conectamos tus herramientas (CRM, ERP, Email) para que trabajen solas. Eliminamos el trabajo manual repetitivo.",
     benefits: ["Cero errores humanos", "Integración completa", "Mayor productividad"],
-    gradient: "from-violet-500 to-purple-400",
-    glow: "shadow-violet-500/20",
+    gradient: "from-cyan-500 to-blue-500",
+    glow: "shadow-cyan-500/20",
   },
   {
     icon: CalendarCheck,
     title: "Agendamiento Inteligente",
     description: "Sistemas que sincronizan calendarios, envían recordatorios y reprograman citas sin intervención humana.",
     benefits: ["Sincronización en tiempo real", "Recordatorios automáticos", "Reduce inasistencias"],
-    gradient: "from-pink-500 to-rose-400",
-    glow: "shadow-pink-500/20",
+    gradient: "from-teal-400 to-emerald-500",
+    glow: "shadow-teal-500/20",
   },
   {
     icon: Sparkles,
@@ -187,15 +187,15 @@ export function Services() {
               const Icon = service.icon || ICON_MAP[service.icono] || Bot;
               const gradient = service.gradient || (
                 i === 0 ? "from-blue-500 to-cyan-400" :
-                i === 1 ? "from-violet-500 to-purple-400" :
-                i === 2 ? "from-pink-500 to-rose-400" :
+                i === 1 ? "from-cyan-500 to-blue-500" :
+                i === 2 ? "from-teal-400 to-emerald-500" :
                 i === 3 ? "from-amber-500 to-orange-400" :
                 "from-teal-500 to-emerald-400"
               );
               const glow = service.glow || (
                  i === 0 ? "shadow-blue-500/20" :
-                 i === 1 ? "shadow-violet-500/20" :
-                 i === 2 ? "shadow-pink-500/20" :
+                 i === 1 ? "shadow-cyan-500/20" :
+                 i === 2 ? "shadow-teal-500/20" :
                  i === 3 ? "shadow-amber-500/20" :
                  "shadow-teal-500/20"
               );

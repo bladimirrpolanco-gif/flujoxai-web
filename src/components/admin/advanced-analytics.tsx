@@ -18,7 +18,7 @@ export function AdvancedAnalytics({ metrics, leads }: AdvancedAnalyticsProps) {
   const funnelData = [
     { stage: 'Visitas Totales', value: visitas, color: 'bg-blue-600' },
     { stage: 'Interacciones', value: interacciones, color: 'bg-indigo-500' },
-    { stage: 'Leads Recibidos', value: leadsRecibidos, color: 'bg-purple-500' },
+    { stage: 'Leads Recibidos', value: leadsRecibidos, color: 'bg-cyan-500' },
     { stage: 'Tratos Cerrados', value: cerrados, color: 'bg-emerald-500' }
   ];
   const maxFunnel = Math.max(visitas, 1);

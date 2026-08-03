@@ -151,7 +151,7 @@ export default function DiagnosticoPage() {
         {[
           { id: "automatizacion", title: "Chatbots y Automatización", desc: "IA en WhatsApp, ahorro de tiempo y procesos automáticos.", icon: Bot, c: "from-blue-500 to-cyan-400" },
           { id: "web", title: "Páginas Web / E-commerce", desc: "Presencia digital profesional, ventas online y landing pages.", icon: Globe, c: "from-emerald-500 to-teal-400" },
-          { id: "app", title: "Aplicaciones Móviles", desc: "Desarrollo de Apps iOS/Android y plataformas a medida.", icon: Smartphone, c: "from-violet-500 to-purple-400" }
+          { id: "app", title: "Aplicaciones Móviles", desc: "Desarrollo de Apps iOS/Android y plataformas a medida.", icon: Smartphone, c: "from-cyan-500 to-blue-500" }
         ].map(opt => {
           const isSel = data.categoriaServicio === opt.id;
           return (

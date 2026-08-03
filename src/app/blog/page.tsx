@@ -299,7 +299,7 @@ export default async function BlogIndexPage({
                 <div className="bg-gradient-to-br from-[#0F172A] to-[#1E3A8A] text-white rounded-[28px] p-8 relative overflow-hidden shadow-xl flex flex-col">
                   {/* Destello de fondo */}
                   <div className="absolute -top-12 -right-12 w-40 h-40 bg-blue-500 rounded-full blur-3xl opacity-30" />
-                  <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-purple-500 rounded-full blur-3xl opacity-20" />
+                  <div className="absolute -bottom-12 -left-12 w-40 h-40 bg-cyan-500 rounded-full blur-3xl opacity-20" />
                   
                   <div className="relative z-10 flex flex-col flex-grow">
                     <span className="text-blue-300 text-xs font-black tracking-widest uppercase mb-3">Servicios Premium</span>
