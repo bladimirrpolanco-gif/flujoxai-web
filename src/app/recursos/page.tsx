@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { createBrowserClient } from '@supabase/ssr';
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
@@ -256,8 +257,12 @@ const templates = [
   },
 ];
 
-const categories = ["Todos", "WhatsApp", "IA", "Email", "Social Media", "E-commerce", "Contenido"];
+const categories = ["Todos", "WhatsApp", "IA", "Email", "Social Media", "E-commerce", "Contenido", "Otro"];
 const difficulties = ["Todos", "Básico", "Intermedio", "Avanzado"];
+
+const iconMap: Record<string, any> = {
+  Bot, MessageSquare, Mail, Zap, Database, ShoppingCart, BarChart3, Instagram, FileText, Sparkles
+};
 
 /* ─────────────────────────────────────────
    TOAST
@@ -287,7 +292,7 @@ function TemplateCard({
   template,
   onToast,
 }: {
-  template: (typeof templates)[0];
+  template: any;
   onToast: (msg: string) => void;
 }) {
   const Icon = template.icon;
@@ -299,8 +304,13 @@ function TemplateCard({
   const handleCopy = async () => {
     setCopying(true);
     try {
-      const res = await fetch(template.rawUrl);
-      const text = await res.text();
+      let text = "";
+      if (template.json_content) {
+        text = template.json_content;
+      } else {
+        const res = await fetch(template.rawUrl);
+        text = await res.text();
+      }
       await navigator.clipboard.writeText(text);
       setCopied(true);
       onToast(`¡JSON de "${template.title}" copiado!`);
@@ -315,8 +325,13 @@ function TemplateCard({
   const handleDownload = async () => {
     setDownloading(true);
     try {
-      const res = await fetch(template.rawUrl);
-      const text = await res.text();
+      let text = "";
+      if (template.json_content) {
+        text = template.json_content;
+      } else {
+        const res = await fetch(template.rawUrl);
+        text = await res.text();
+      }
       const blob = new Blob([text], { type: "application/json" });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
@@ -447,13 +462,39 @@ export default function RecursosPage() {
   const [activeCategory, setActiveCategory] = useState("Todos");
   const [activeDifficulty, setActiveDifficulty] = useState("Todos");
   const [toast, setToast] = useState({ show: false, message: "" });
+  const [allTemplates, setAllTemplates] = useState<any[]>(templates);
+
+  useEffect(() => {
+    const fetchCustomTemplates = async () => {
+      const supabase = createBrowserClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      );
+      const { data } = await supabase.from('custom_templates').select('*').order('created_at', { ascending: false });
+      
+      if (data && data.length > 0) {
+        const mappedData = data.map(dbT => ({
+          ...dbT,
+          icon: iconMap[dbT.icon] || Bot,
+          color: "from-violet-500/20 to-purple-500/10",
+          borderColor: "border-violet-500/30",
+          badgeColor: "bg-violet-500/15 text-violet-400 border-violet-500/30",
+          iconBg: "bg-violet-500/15 text-violet-400",
+          stars: 5.0,
+          fileName: `plantilla-${dbT.title.replace(/\s+/g, '-').toLowerCase()}.json`
+        }));
+        setAllTemplates([...mappedData, ...templates]);
+      }
+    };
+    fetchCustomTemplates();
+  }, []);
 
   const showToast = (msg: string) => {
     setToast({ show: true, message: msg });
     setTimeout(() => setToast({ show: false, message: "" }), 2800);
   };
 
-  const filtered = templates.filter((t) => {
+  const filtered = allTemplates.filter((t) => {
     const matchSearch =
       search === "" ||
       t.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -514,7 +555,7 @@ export default function RecursosPage() {
             className="flex items-center justify-center gap-8 text-sm"
           >
             {[
-              { value: templates.length, label: "Plantillas", suffix: "" },
+              { value: allTemplates.length, label: "Plantillas", suffix: "" },
               { value: categories.length - 1, label: "Categorías", suffix: "" },
               { value: "+10k", label: "Usuarios", suffix: "" },
             ].map((stat) => (

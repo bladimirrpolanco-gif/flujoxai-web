@@ -73,6 +73,14 @@ export default async function AdminPage() {
 
   if (comError) console.error('Error fetching comments:', comError);
 
+  // Fetch templates
+  const { data: templates, error: tError } = await supabase
+    .from('custom_templates')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (tError) console.error('Error fetching templates:', tError);
+
   return <AdminDashboard 
     user={user} 
     leads={leads ?? []} 
@@ -81,5 +89,6 @@ export default async function AdminPage() {
     chats={chats ?? []}
     posts={posts ?? []}
     comments={comments ?? []}
+    templates={templates ?? []}
   />;
 }
