@@ -499,7 +499,7 @@ export default function RecursosPage() {
       search === "" ||
       t.title.toLowerCase().includes(search.toLowerCase()) ||
       t.description.toLowerCase().includes(search.toLowerCase()) ||
-      t.tags.some((tag) => tag.toLowerCase().includes(search.toLowerCase()));
+      t.tags?.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase()));
     const matchCat = activeCategory === "Todos" || t.category === activeCategory;
     const matchDiff = activeDifficulty === "Todos" || t.difficulty === activeDifficulty;
     return matchSearch && matchCat && matchDiff;
