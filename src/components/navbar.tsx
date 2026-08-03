@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bot, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles, Calculator } from "lucide-react";
+import { Bot, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles, Calculator, Package } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
@@ -65,6 +65,7 @@ const navLinks: NavLink[] = [
     ]
   },
   { href: '/blog', label: 'Blog' },
+  { href: '/recursos', label: 'Recursos' },
   { href: '/cotizador', label: 'Cotizador' },
   { href: '#faq', label: 'FAQ' },
   { href: '#contacto', label: 'Contacto' },
