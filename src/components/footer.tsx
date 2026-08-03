@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bot, Mail, MapPin, ArrowRight } from "lucide-react";
+import { Mail, MapPin, ArrowRight } from "lucide-react";
 
 function InstagramIcon() {
   return (
@@ -72,9 +72,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1 flex flex-col gap-5">
             <Link href="/" className="flex items-center gap-2.5">
-              <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
-                <Bot className="h-5 w-5 text-white" />
-              </div>
+
               <span className="font-bold text-xl text-white">
                 Flujo<span className="text-primary">xAI</span>
               </span>

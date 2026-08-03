@@ -3,12 +3,12 @@
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { trackEvent } from "@/lib/metrics";
-import { ArrowRight, Bot, Workflow, Zap, Sparkles, Star } from "lucide-react";
+import { ArrowRight, Workflow, Zap, Sparkles, Star } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { AutomationDiagram } from "./automation-diagram";
 
 const features = [
-  { icon: Bot,      title: "Agentes IA",           desc: "Chatbots y asistentes inteligentes que atienden a tus clientes 24/7 sin intervención humana.", gradient: "from-blue-500 to-cyan-400" },
+  { icon: Sparkles,      title: "Agentes IA",           desc: "Chatbots y asistentes inteligentes que atienden a tus clientes 24/7 sin intervención humana.", gradient: "from-blue-500 to-cyan-400" },
   { icon: Workflow, title: "Automatización",        desc: "Eliminamos el trabajo manual conectando tus sistemas para que operen solos y sin errores.",    gradient: "from-cyan-500 to-blue-500" },
   { icon: Zap,      title: "Integraciones",         desc: "CRM, WhatsApp, email y más trabajando en sincronía para potenciar tu negocio completo.",       gradient: "from-teal-400 to-emerald-500" },
 ];

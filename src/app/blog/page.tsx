@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
 import { Navbar } from '@/components/navbar';
 import { Footer } from '@/components/footer';
-import { Bot } from 'lucide-react';
+import { User } from 'lucide-react';
 
 export const revalidate = 0;
 
@@ -79,7 +79,7 @@ export default async function BlogIndexPage({
           </div>
         ) : featuredPosts.length === 0 ? (
           <div className="p-16 rounded-3xl text-center text-muted-foreground border border-dashed border-border bg-muted/30">
-            <Bot className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
+            <User className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
             <h3 className="text-xl font-bold text-foreground mb-2">Aún no hay artículos publicados</h3>
             <p>Vuelve pronto para leer nuestro contenido.</p>
           </div>
@@ -125,7 +125,7 @@ export default async function BlogIndexPage({
                         <div className="flex items-center justify-between pt-5 border-t border-border mt-auto">
                           <div className="flex items-center gap-2 text-muted-foreground text-xs font-semibold">
                             <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                              <Bot className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
+                              <User className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
                             </div>
                             <span>Equipo FlujoXAI</span>
                             <span className="mx-1 opacity-50">·</span>
@@ -330,7 +330,7 @@ export default async function BlogIndexPage({
       <section className="w-full px-6 py-24 bg-neutral-50 dark:bg-neutral-900/20 border-t border-border mt-auto">
         <div className="max-w-4xl mx-auto bg-white dark:bg-neutral-900 rounded-[40px] p-10 md:p-16 text-center border border-border shadow-2xl shadow-blue-900/5">
           <div className="w-16 h-16 rounded-2xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center mx-auto mb-6">
-            <Bot className="w-8 h-8 text-blue-600 dark:text-blue-400" />
+            <User className="w-8 h-8 text-blue-600 dark:text-blue-400" />
           </div>
           <h2 className="font-sans font-bold text-3xl md:text-4xl text-foreground mb-4">
             ¿Listo para automatizar tu negocio?

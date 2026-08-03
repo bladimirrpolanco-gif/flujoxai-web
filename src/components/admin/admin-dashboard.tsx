@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
 import {
-  Bot, Users, TrendingUp, LogOut, LayoutDashboard,
+  Users, TrendingUp, LogOut, LayoutDashboard,
   Mail, Phone, Building2, MessageSquare, ChevronRight,
   Calendar, RefreshCw, Search, X, BarChart3, MousePointer2,
   Download, Kanban, Menu, FileText, FileJson
@@ -209,9 +209,7 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
       {/* Sidebar */}
       <aside className={`fixed md:static inset-y-0 left-0 z-50 w-60 bg-zinc-900 border-r border-zinc-800 flex flex-col flex-shrink-0 transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         <div className="flex items-center gap-3 px-5 py-5 border-b border-zinc-800">
-          <div className="bg-blue-600 p-2 rounded-xl">
-            <Bot className="h-5 w-5 text-white" />
-          </div>
+
           <span className="font-bold text-white text-base">FlujoXAI <span className="text-xs font-normal text-zinc-500">CRM</span></span>
         </div>
 

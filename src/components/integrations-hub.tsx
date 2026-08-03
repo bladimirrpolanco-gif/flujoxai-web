@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Bot } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { BrandIcon } from "./brand-icon";
 
 const ALL_TOOLS = [
@@ -174,7 +174,7 @@ function HubCenter({ hubPulse }: { hubPulse: boolean }) {
           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
         />
         <div className="relative h-20 w-20 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center shadow-2xl shadow-primary/40">
-          <Bot className="h-10 w-10 text-white" />
+          <Sparkles className="h-10 w-10 text-white" />
         </div>
       </div>
       <div className="text-center">

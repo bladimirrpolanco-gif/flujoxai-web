@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageSquare, X, Send, Bot, User, Loader2 } from "lucide-react";
+import { MessageSquare, X, Send, MessageCircle, User, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/metrics";
 
@@ -102,7 +102,7 @@ export function WebChatWidget() {
             <div className="bg-primary p-4 text-primary-foreground flex items-center justify-between shadow-md">
               <div className="flex items-center gap-3">
                 <div className="bg-white/20 p-2 rounded-full">
-                  <Bot className="h-5 w-5" />
+                  <MessageCircle className="h-5 w-5" />
                 </div>
                 <div>
                   <p className="font-bold text-sm leading-none">Asistente FlujoxAI</p>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Bot, Link2, CheckCircle2, AlertCircle, RefreshCw, Smartphone, Key } from 'lucide-react';
+import { Link2, CheckCircle2, AlertCircle, RefreshCw, Smartphone, Key } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 export function WhatsAppSetup() {

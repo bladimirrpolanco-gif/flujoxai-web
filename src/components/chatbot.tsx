@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bot, CheckCircle2, Zap, Clock, Users } from "lucide-react";
+import { MessageCircle, CheckCircle2, Zap, Clock, Users } from "lucide-react";
 import Link from "next/link";
 
 const CONVERSATION: { role: "bot" | "user"; text: string; delay: number }[] = [
@@ -93,7 +93,7 @@ export function ChatbotSimulator() {
               {/* Header */}
               <div className="bg-[#075E54] text-white px-4 py-3 flex items-center gap-3 flex-shrink-0">
                 <div className="bg-white/20 p-1.5 rounded-full">
-                  <Bot className="h-5 w-5 text-white" />
+                  <MessageCircle className="h-5 w-5 text-white" />
                 </div>
                 <div>
                   <p className="font-bold text-sm leading-none">IA FlujoxAI</p>

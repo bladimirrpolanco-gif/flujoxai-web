@@ -9,7 +9,7 @@ import {
   Copy,
   Check,
   Search,
-  Bot,
+  Workflow,
   MessageSquare,
   Zap,
   Database,
@@ -66,7 +66,7 @@ const templates = [
     category: "WhatsApp",
     difficulty: "Avanzado",
     tags: ["WhatsApp", "RAG", "OpenAI", "IA"],
-    icon: Bot,
+    icon: Workflow,
     color: "from-cyan-500/20 to-blue-500/10",
     borderColor: "border-cyan-500/30",
     badgeColor: "bg-cyan-500/15 text-cyan-400 border-cyan-500/30",
@@ -120,7 +120,7 @@ const templates = [
     category: "IA",
     difficulty: "Intermedio",
     tags: ["IA", "Google Calendar", "OpenAI", "Agente"],
-    icon: Bot,
+    icon: Workflow,
     color: "from-blue-500/20 to-indigo-500/10",
     borderColor: "border-blue-500/30",
     badgeColor: "bg-blue-500/15 text-blue-400 border-blue-500/30",
@@ -262,7 +262,7 @@ const categories = ["Todos", "WhatsApp", "IA", "Email", "Social Media", "E-comme
 const difficulties = ["Todos", "Básico", "Intermedio", "Avanzado"];
 
 const iconMap: Record<string, any> = {
-  Bot, MessageSquare, Mail, Zap, Database, ShoppingCart, BarChart3, Instagram, FileText, Sparkles
+  Workflow, MessageSquare, Mail, Zap, Database, ShoppingCart, BarChart3, Instagram, FileText, Sparkles
 };
 
 /* ─────────────────────────────────────────
@@ -506,7 +506,7 @@ export default function RecursosPage() {
       if (data && data.length > 0) {
         const mappedData = data.map(dbT => ({
           ...dbT,
-          icon: iconMap[dbT.icon] || Bot,
+          icon: iconMap[dbT.icon] || Workflow,
           color: "from-cyan-500/20 to-blue-500/10",
           borderColor: "border-cyan-500/30",
           badgeColor: "bg-cyan-500/15 text-cyan-400 border-cyan-500/30",

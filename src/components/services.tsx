@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { MessageSquare, Workflow, CalendarCheck, CheckCircle2, Bot, Zap, AreaChart, Sparkles } from "lucide-react";
+import { MessageSquare, Workflow, CalendarCheck, CheckCircle2, Zap, AreaChart, Sparkles } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
 function useCounter(target: number, duration = 2000, inView = false) {
@@ -41,7 +41,7 @@ const ICON_MAP: Record<string, any> = {
   MessageSquare,
   Workflow,
   CalendarCheck,
-  Bot,
+  Sparkles,
   Zap,
   AreaChart,
   Sparkles
@@ -184,7 +184,7 @@ export function Services() {
             className={`flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 px-4 -mx-4 scrollbar-hide cursor-grab ${isDragging ? 'cursor-grabbing snap-none' : ''}`}
           >
             {displayServices.map((service: any, i) => {
-              const Icon = service.icon || ICON_MAP[service.icono] || Bot;
+              const Icon = service.icon || ICON_MAP[service.icono] || Sparkles;
               const gradient = service.gradient || (
                 i === 0 ? "from-blue-500 to-cyan-400" :
                 i === 1 ? "from-cyan-500 to-blue-500" :

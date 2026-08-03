@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Bot, Zap, Workflow, ArrowRight, ArrowLeft, CheckCircle2, 
+  Zap, Workflow, ArrowRight, ArrowLeft, CheckCircle2, 
   MessageSquare, Cpu, Sparkles, Building2, Utensils, 
   Hotel, Stethoscope, GraduationCap, Users, Calendar, 
   ShoppingBag, PieChart, Activity, Target, Timer,
@@ -149,7 +149,7 @@ export default function DiagnosticoPage() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
         {[
-          { id: "automatizacion", title: "Chatbots y Automatización", desc: "IA en WhatsApp, ahorro de tiempo y procesos automáticos.", icon: Bot, c: "from-blue-500 to-cyan-400" },
+          { id: "automatizacion", title: "Chatbots y Automatización", desc: "IA en WhatsApp, ahorro de tiempo y procesos automáticos.", icon: MessageSquare, c: "from-blue-500 to-cyan-400" },
           { id: "web", title: "Páginas Web / E-commerce", desc: "Presencia digital profesional, ventas online y landing pages.", icon: Globe, c: "from-emerald-500 to-teal-400" },
           { id: "app", title: "Aplicaciones Móviles", desc: "Desarrollo de Apps iOS/Android y plataformas a medida.", icon: Smartphone, c: "from-cyan-500 to-blue-500" }
         ].map(opt => {
@@ -208,7 +208,7 @@ export default function DiagnosticoPage() {
         {[
           { id: "Responder clientes automáticamente", icon: MessageSquare },
           { id: "Generar más leads", icon: Target },
-          { id: "Automatizar WhatsApp", icon: Bot },
+          { id: "Automatizar WhatsApp", icon: MessageSquare },
           { id: "Reducir trabajo manual", icon: Timer },
           { id: "Agendar citas", icon: Calendar },
           { id: "Seguimiento de clientes", icon: Users },
@@ -712,7 +712,7 @@ export default function DiagnosticoPage() {
         {currentStepName !== "resultados" && (
           <div className="flex flex-col items-center justify-center mb-10">
             <Link href="/" className="flex items-center gap-2.5 group mb-8">
-              <div className="h-9 w-9 rounded-xl bg-primary flex items-center justify-center shadow-lg"><Bot className="h-5 w-5 text-primary-foreground" /></div>
+              
               <span className="font-black text-xl tracking-tight text-foreground">Flujo<span className="gradient-text">xAI</span></span>
             </Link>
             

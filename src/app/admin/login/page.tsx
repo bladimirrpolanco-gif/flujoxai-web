@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { createBrowserClient } from '@supabase/ssr';
 import { useRouter } from 'next/navigation';
-import { Bot, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState('');
@@ -52,9 +52,7 @@ export default function AdminLoginPage() {
       <div className="relative w-full max-w-md">
         <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-8 shadow-2xl">
           <div className="flex items-center gap-3 mb-8">
-            <div className="bg-blue-600 p-2 rounded-xl">
-              <Bot className="h-6 w-6 text-white" />
-            </div>
+
             <div>
               <h1 className="font-bold text-white text-lg leading-none">Flujobot</h1>
               <p className="text-zinc-400 text-xs">Panel de Administración</p>

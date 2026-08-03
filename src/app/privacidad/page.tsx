@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Bot, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 export const metadata = {
   title: "Política de Privacidad | Flujobot",
@@ -13,9 +13,6 @@ export default function PrivacidadPage() {
       <header className="border-b border-border/50 bg-background/80 backdrop-blur sticky top-0 z-10">
         <div className="container max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="h-8 w-8 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/20">
-              <Bot className="h-4 w-4 text-primary-foreground" />
-            </div>
             <span className="font-bold text-lg tracking-tight">
               Flujo<span className="text-primary">XAI</span>
             </span>

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Bot, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles, Calculator, Package } from "lucide-react";
+import { Cpu, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles, Calculator, Package } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
@@ -52,7 +52,7 @@ const navLinks: NavLink[] = [
         href: '#simulador', 
         label: 'Agente AI', 
         desc: 'Agentes autónomos que califican leads y cierran ventas.', 
-        icon: Bot,
+        icon: Cpu,
         color: 'bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20'
       },
       { 
@@ -163,12 +163,7 @@ export function Navbar() {
         
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2.5 group shrink-0">
-          <motion.div 
-            whileHover={{ scale: 1.1, rotate: 5 }}
-            className={`h-8 w-8 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 ${isNavTextWhite ? 'bg-white' : 'bg-primary'}`}
-          >
-            <Bot className={`h-4.5 w-4.5 ${isNavTextWhite ? 'text-primary' : 'text-primary-foreground'}`} />
-          </motion.div>
+
           <span className={`font-bold text-lg tracking-tight hidden sm:block ${isNavTextWhite ? 'text-white' : 'text-foreground'}`}>
             Flujo<span className={isNavTextWhite ? 'text-white/80' : 'gradient-text'}>xAI</span>
           </span>

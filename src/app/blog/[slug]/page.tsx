@@ -8,7 +8,7 @@ import { AdPlaceholder } from '@/components/ad-placeholder';
 import { ShareButton } from '@/components/share-button';
 import { CommentsSection } from '@/components/comments-section';
 import { sanitizeRichTextHtml } from '@/lib/sanitize-html';
-import { Bot, Calendar, ChevronRight, Tag, Share2 } from 'lucide-react';
+import { User, Calendar, ChevronRight, Tag, Share2 } from 'lucide-react';
 
 export const revalidate = 0;
 
@@ -98,7 +98,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         {post.published_at && (
           <div className="flex items-center justify-center gap-3 mt-4">
             <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
-              <Bot className="w-4 h-4 text-white" />
+              <User className="w-4 h-4 text-white" />
             </div>
             <span className="text-sm font-semibold text-white/90">Equipo FlujoXAI</span>
             <span className="text-white/40">·</span>
@@ -303,7 +303,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               style={{ background: 'linear-gradient(135deg, #1e40af 0%, #3b82f6 100%)' }}
             >
               <div className="absolute top-0 right-0 w-40 h-40 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl pointer-events-none" />
-              <Bot className="w-8 h-8 mb-3 text-white/90" />
+              <User className="w-8 h-8 mb-3 text-white/90" />
               <h4 className="font-bold text-lg leading-snug mb-2">
                 ¿Listo para automatizar tu negocio?
               </h4>

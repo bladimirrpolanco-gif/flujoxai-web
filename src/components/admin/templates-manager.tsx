@@ -27,11 +27,11 @@ const EMPTY_FORM = {
   category: 'WhatsApp',
   difficulty: 'Intermedio',
   tags: '',
-  icon: 'Bot',
+  icon: 'Workflow',
   json_content: '',
 };
 
-const ICONS = ['Bot', 'MessageSquare', 'Mail', 'Zap', 'Database', 'ShoppingCart', 'BarChart3', 'Instagram', 'FileText', 'Sparkles'];
+const ICONS = ['Workflow', 'MessageSquare', 'Mail', 'Zap', 'Database', 'ShoppingCart', 'BarChart3', 'Instagram', 'FileText', 'Sparkles'];
 const CATEGORIES = ['WhatsApp', 'IA', 'Email', 'Social Media', 'E-commerce', 'Contenido', 'Otro'];
 const DIFFICULTIES = ['Básico', 'Intermedio', 'Avanzado'];
 
