@@ -376,17 +376,8 @@ function TemplateCard({
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
           <span className="font-semibold text-foreground">{template.stars}</span>
-          <span>· Comunidad n8n</span>
+          <span>· Comunidad FlujoxAI</span>
         </div>
-        <a
-          href={template.sourceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-1 text-[11px] text-muted-foreground hover:text-primary transition-colors"
-        >
-          <Globe className="h-3 w-3" />
-          Ver fuente
-        </a>
       </div>
 
       {/* Tags */}
@@ -510,29 +501,10 @@ export default function RecursosPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg text-muted-foreground max-w-2xl mx-auto mb-3 leading-relaxed"
+            className="text-lg text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed"
           >
-            Workflows seleccionados del repositorio open-source{" "}
-            <a
-              href="https://github.com/enescingoz/awesome-n8n-templates"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary underline underline-offset-4 hover:text-primary/80 transition-colors"
-            >
-              awesome-n8n-templates
-            </a>
-            . Importa directamente en tu instancia de n8n. <strong className="text-foreground">100% gratis.</strong>
+            Descubre y descarga los mejores workflows de n8n creados y validados por nuestra comunidad. Importa directamente en tu instancia de n8n de manera sencilla y rápida. <strong className="text-foreground">100% gratis.</strong>
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted/60 border border-border/50 text-xs text-muted-foreground mb-8"
-          >
-            <ExternalLink className="h-3 w-3" />
-            Fuente: github.com/enescingoz/awesome-n8n-templates · Licencia MIT
-          </motion.div>
 
           {/* Stats */}
           <motion.div
@@ -544,7 +516,7 @@ export default function RecursosPage() {
             {[
               { value: templates.length, label: "Plantillas", suffix: "" },
               { value: categories.length - 1, label: "Categorías", suffix: "" },
-              { value: "MIT", label: "Licencia", suffix: "" },
+              { value: "+10k", label: "Usuarios", suffix: "" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="text-2xl font-black text-foreground">{stat.value}{stat.suffix}</div>
