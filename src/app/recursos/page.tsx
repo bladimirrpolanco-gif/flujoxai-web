@@ -591,24 +591,7 @@ export default function RecursosPage() {
             Descubre y descarga los mejores workflows de n8n creados y validados por nuestra comunidad. Importa directamente en tu instancia de n8n de manera sencilla y rápida. <strong className="text-foreground">100% gratis.</strong>
           </motion.p>
 
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.35 }}
-            className="flex items-center justify-center gap-8 text-sm"
-          >
-            {[
-              { value: allTemplates.length, label: "Plantillas", suffix: "" },
-              { value: categories.length - 1, label: "Categorías", suffix: "" },
-              { value: "+10k", label: "Usuarios", suffix: "" },
-            ].map((stat) => (
-              <div key={stat.label} className="text-center">
-                <div className="text-2xl font-black text-foreground">{stat.value}{stat.suffix}</div>
-                <div className="text-muted-foreground text-xs mt-0.5">{stat.label}</div>
-              </div>
-            ))}
-          </motion.div>
+
         </div>
       </section>
 
