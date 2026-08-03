@@ -353,7 +353,7 @@ function TemplateCard({
   };
 
   const handleShare = async () => {
-    const url = `${window.location.origin}/recursos?id=${template.id}`;
+    const url = `${window.location.origin}/recursos#template-${template.id}`;
     if (navigator.share) {
       try {
         await navigator.share({
@@ -372,6 +372,7 @@ function TemplateCard({
 
   return (
     <motion.div
+      id={`template-${template.id}`}
       layout
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
@@ -518,6 +519,22 @@ export default function RecursosPage() {
     };
     fetchCustomTemplates();
   }, []);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash) {
+      const element = document.querySelector(window.location.hash);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          // Add a subtle highlight effect
+          element.classList.add('ring-2', 'ring-primary', 'ring-offset-2', 'ring-offset-background');
+          setTimeout(() => {
+            element.classList.remove('ring-2', 'ring-primary', 'ring-offset-2', 'ring-offset-background');
+          }, 2500);
+        }, 300); // Wait a bit for images/layout to settle
+      }
+    }
+  }, [allTemplates]);
 
   const showToast = (msg: string) => {
     setToast({ show: true, message: msg });
