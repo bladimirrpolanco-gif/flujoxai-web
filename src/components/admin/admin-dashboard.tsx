@@ -7,11 +7,12 @@ import {
   Bot, Users, TrendingUp, LogOut, LayoutDashboard,
   Mail, Phone, Building2, MessageSquare, ChevronRight,
   Calendar, RefreshCw, Search, X, BarChart3, MousePointer2,
-  Download, Kanban, Menu, FileText
+  Download, Kanban, Menu, FileText, FileJson
 } from 'lucide-react';
 import { AdvancedAnalytics } from './advanced-analytics';
 import { BlogManager } from './blog-manager';
 import { CommentsManager } from './comments-manager';
+import { TemplatesManager } from './templates-manager';
 
 type Estado = 'nuevo' | 'contactado' | 'propuesta' | 'cerrado' | 'perdido';
 
@@ -43,6 +44,7 @@ interface AdminDashboardProps {
   chats: any[];
   posts?: any[];
   comments?: any[];
+  templates?: any[];
 }
 
 const PIPELINE_COLUMNS: { key: Estado; label: string; color: string; dot: string }[] = [
@@ -61,8 +63,8 @@ const ESTADO_STYLES: Record<Estado, string> = {
   perdido:    'bg-red-600/20 text-red-400',
 };
 
-export function AdminDashboard({ user, leads, posts = [], comments = [] }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'leads' | 'cotizaciones' | 'analytics' | 'blog' | 'comentarios'>('overview');
+export function AdminDashboard({ user, leads, posts = [], comments = [], templates = [] }: AdminDashboardProps) {
+  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'leads' | 'cotizaciones' | 'analytics' | 'blog' | 'comentarios' | 'plantillas'>('overview');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
@@ -194,6 +196,7 @@ export function AdminDashboard({ user, leads, posts = [], comments = [] }: Admin
     analytics:     { title: 'Analítica',              sub: 'Rendimiento del sitio y conversiones' },
     blog:          { title: 'Blog',                   sub: 'Crear, editar y publicar artículos' },
     comentarios:   { title: 'Comentarios',            sub: 'Gestiona la participación en tu blog' },
+    plantillas:    { title: 'Plantillas n8n',         sub: 'Workflows customizados para la web' },
   };
 
   return (
@@ -221,6 +224,7 @@ export function AdminDashboard({ user, leads, posts = [], comments = [] }: Admin
             { id: 'analytics',     icon: BarChart3,       label: 'Analítica', onClick: fetchMetrics },
             { id: 'blog',          icon: FileText,        label: 'Blog', badge: posts.length },
             { id: 'comentarios',   icon: MessageSquare,   label: 'Comentarios', badge: comments.length },
+            { id: 'plantillas',    icon: FileJson,        label: 'Plantillas', badge: templates.length },
           ].map(({ id, icon: Icon, label, badge, onClick }) => (
             <button
               key={id}
@@ -527,6 +531,13 @@ export function AdminDashboard({ user, leads, posts = [], comments = [] }: Admin
           {activeTab === 'comentarios' && (
             <div className="p-4 md:p-8">
               <CommentsManager initialComments={comments} />
+            </div>
+          )}
+
+          {/* ─── PLANTILLAS ─── */}
+          {activeTab === 'plantillas' && (
+            <div className="p-4 md:p-8">
+              <TemplatesManager initialTemplates={templates} />
             </div>
           )}
 
