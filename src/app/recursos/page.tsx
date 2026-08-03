@@ -575,11 +575,16 @@ export default function RecursosPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight mb-5 leading-tight"
+            className="font-sans font-bold tracking-tight leading-[1.1] mb-5 text-4xl sm:text-5xl md:text-6xl"
           >
             Plantillas <span className="gradient-text">n8n</span>
             <br />
-            reales de la comunidad
+            <span
+              className="font-light italic text-foreground/90"
+              style={{ fontFamily: 'var(--font-playfair)' }}
+            >
+              reales de la comunidad
+            </span>
           </motion.h1>
 
           <motion.p
