@@ -732,7 +732,7 @@ export default function RecursosPage() {
                   Cotizar mi automatización
                 </Link>
                 <a
-                  href="https://wa.me/18492597719?text=Hola%2C%20me%20interesa%20una%20automatizaci%C3%B3n%20con%20n8n%20personalizada%20%F0%9F%A4%96"
+                  href="https://wa.me/18299067718?text=Hola%2C%20me%20interesa%20una%20automatizaci%C3%B3n%20con%20n8n%20personalizada%20%F0%9F%A4%96"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 h-11 px-6 rounded-full border border-emerald-500/30 text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/10 font-bold text-sm transition-all"

@@ -270,7 +270,7 @@ export function Navbar() {
         <div className="flex items-center gap-3 shrink-0 ml-auto md:ml-0">
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="hidden sm:block">
             <a
-              href="https://wa.me/18492597719?text=%C2%A1Hola%21%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20IA%20de%20FlujoxAI%20%F0%9F%A5%BE"
+              href="https://wa.me/18299067718?text=%C2%A1Hola%21%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20IA%20de%20FlujoxAI%20%F0%9F%A5%BE"
               target="_blank"
               rel="noopener noreferrer"
               onClick={() => trackEvent('click_whatsapp')}
@@ -371,7 +371,7 @@ export function Navbar() {
               ))}
               <div className="pt-4 border-t border-border flex flex-col gap-2.5">
                 <a
-                  href="https://wa.me/18492597719?text=%C2%A1Hola%21%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20IA%20de%20FlujoxAI%20%F0%9F%A5%BE"
+                  href="https://wa.me/18299067718?text=%C2%A1Hola%21%20Me%20interesa%20saber%20m%C3%A1s%20sobre%20los%20servicios%20de%20IA%20de%20FlujoxAI%20%F0%9F%A5%BE"
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => setIsMenuOpen(false)}

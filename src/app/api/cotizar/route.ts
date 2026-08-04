@@ -213,7 +213,7 @@ export async function POST(req: NextRequest) {
             </div>
 
             <div style="text-align: center; margin-top: 35px;">
-              <a href="https://wa.me/18492597719?text=${encodeURIComponent(`¡Hola! Recibí el diagnóstico para ${titleSolucion} y me gustaría revisarlo.`)}" class="btn-wa">Validar Diagnóstico Técnico</a>
+              <a href="https://wa.me/18299067718?text=${encodeURIComponent(`¡Hola! Recibí el diagnóstico para ${titleSolucion} y me gustaría revisarlo.`)}" class="btn-wa">Validar Diagnóstico Técnico</a>
             </div>
           </div>
         </div>
@@ -283,7 +283,7 @@ export async function POST(req: NextRequest) {
             </div>
 
             <div style="text-align: center; margin-top: 35px;">
-              <a href="https://wa.me/18492597719?text=${encodeURIComponent(`¡Hola! Recibí la propuesta de arquitectura para Desarrollo de Software y me gustaría validarla con un asesor.`)}" class="btn-wa">Validar Proyecto</a>
+              <a href="https://wa.me/18299067718?text=${encodeURIComponent(`¡Hola! Recibí la propuesta de arquitectura para Desarrollo de Software y me gustaría validarla con un asesor.`)}" class="btn-wa">Validar Proyecto</a>
             </div>
           </div>
         </div>

@@ -560,7 +560,7 @@ export default function DiagnosticoPage() {
 
         <div className="text-center space-y-5 pt-4">
           <p className="text-sm text-muted-foreground">Un asesor ya está evaluando los detalles técnicos para coordinar contigo.</p>
-          <a href={"https://wa.me/18492597719?text=" + encodeURIComponent("¡Hola! Solicité un diagnóstico inteligente para Desarrollo de " + (isApp ? "App" : "Página Web") + " para mi empresa *" + data.lead.empresa + "* y me gustaría validar los requisitos de la propuesta: " + titleSolucion)}
+          <a href={"https://wa.me/18299067718?text=" + encodeURIComponent("¡Hola! Solicité un diagnóstico inteligente para Desarrollo de " + (isApp ? "App" : "Página Web") + " para mi empresa *" + data.lead.empresa + "* y me gustaría validar los requisitos de la propuesta: " + titleSolucion)}
             target="_blank" rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-2xl text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all shadow-xl shadow-[#25D366]/20"
           >
@@ -688,7 +688,7 @@ export default function DiagnosticoPage() {
         <div className="text-center space-y-5 pt-4">
           <p className="text-sm text-muted-foreground">Un Arquitecto de Software ya tiene los detalles de tu diagnóstico.</p>
           <a
-            href={"https://wa.me/18492597719?text=" + encodeURIComponent("¡Hola! Acabo de hacer el diagnóstico de mi empresa *" + data.lead.empresa + "* y el algoritmo me recomendó: " + titleSolucion + " (" + precioStr + "). Me gustaría validarlo.")}
+            href={"https://wa.me/18299067718?text=" + encodeURIComponent("¡Hola! Acabo de hacer el diagnóstico de mi empresa *" + data.lead.empresa + "* y el algoritmo me recomendó: " + titleSolucion + " (" + precioStr + "). Me gustaría validarlo.")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 h-14 px-8 rounded-2xl text-sm font-bold bg-[#25D366] text-white hover:bg-[#20bd5a] transition-all shadow-xl shadow-[#25D366]/20"
