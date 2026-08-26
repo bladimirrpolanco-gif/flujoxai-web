@@ -16,11 +16,11 @@ export const metadata: Metadata = {
 
 export default function WhatsAppCalculatorPage() {
   return (
-    <main className="relative h-screen w-full bg-background">
-      <div className="pointer-events-none fixed left-4 top-4 z-50">
+    <main className="relative min-h-[100svh] w-full bg-background overflow-hidden">
+      <div className="pointer-events-none fixed left-3 top-3 z-50 sm:left-4 sm:top-4">
         <Link
           href="/"
-          className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/20 bg-[#0877f9] px-4 py-2 text-[13px] font-semibold text-white shadow-[0_0_20px_rgba(8,119,249,0.35)] transition-colors hover:bg-[#0565E8]"
+          className="pointer-events-auto inline-flex items-center gap-2 rounded-full border border-white/20 bg-[#0877f9] px-3 py-1.5 text-[12px] font-semibold text-white shadow-[0_0_20px_rgba(8,119,249,0.35)] transition-colors hover:bg-[#0565E8] sm:px-4 sm:py-2 sm:text-[13px]"
         >
           <ArrowLeft className="h-4 w-4" />
           Volver a inicio
@@ -29,7 +29,7 @@ export default function WhatsAppCalculatorPage() {
       <iframe
         src="/calculadora-whatsapp-api-real.html"
         title="Calculadora de costo de WhatsApp API"
-        className="h-full w-full border-0"
+        className="h-[100svh] w-full border-0"
       />
     </main>
   );
