@@ -1,14 +1,9 @@
 import type { Metadata } from "next";
-import { Inter, Syne, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AnalyticsSensor } from "@/components/analytics-sensor";
 import { CookieBanner } from "@/components/cookie-banner";
 import Script from "next/script";
-
-const font = Inter({ subsets: ["latin"] });
-const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", style: ["italic", "normal"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://flujoxai.com"),
@@ -39,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning className={`${syne.variable} ${playfair.variable}`}>
+    <html lang="es" suppressHydrationWarning>
       <head>
         <Script
           async
@@ -48,7 +43,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
       </head>
-      <body className={`${font.className} antialiased selection:bg-primary/30`}>
+      <body className="antialiased selection:bg-primary/30">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

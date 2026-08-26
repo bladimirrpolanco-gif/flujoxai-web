@@ -35,7 +35,6 @@ function AnimatedStat({ value, label }: { value: string; label: string }) {
     </div>
   );
 }
-import { supabase } from "@/lib/supabase";
 
 type ServiceItem = {
   id?: string | number;
@@ -132,24 +131,6 @@ export function Services() {
     scrollRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  useEffect(() => {
-    async function fetchServices() {
-      const { data } = await supabase
-        .from('servicios')
-        .select('*')
-        .eq('activo', true)
-        .order('created_at', { ascending: true });
-      
-      if (data && data.length > 0) {
-        setDbServices(data);
-      }
-      setIsLoading(false);
-    }
-    fetchServices();
-  }, []);
-
-  // Force static services to show the full carousel with all 5 items. 
-  // You can switch back to `dbServices` if you add them all to Supabase!
   const displayServices = STATIC_SERVICES;
 
   return (
@@ -194,7 +175,7 @@ export function Services() {
             className={`flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 px-4 -mx-4 scrollbar-hide cursor-grab ${isDragging ? 'cursor-grabbing snap-none' : ''}`}
           >
           {displayServices.map((service: ServiceItem, i) => {
-              const Icon = service.icon || ICON_MAP[service.icono] || Sparkles;
+              const Icon = service.icon || (service.icono ? ICON_MAP[service.icono] : undefined) || Sparkles;
               const gradient = service.gradient || (
                 i === 0 ? "from-[#0877f9] to-[#0565E8]" :
                 i === 1 ? "from-[#0565E8] to-[#0877f9]" :
@@ -209,6 +190,7 @@ export function Services() {
                  i === 3 ? "shadow-amber-500/20" :
                  "shadow-[#0565E8]/20"
               );
+              const benefits = service.beneficios ?? service.benefits ?? [];
 
               return (
                 <div
@@ -227,7 +209,7 @@ export function Services() {
                   <p className="text-muted-foreground mb-6 flex-1 leading-relaxed text-sm">{service.descripcion || service.description}</p>
 
                   <ul className="space-y-2.5">
-                    {(service.beneficios || service.benefits).map((benefit: string, j: number) => (
+                    {benefits.map((benefit: string, j: number) => (
                       <li key={j} className="flex items-center gap-2.5 text-sm text-foreground/80">
                         <CheckCircle2 className="h-4 w-4 text-emerald-400 flex-shrink-0" />
                         {benefit}

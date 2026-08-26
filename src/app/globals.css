@@ -48,6 +48,9 @@
 
 /* === DARK MODE BY DEFAULT === */
 :root {
+  --font-inter: Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-syne: Syne, Inter, ui-sans-serif, system-ui, sans-serif;
+  --font-playfair: "Playfair Display", Georgia, Cambria, "Times New Roman", serif;
   --radius: 0.75rem;
   /* Rich dark background */
   --background: oklch(0.09 0.01 260);
