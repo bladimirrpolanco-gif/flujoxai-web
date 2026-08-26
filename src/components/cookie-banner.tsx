@@ -1,18 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 
 export function CookieBanner() {
-  const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    // Check if user has already accepted cookies
-    const consent = localStorage.getItem('cookie-consent');
-    if (!consent) {
-      setShow(true);
-    }
-  }, []);
+  const [show, setShow] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return !localStorage.getItem('cookie-consent');
+  });
 
   const acceptCookies = () => {
     localStorage.setItem('cookie-consent', 'true');
@@ -26,9 +21,9 @@ export function CookieBanner() {
       <div className="container max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="text-sm text-zinc-300 flex-1">
           <p>
-            Utilizamos cookies propias y de terceros, así como píxeles de seguimiento, para analizar el tráfico de nuestra web y mostrarte anuncios personalizados. Al hacer clic en "Aceptar", consientes el uso de estas tecnologías.
+            Utilizamos cookies propias y de terceros, así como píxeles de seguimiento, para analizar el tráfico de nuestra web y mostrarte anuncios personalizados. Al hacer clic en &quot;Aceptar&quot;, consientes el uso de estas tecnologías.
             {' '}
-            <Link href="/privacidad" className="text-blue-400 hover:text-blue-300 underline underline-offset-2">
+            <Link href="/privacidad" className="text-[#0877f9] hover:text-[#0565E8] underline underline-offset-2">
               Ver Política de Privacidad
             </Link>
           </p>
@@ -36,7 +31,7 @@ export function CookieBanner() {
         <div className="flex gap-3 w-full md:w-auto">
           <button
             onClick={acceptCookies}
-            className="w-full md:w-auto px-6 py-2.5 bg-blue-600 hover:bg-blue-500 text-white font-medium rounded-lg transition-colors whitespace-nowrap"
+            className="w-full md:w-auto px-6 py-2.5 bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-lg transition-colors whitespace-nowrap"
           >
             Aceptar Cookies
           </button>

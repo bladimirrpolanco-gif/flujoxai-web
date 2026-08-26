@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { MessageSquare, Workflow, CalendarCheck, CheckCircle2, Zap, AreaChart, Sparkles } from "lucide-react";
+import { MessageSquare, Workflow, CalendarCheck, CheckCircle2, Zap, AreaChart, Sparkles, type LucideIcon } from "lucide-react";
 import { useEffect, useState, useRef } from "react";
 
 function useCounter(target: number, duration = 2000, inView = false) {
@@ -37,7 +37,21 @@ function AnimatedStat({ value, label }: { value: string; label: string }) {
 }
 import { supabase } from "@/lib/supabase";
 
-const ICON_MAP: Record<string, any> = {
+type ServiceItem = {
+  id?: string | number;
+  icon?: LucideIcon;
+  icono?: string;
+  nombre?: string;
+  title?: string;
+  descripcion?: string;
+  description?: string;
+  beneficios?: string[];
+  benefits?: string[];
+  gradient?: string;
+  glow?: string;
+};
+
+const ICON_MAP: Record<string, LucideIcon> = {
   MessageSquare,
   Workflow,
   CalendarCheck,
@@ -58,24 +72,24 @@ const STATIC_SERVICES = [
     title: "Chatbots y Agentes AI para WhatsApp",
     description: "Atiende a tus clientes 24/7 con bots y agentes AI conversacionales que entienden el contexto y responden como humanos.",
     benefits: ["Atención inmediata sin esperas", "Captura leads automáticamente", "Escalabilidad infinita"],
-    gradient: "from-blue-500 to-cyan-400",
-    glow: "shadow-blue-500/20",
+    gradient: "from-[#0877f9] to-[#0565E8]",
+    glow: "shadow-[#0877f9]/20",
   },
   {
     icon: Workflow,
     title: "Automatización de Procesos",
     description: "Conectamos tus herramientas (CRM, ERP, Email) para que trabajen solas. Eliminamos el trabajo manual repetitivo.",
     benefits: ["Cero errores humanos", "Integración completa", "Mayor productividad"],
-    gradient: "from-cyan-500 to-blue-500",
-    glow: "shadow-cyan-500/20",
+    gradient: "from-[#0565E8] to-[#0877f9]",
+    glow: "shadow-[#0565E8]/20",
   },
   {
     icon: CalendarCheck,
     title: "Agendamiento Inteligente",
     description: "Sistemas que sincronizan calendarios, envían recordatorios y reprograman citas sin intervención humana.",
     benefits: ["Sincronización en tiempo real", "Recordatorios automáticos", "Reduce inasistencias"],
-    gradient: "from-teal-400 to-emerald-500",
-    glow: "shadow-teal-500/20",
+    gradient: "from-[#0877f9] to-[#2c8cff]",
+    glow: "shadow-[#0877f9]/20",
   },
   {
     icon: Sparkles,
@@ -90,15 +104,12 @@ const STATIC_SERVICES = [
     title: "Integraciones de Sistemas",
     description: "Sincronizamos tus plataformas actuales para que la información fluya sin barreras (Stripe, HubSpot, Shopify, etc).",
     benefits: ["Flujo de datos en tiempo real", "Sin pérdida de información", "Conecta +1000 aplicaciones"],
-    gradient: "from-teal-500 to-emerald-400",
-    glow: "shadow-teal-500/20",
+    gradient: "from-[#0565E8] to-[#2c8cff]",
+    glow: "shadow-[#0565E8]/20",
   },
 ];
 
 export function Services() {
-  const [dbServices, setDbServices] = useState<any[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-
   // Drag to scroll logic
   const scrollRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -147,7 +158,7 @@ export function Services() {
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[600px] rounded-full opacity-5"
-          style={{ background: 'radial-gradient(ellipse, oklch(0.65 0.22 255) 0%, transparent 70%)' }} />
+          style={{ background: 'radial-gradient(ellipse, rgba(8, 119, 249, 0.22) 0%, transparent 70%)' }} />
       </div>
 
       <div className="container px-4 md:px-6 mx-auto max-w-6xl">
@@ -182,21 +193,21 @@ export function Services() {
             onMouseMove={handleMouseMove}
             className={`flex gap-6 overflow-x-auto snap-x snap-mandatory pb-8 pt-4 px-4 -mx-4 scrollbar-hide cursor-grab ${isDragging ? 'cursor-grabbing snap-none' : ''}`}
           >
-            {displayServices.map((service: any, i) => {
+          {displayServices.map((service: ServiceItem, i) => {
               const Icon = service.icon || ICON_MAP[service.icono] || Sparkles;
               const gradient = service.gradient || (
-                i === 0 ? "from-blue-500 to-cyan-400" :
-                i === 1 ? "from-cyan-500 to-blue-500" :
-                i === 2 ? "from-teal-400 to-emerald-500" :
+                i === 0 ? "from-[#0877f9] to-[#0565E8]" :
+                i === 1 ? "from-[#0565E8] to-[#0877f9]" :
+                i === 2 ? "from-[#0877f9] to-[#2c8cff]" :
                 i === 3 ? "from-amber-500 to-orange-400" :
-                "from-teal-500 to-emerald-400"
+                "from-[#0565E8] to-[#2c8cff]"
               );
               const glow = service.glow || (
-                 i === 0 ? "shadow-blue-500/20" :
-                 i === 1 ? "shadow-cyan-500/20" :
-                 i === 2 ? "shadow-teal-500/20" :
+                 i === 0 ? "shadow-[#0877f9]/20" :
+                 i === 1 ? "shadow-[#0565E8]/20" :
+                 i === 2 ? "shadow-[#0877f9]/20" :
                  i === 3 ? "shadow-amber-500/20" :
-                 "shadow-teal-500/20"
+                 "shadow-[#0565E8]/20"
               );
 
               return (

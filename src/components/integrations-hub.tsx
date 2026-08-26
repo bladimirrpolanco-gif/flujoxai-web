@@ -45,7 +45,7 @@ export function IntegrationsHub() {
     <section id="integraciones" className="py-28 bg-background relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] rounded-full opacity-5"
-          style={{ background: "radial-gradient(ellipse, oklch(0.62 0.25 300) 0%, transparent 70%)" }} />
+          style={{ background: "radial-gradient(ellipse, rgba(8, 119, 249, 0.2) 0%, transparent 70%)" }} />
       </div>
 
       <div className="container px-4 md:px-6 mx-auto max-w-6xl">
@@ -117,7 +117,7 @@ export function IntegrationsHub() {
                 {hubPulse && (
                   <motion.div
                     className="absolute top-0 w-2 h-2 rounded-full bg-primary"
-                    style={{ boxShadow: "0 0 6px 2px hsl(var(--primary) / 0.7)" }}
+                    style={{ boxShadow: "0 0 6px 2px rgba(8, 119, 249, 0.7)" }}
                     initial={{ top: 0 }} animate={{ top: "100%" }}
                     transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 0.3 }}
                   />
@@ -169,11 +169,11 @@ function HubCenter({ hubPulse }: { hubPulse: boolean }) {
         )}
         <motion.div
           className="absolute -inset-2 rounded-full"
-          style={{ background: "conic-gradient(from 0deg, transparent 0%, oklch(0.65 0.22 255) 30%, transparent 60%)", opacity: hubPulse ? 0.6 : 0.2 }}
+          style={{ background: "conic-gradient(from 0deg, transparent 0%, rgba(8, 119, 249, 0.85) 30%, transparent 60%)", opacity: hubPulse ? 0.6 : 0.2 }}
           animate={{ rotate: 360 }}
           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
         />
-        <div className="relative h-20 w-20 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center shadow-2xl shadow-primary/40">
+        <div className="relative h-20 w-20 rounded-full bg-gradient-to-br from-[#0877f9] to-[#0565E8] flex items-center justify-center shadow-2xl shadow-primary/40">
           <Sparkles className="h-10 w-10 text-white" />
         </div>
       </div>
@@ -213,7 +213,7 @@ function HorizontalLine({ active }: { active: boolean }) {
           <motion.div
             key="packet"
             className="absolute top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-primary"
-            style={{ boxShadow: "0 0 6px 2px hsl(var(--primary) / 0.7)" }}
+            style={{ boxShadow: "0 0 6px 2px rgba(8, 119, 249, 0.7)" }}
             initial={{ left: "0%" }} animate={{ left: "100%" }}
             transition={{ duration: 0.5, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.3 }}
           />

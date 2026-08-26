@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 import { trackEvent } from "@/lib/metrics";
 import { ArrowRight, Workflow, Zap, Sparkles, Star } from "lucide-react";
@@ -8,9 +8,9 @@ import { useState, useEffect, useRef } from "react";
 import { AutomationDiagram } from "./automation-diagram";
 
 const features = [
-  { icon: Sparkles,      title: "Agentes IA",           desc: "Chatbots y asistentes inteligentes que atienden a tus clientes 24/7 sin intervención humana.", gradient: "from-blue-500 to-cyan-400" },
-  { icon: Workflow, title: "Automatización",        desc: "Eliminamos el trabajo manual conectando tus sistemas para que operen solos y sin errores.",    gradient: "from-cyan-500 to-blue-500" },
-  { icon: Zap,      title: "Integraciones",         desc: "CRM, WhatsApp, email y más trabajando en sincronía para potenciar tu negocio completo.",       gradient: "from-teal-400 to-emerald-500" },
+  { icon: Sparkles, title: "Agentes IA",           desc: "Chatbots y asistentes inteligentes que atienden a tus clientes 24/7 sin intervención humana.", gradient: "from-[#0877f9] to-[#0565E8]" },
+  { icon: Workflow, title: "Automatización",        desc: "Eliminamos el trabajo manual conectando tus sistemas para que operen solos y sin errores.",    gradient: "from-[#0877f9] to-[#2c8cff]" },
+  { icon: Zap,      title: "Integraciones",         desc: "CRM, WhatsApp, email y más trabajando en sincronía para potenciar tu negocio completo.",       gradient: "from-[#0565E8] to-[#0877f9]" },
 ];
 
 function MagneticButton({ children, className }: { children: React.ReactNode, className?: string }) {
@@ -68,19 +68,17 @@ export function Hero() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  const headlineWords = "Automatiza tu Empresa con Inteligencia Artificial".split(" ");
-
   return (
     <section ref={containerRef} className="relative overflow-hidden bg-background pt-28 md:pt-40 pb-16 md:pb-20 hero-grid">
       
-      <div className="absolute top-[5%] left-[-5%] w-[500px] h-[500px] bg-blue-500/35 rounded-full blur-[120px] pointer-events-none z-0" />
-      <div className="absolute bottom-[-5%] right-[10%] w-[500px] h-[500px] bg-blue-500/10 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute top-[5%] left-[-5%] w-[500px] h-[500px] bg-[#0877f9]/35 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute bottom-[-5%] right-[10%] w-[500px] h-[500px] bg-[#0565E8]/10 rounded-full blur-[120px] pointer-events-none z-0" />
 
       {/* Interactive Cursor Glow */}
       <motion.div 
         className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300 hidden md:block"
         style={{
-          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(59, 130, 246, 0.05), transparent 40%)`
+          background: `radial-gradient(600px circle at ${mousePos.x}px ${mousePos.y}px, rgba(8, 119, 249, 0.06), transparent 40%)`
         }}
       />
 
@@ -121,7 +119,7 @@ export function Hero() {
               Empresa con
             </motion.span>
             <motion.span 
-              className="block text-[#2563EB] italic font-light tracking-normal mt-2 md:mt-3 whitespace-nowrap text-[0.85em] md:text-[0.9em]"
+              className="block text-[#0877f9] italic font-light tracking-normal mt-2 md:mt-3 whitespace-nowrap text-[0.85em] md:text-[0.9em]"
               style={{ fontFamily: 'var(--font-playfair)' }}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -257,4 +255,3 @@ export function Hero() {
     </section>
   );
 }
-

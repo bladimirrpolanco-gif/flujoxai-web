@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Cpu, CheckCircle2, ArrowRight, Workflow, Target, MonitorSmartphone, Slack } from "lucide-react";
+import { Cpu, CheckCircle2, ArrowRight, Workflow, Target, MonitorSmartphone, Slack, type LucideIcon } from "lucide-react";
 import { BrandIcon } from "./brand-icon";
 
 const OUTPUT_NODES = [
@@ -14,7 +14,7 @@ const OUTPUT_NODES = [
 const HERO_NODES = [
   { icon: MonitorSmartphone, label: "Web & App",     sub: "Desarrollo",        from: "from-emerald-500", to: "to-green-400",  glow: "shadow-emerald-500/40", x: 50, y: 10, type: "in",  delay: 0.1 },
   { slug: "whatsapp",        label: "Chatbot",       sub: "Respuestas 24/7",   from: "from-[#25D366]",   to: "to-[#1DA851]",  glow: "shadow-[#25D366]/40",   x: 18, y: 25, type: "in",  delay: 0 },
-  { icon: Workflow,          label: "Integraciones", sub: "APIs & Sistemas",   from: "from-cyan-500",  to: "to-blue-500",   glow: "shadow-cyan-500/40",  x: 82, y: 25, type: "in",  delay: 0.2 },
+  { icon: Workflow,          label: "Integraciones", sub: "APIs & Sistemas",   from: "from-[#0877f9]",  to: "to-[#0565E8]",   glow: "shadow-[#0877f9]/40",  x: 82, y: 25, type: "in",  delay: 0.2 },
   { slug: "gmail",           label: "Email",         sub: "Confirma",          from: "from-[#EA4335]",   to: "to-[#ff6f63]",  glow: "shadow-[#EA4335]/40",   x: 12, y: 60, type: "out", delay: 0.6 },
   { icon: Slack,             label: "Slack",         sub: "Notifica",          from: "from-[#E01E5A]",   to: "to-[#36C5F0]",  glow: "shadow-[#E01E5A]/40",   x: 88, y: 60, type: "out", delay: 0 },
   { icon: Target,            label: "Publicidad IA", sub: "Campañas",          from: "from-orange-500",  to: "to-amber-400",  glow: "shadow-orange-500/40",  x: 28, y: 90, type: "out", delay: 0.4 },
@@ -65,8 +65,8 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
         icon={Cpu}
         label="IA Flujobot"
         sub={phase >= 2 ? "Analizando..." : "En espera"}
-        gradient="from-blue-600 to-blue-400"
-        glow="shadow-blue-600/40"
+        gradient="from-[#0877f9] to-[#0565E8]"
+        glow="shadow-[#0877f9]/40"
         active={phase >= 2}
         pulsing={phase === 2}
         processing={phase === 2}
@@ -141,8 +141,8 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
             icon={Cpu} 
             label="FlujoxAI" 
             sub={phase >= 2 ? "Analizando..." : "En espera"} 
-            gradient="from-blue-600 to-blue-400" 
-            glow="shadow-blue-600/50 shadow-2xl" 
+            gradient="from-[#0877f9] to-[#0565E8]" 
+            glow="shadow-[#0877f9]/50 shadow-2xl" 
             active={true} 
             pulsing={phase === 2} 
             processing={phase === 2} 
@@ -222,7 +222,7 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
 function MainNode({
   icon: Icon, slug, label, sub, gradient, glow, active, pulsing, processing, layout,
 }: {
-  icon?: any; slug?: string; label: string; sub: string; gradient: string; glow: string;
+  icon?: LucideIcon; slug?: string; label: string; sub: string; gradient: string; glow: string;
   active: boolean; pulsing?: boolean; processing?: boolean; layout?: string;
 }) {
   return (
@@ -276,7 +276,7 @@ function FlowConnector({ active }: { active: boolean }) {
               animate={{ left: "100%" }}
               transition={{ duration: 0.8, ease: "easeInOut", repeat: Infinity, repeatDelay: 0.4 }}
               className="absolute top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full bg-primary shadow-lg shadow-primary/60"
-              style={{ boxShadow: "0 0 8px 2px hsl(var(--primary) / 0.6)" }}
+              style={{ boxShadow: "0 0 8px 2px rgba(8, 119, 249, 0.6)" }}
             />
           )}
         </AnimatePresence>

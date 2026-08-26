@@ -32,21 +32,21 @@ const navLinks: NavLink[] = [
         label: 'Automatizaciones', 
         desc: 'Conectamos tus sistemas para eliminar trabajo manual.', 
         icon: Zap,
-        color: 'bg-cyan-500/10 text-cyan-500 dark:bg-cyan-500/20'
+        color: 'bg-[#0877f9]/10 text-[#0877f9] dark:bg-[#0877f9]/20'
       },
       { 
         href: '#integraciones', 
         label: 'Integraciones', 
         desc: 'Sincroniza CRM, ERP y bases de datos en tiempo real.', 
         icon: Plug,
-        color: 'bg-blue-500/10 text-blue-500 dark:bg-blue-500/20'
+        color: 'bg-[#0565E8]/10 text-[#0565E8] dark:bg-[#0565E8]/20'
       },
       { 
         href: '#simulador', 
         label: 'Chatbot', 
         desc: 'Asistentes de chat inteligentes para WhatsApp y web.', 
         icon: MessageSquare,
-        color: 'bg-cyan-500/10 text-cyan-500 dark:bg-cyan-500/20'
+        color: 'bg-[#0877f9]/10 text-[#0877f9] dark:bg-[#0877f9]/20'
       },
       { 
         href: '#simulador', 
