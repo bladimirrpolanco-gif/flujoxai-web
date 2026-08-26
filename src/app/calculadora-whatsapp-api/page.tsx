@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { WhatsappCostCalculator } from "@/components/whatsapp-cost-calculator";
 
 export const metadata: Metadata = {
   title: "Calculadora de costo de WhatsApp API | FlujoxAI",
@@ -14,5 +13,13 @@ export const metadata: Metadata = {
 };
 
 export default function WhatsAppCalculatorPage() {
-  return <WhatsappCostCalculator />;
+  return (
+    <main className="h-screen w-full bg-background">
+      <iframe
+        src="/calculadora-whatsapp-api-real.html"
+        title="Calculadora de costo de WhatsApp API"
+        className="h-full w-full border-0"
+      />
+    </main>
+  );
 }
