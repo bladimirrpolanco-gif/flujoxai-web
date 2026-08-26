@@ -135,6 +135,12 @@ export function Footer() {
                   Cotizador Automático
                 </Link>
               </li>
+              <li>
+                <Link href="/calculadora-whatsapp-api" className="text-sm text-zinc-500 hover:text-white transition-colors flex items-center gap-1.5 group">
+                  <span className="h-px w-3 bg-zinc-700 group-hover:bg-primary group-hover:w-4 transition-all" />
+                  Calculadora WhatsApp API
+                </Link>
+              </li>
             </ul>
           </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Cpu, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles, Calculator, Package } from "lucide-react";
+import { Cpu, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles, LucideIcon } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
@@ -17,7 +17,7 @@ interface NavLink {
     href: string;
     label: string;
     desc: string;
-    icon: any;
+    icon: LucideIcon;
     color: string;
     isExternal?: boolean;
   }[];
@@ -67,6 +67,7 @@ const navLinks: NavLink[] = [
   { href: '/blog', label: 'Blog' },
   { href: '/recursos', label: 'Recursos' },
   { href: '/cotizador', label: 'Cotizador' },
+  { href: '/calculadora-whatsapp-api', label: 'Calculadora WhatsApp' },
   { href: '#faq', label: 'FAQ' },
   { href: '#contacto', label: 'Contacto' },
 ];
@@ -398,5 +399,3 @@ export function Navbar() {
     </motion.header>
   );
 }
-
-
