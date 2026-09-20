@@ -27,8 +27,12 @@ export async function middleware(request: NextRequest) {
   const { data: { user } } = await supabase.auth.getUser();
   const hasAdminAccess = user ? await isAdminUser(supabase, user.id) : false;
 
-  // Proteger todas las rutas /admin excepto /admin/login
-  if (request.nextUrl.pathname.startsWith('/admin') && !request.nextUrl.pathname.startsWith('/admin/login')) {
+  const isPublicAdminRoute =
+    request.nextUrl.pathname.startsWith('/admin/login') ||
+    request.nextUrl.pathname.startsWith('/admin/reset-password');
+
+  // Proteger todas las rutas /admin excepto login y reset-password
+  if (request.nextUrl.pathname.startsWith('/admin') && !isPublicAdminRoute) {
     if (!user || !hasAdminAccess) {
       const url = request.nextUrl.clone();
       url.pathname = '/admin/login';
