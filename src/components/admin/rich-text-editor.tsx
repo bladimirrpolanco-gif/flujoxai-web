@@ -6,7 +6,7 @@ import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 import { Bold, Italic, Strikethrough, List, ListOrdered, Link as LinkIcon, Heading2, Heading3, Undo, Redo, Image as ImageIcon, Loader2 } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
+import { supabaseBrowser as supabase } from '@/lib/supabase-browser';
 
 interface RichTextEditorProps {
   value: string;
@@ -33,11 +33,6 @@ const MenuBar = ({ editor }: { editor: any }) => {
 
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
+import { supabaseBrowser as supabase } from '@/lib/supabase-browser';
 import { useRouter } from 'next/navigation';
 import {
   Users, TrendingUp, LogOut, LayoutDashboard,
@@ -73,11 +73,6 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
   const [localLeads, setLocalLeads] = useState<Lead[]>(leads);
 
   const router = useRouter();
-
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
 
   // Set up real-time subscription for leads
   

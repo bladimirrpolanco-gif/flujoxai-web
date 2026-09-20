@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createBrowserClient } from '@supabase/ssr';
+import { supabaseBrowser } from '@/lib/supabase-browser';
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
@@ -522,11 +522,7 @@ export default function RecursosPage() {
 
   useEffect(() => {
     const fetchCustomTemplates = async () => {
-      const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      );
-      const { data } = await supabase.from('custom_templates').select('*').order('created_at', { ascending: false });
+      const { data } = await supabaseBrowser.from('custom_templates').select('*').order('created_at', { ascending: false });
       
       if (data && data.length > 0) {
         const mappedData = data.map(dbT => ({

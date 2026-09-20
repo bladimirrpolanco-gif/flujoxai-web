@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { createBrowserClient } from '@supabase/ssr';
+import { supabaseBrowser as supabase } from '@/lib/supabase-browser';
 import {
   Plus, Edit2, Trash2, Eye, EyeOff, Save, X, Search,
   FileText, Calendar, CheckCircle, Clock, AlertCircle, ExternalLink,
@@ -63,11 +63,6 @@ export function BlogManager({ initialPosts }: BlogManagerProps) {
   const [search, setSearch] = useState('');
   const [saveMsg, setSaveMsg] = useState<{ type: 'ok' | 'err'; text: string } | null>(null);
   const [previewMode, setPreviewMode] = useState(false);
-
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
 
   // Cuando cambia el título, generar slug automáticamente (solo en artículo nuevo)
   useEffect(() => {
