@@ -503,23 +503,37 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
                         counts[name] = (counts[name] || 0) + 1;
                       });
                       const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-                      
+
                       if (sorted.length === 0) {
                         return <div className="text-zinc-500 text-xs text-center py-8">Aún no hay clics registrados en CTAs.</div>;
                       }
-                      
-                      return sorted.map(([name, count]) => {
-                        const pct = ctas.length > 0 ? Math.round((count / ctas.length) * 100) : 0;
-                        return (
-                          <div key={name} className="flex items-center gap-4">
-                            <span className="text-xs text-zinc-400 w-32 truncate" title={name}>{name}</span>
-                            <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
-                              <div className="h-1.5 rounded-full bg-amber-500" style={{ width: `${pct}%` }} />
-                            </div>
-                            <span className="text-xs text-zinc-500 w-8 text-right">{count}</span>
-                          </div>
-                        );
-                      });
+
+                      const TOP_N = 8;
+                      const top = sorted.slice(0, TOP_N);
+                      const rest = sorted.slice(TOP_N);
+                      const maxCount = top[0][1];
+
+                      return (
+                        <>
+                          {top.map(([name, count]) => {
+                            const pct = Math.round((count / maxCount) * 100);
+                            return (
+                              <div key={name} className="flex items-center gap-4">
+                                <span className="text-xs text-zinc-400 w-32 truncate" title={name}>{name}</span>
+                                <div className="flex-1 bg-zinc-800 rounded-full h-1.5">
+                                  <div className="h-1.5 rounded-full bg-amber-500" style={{ width: `${pct}%` }} />
+                                </div>
+                                <span className="text-xs text-zinc-500 w-8 text-right tabular-nums">{count}</span>
+                              </div>
+                            );
+                          })}
+                          {rest.length > 0 && (
+                            <p className="text-[11px] text-zinc-600 text-center pt-1">
+                              +{rest.length} botones más con {rest.reduce((sum, [, c]) => sum + c, 0)} clics en total
+                            </p>
+                          )}
+                        </>
+                      );
                     })()}
                   </div>
                 </div>
