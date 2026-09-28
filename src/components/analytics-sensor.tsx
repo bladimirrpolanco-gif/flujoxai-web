@@ -7,8 +7,11 @@ import { trackEvent } from '@/lib/metrics';
 export function AnalyticsSensor() {
   const pathname = usePathname();
   const trackedPath = useRef<string | null>(null);
+  const isAdminRoute = pathname?.startsWith('/admin') ?? false;
 
   useEffect(() => {
+    if (isAdminRoute) return;
+
     // Detect device type
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
     const device = isMobile ? 'Mobile' : 'Desktop';
@@ -18,9 +21,11 @@ export function AnalyticsSensor() {
       trackedPath.current = pathname;
       trackEvent('visita', { path: pathname, device });
     }
-  }, [pathname]);
+  }, [pathname, isAdminRoute]);
 
   useEffect(() => {
+    if (isAdminRoute) return;
+
     // Helper to track all clicks on interactive elements like buttons and links
     const handleGlobalClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -47,7 +52,7 @@ export function AnalyticsSensor() {
 
     document.addEventListener('click', handleGlobalClick);
     return () => document.removeEventListener('click', handleGlobalClick);
-  }, []);
+  }, [isAdminRoute]);
 
   return null; // This component doesn't render anything
 }
