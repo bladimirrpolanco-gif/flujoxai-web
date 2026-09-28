@@ -48,10 +48,10 @@ const navLinks: NavLink[] = [
         icon: MessageSquare,
         color: 'bg-[#0877f9]/10 text-[#0877f9] dark:bg-[#0877f9]/20'
       },
-      { 
-        href: '#simulador', 
-        label: 'Agente AI', 
-        desc: 'Agentes autónomos que califican leads y cierran ventas.', 
+      {
+        href: '/agentes-ia',
+        label: 'Agentes IA',
+        desc: 'Agentes autónomos que califican leads y cierran ventas.',
         icon: Cpu,
         color: 'bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20'
       },
