@@ -9,6 +9,7 @@ import {
   Calendar, RefreshCw, Search, X, BarChart3, MousePointer2,
   Download, Kanban, Menu, FileText, FileJson
 } from 'lucide-react';
+import { BarChart, Bar, XAxis, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { AdvancedAnalytics } from './advanced-analytics';
 import { BlogManager } from './blog-manager';
 import { CommentsManager } from './comments-manager';
@@ -189,6 +190,13 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
     if (pct === 0) return { dir: 'flat', label: 'Igual que la semana pasada' };
     return { dir: pct > 0 ? 'up' : 'down', label: `${pct > 0 ? '+' : ''}${pct}% vs. semana anterior` };
   };
+
+  const activityData = [...Array(12)].map((_, i) => {
+    const day = new Date();
+    day.setDate(day.getDate() - (11 - i));
+    const count = metrics.filter((m) => new Date(m.created_at).toDateString() === day.toDateString()).length;
+    return { label: day.toLocaleDateString('es-DO', { weekday: 'narrow' }), count };
+  });
 
   const formatDate = (dateStr: string) => {
     if (!dateStr) return '—';
@@ -441,31 +449,25 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
               </div>
 
               <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center justify-between mb-4">
                   <h3 className="text-white font-semibold">Actividad — Últimos 12 días</h3>
                   <span className="text-xs text-zinc-500 tabular-nums">{metrics.length} eventos totales</span>
                 </div>
                 {isLoadingMetrics ? (
-                  <div className="h-64 flex items-center justify-center text-zinc-500 text-sm">Cargando métricas...</div>
+                  <div className="h-32 flex items-center justify-center text-zinc-500 text-sm">Cargando métricas...</div>
                 ) : (
-                  <div className="h-64 flex items-end gap-2 px-2">
-                    {[...Array(12)].map((_, i) => {
-                      const day = new Date();
-                      day.setDate(day.getDate() - (11 - i));
-                      const count = metrics.filter(m => new Date(m.created_at).toDateString() === day.toDateString()).length;
-                      const maxVal = Math.max(1, ...[...Array(12)].map((_, j) => {
-                        const d = new Date(); d.setDate(d.getDate() - (11 - j));
-                        return metrics.filter(m => new Date(m.created_at).toDateString() === d.toDateString()).length;
-                      }));
-                      return (
-                        <div key={i} className="flex-1 h-full flex flex-col justify-end items-center gap-2 group">
-                          <div className="w-full bg-gradient-to-t from-blue-600/40 to-blue-500/70 group-hover:from-blue-600 group-hover:to-blue-400 transition-all rounded-t-md relative" style={{ height: `${count > 0 ? (count / maxVal) * 100 : 2}%` }}>
-                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-[10px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition tabular-nums">{count}</div>
-                          </div>
-                          <span className="text-[10px] text-zinc-500 uppercase">{day.toLocaleDateString('es-DO', { weekday: 'narrow' })}</span>
-                        </div>
-                      );
-                    })}
+                  <div className="h-32">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={activityData} barCategoryGap="35%">
+                        <XAxis dataKey="label" stroke="#52525b" fontSize={10} tickLine={false} axisLine={false} />
+                        <RechartsTooltip
+                          cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+                          contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', color: '#fff', borderRadius: '8px', fontSize: 12 }}
+                          labelFormatter={() => ''}
+                        />
+                        <Bar dataKey="count" name="Eventos" fill="#3987e5" radius={[4, 4, 0, 0]} maxBarSize={24} />
+                      </BarChart>
+                    </ResponsiveContainer>
                   </div>
                 )}
               </div>
