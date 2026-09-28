@@ -62,8 +62,8 @@ export function AdvancedAnalytics({ metrics, leads }: AdvancedAnalyticsProps) {
     });
 
     return [
-      { name: 'Escritorio', value: desktop, color: '#3b82f6' },
-      { name: 'Móvil', value: mobile, color: '#10b981' },
+      { name: 'Escritorio', value: desktop, color: '#3987e5' },
+      { name: 'Móvil', value: mobile, color: '#199e70' },
       { name: 'Desconocido', value: unknown, color: '#52525b' }
     ].filter(d => d.value > 0);
   }, [metrics]);
@@ -92,7 +92,7 @@ export function AdvancedAnalytics({ metrics, leads }: AdvancedAnalyticsProps) {
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6">
       
       {/* 1. Embudo de Conversión */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
         <h3 className="text-white font-semibold mb-6">Embudo de Conversión</h3>
         <div className="space-y-4">
           {funnelData.map((step, idx) => {
@@ -122,7 +122,7 @@ export function AdvancedAnalytics({ metrics, leads }: AdvancedAnalyticsProps) {
       </div>
 
       {/* 3. Distribución de Dispositivos */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
         <h3 className="text-white font-semibold mb-6">Tráfico por Dispositivo</h3>
         {deviceData.length === 0 ? (
           <div className="h-64 flex items-center justify-center text-sm text-zinc-500">
@@ -166,7 +166,7 @@ export function AdvancedAnalytics({ metrics, leads }: AdvancedAnalyticsProps) {
       </div>
 
       {/* 2. Mapa de Calor (Heatmap) */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 xl:col-span-2">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 xl:col-span-2">
         <h3 className="text-white font-semibold mb-6">Mapa de Calor (Actividad Semanal)</h3>
         <div className="overflow-x-auto">
           <div className="min-w-[500px]">
@@ -200,17 +200,29 @@ export function AdvancedAnalytics({ metrics, leads }: AdvancedAnalyticsProps) {
       </div>
 
       {/* 5. Velocidad del Pipeline */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 xl:col-span-2">
-        <h3 className="text-white font-semibold mb-6">Velocidad de Adquisición (Últimos 12 Días)</h3>
+      <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 xl:col-span-2">
+        <div className="flex items-center justify-between mb-6 flex-wrap gap-3">
+          <h3 className="text-white font-semibold">Velocidad de Adquisición (Últimos 12 Días)</h3>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#3987e5' }}></span>
+              <span className="text-xs text-zinc-400">Leads</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: '#10b981' }}></span>
+              <span className="text-xs text-zinc-400">Cerrados</span>
+            </div>
+          </div>
+        </div>
         <div className="h-72">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={velocityData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-              <Line type="monotone" dataKey="Leads" stroke="#8b5cf6" strokeWidth={3} dot={{ r: 4, fill: '#8b5cf6' }} activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="Leads" stroke="#3987e5" strokeWidth={3} dot={{ r: 4, fill: '#3987e5' }} activeDot={{ r: 6 }} />
               <Line type="monotone" dataKey="Cerrados" stroke="#10b981" strokeWidth={3} dot={{ r: 4, fill: '#10b981' }} activeDot={{ r: 6 }} />
               <CartesianGrid stroke="#27272a" strokeDasharray="3 3" vertical={false} />
               <XAxis dataKey="name" stroke="#52525b" fontSize={12} tickMargin={10} />
               <YAxis stroke="#52525b" fontSize={12} allowDecimals={false} />
-              <RechartsTooltip 
+              <RechartsTooltip
                 contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', color: '#fff', borderRadius: '8px' }}
               />
             </LineChart>

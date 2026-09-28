@@ -178,6 +178,18 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
   const cerrados = localLeads.filter((l) => l.estado === 'cerrado').length;
   const tasaCierre = totalLeads > 0 ? Math.round((cerrados / totalLeads) * 100) : 0;
 
+  // Tendencia real: semana actual vs. la semana inmediatamente anterior (sin datos inventados)
+  const daysAgo = (dateStr: string) => (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24);
+  const computeTrend = (items: { created_at: string }[]): { dir: 'up' | 'down' | 'flat'; label: string } | null => {
+    const current = items.filter((i) => i.created_at && daysAgo(i.created_at) <= 7).length;
+    const previous = items.filter((i) => i.created_at && daysAgo(i.created_at) > 7 && daysAgo(i.created_at) <= 14).length;
+    if (current === 0 && previous === 0) return null;
+    if (previous === 0) return { dir: 'up', label: `+${current} esta semana` };
+    const pct = Math.round(((current - previous) / previous) * 100);
+    if (pct === 0) return { dir: 'flat', label: 'Igual que la semana pasada' };
+    return { dir: pct > 0 ? 'up' : 'down', label: `${pct > 0 ? '+' : ''}${pct}% vs. semana anterior` };
+  };
+
   const formatDate = (dateStr: string) => {
     if (!dateStr) return '—';
     return new Date(dateStr).toLocaleDateString('es-DO', { year: 'numeric', month: 'short', day: 'numeric' });
@@ -422,14 +434,17 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
           {activeTab === 'analytics' && (
             <div className="space-y-8">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                <StatCard icon={<MousePointer2 className="h-5 w-5 text-blue-400" />}    label="Visitas"             value={metrics.filter(m => m.tipo_evento === 'visita').length}            bg="bg-blue-600/10"   sub="Visitas al sitio" />
-                <StatCard icon={<TrendingUp className="h-5 w-5 text-cyan-400" />}     label="Cotizaciones"               value={soloCotizaciones.length}      bg="bg-cyan-600/10"  sub="Formularios" />
-                <StatCard icon={<Phone className="h-5 w-5 text-emerald-400" />}         label="WhatsApp"            value={metrics.filter(m => m.tipo_evento === 'click_whatsapp').length}    bg="bg-emerald-600/10" sub="Clicks WhatsApp" />
-                <StatCard icon={<BarChart3 className="h-5 w-5 text-amber-400" />}       label="Clicks CTA"          value={metrics.filter(m => m.tipo_evento === 'click_cta').length}          bg="bg-amber-600/10"   sub="Clicks Botones" />
+                <StatCard icon={<MousePointer2 className="h-5 w-5 text-blue-400" />}    label="Visitas"             value={metrics.filter(m => m.tipo_evento === 'visita').length}            bg="bg-blue-600/10"   sub="Visitas al sitio" trend={computeTrend(metrics.filter(m => m.tipo_evento === 'visita'))} />
+                <StatCard icon={<TrendingUp className="h-5 w-5 text-cyan-400" />}     label="Cotizaciones"               value={soloCotizaciones.length}      bg="bg-cyan-600/10"  sub="Formularios" trend={computeTrend(soloCotizaciones)} />
+                <StatCard icon={<Phone className="h-5 w-5 text-emerald-400" />}         label="WhatsApp"            value={metrics.filter(m => m.tipo_evento === 'click_whatsapp').length}    bg="bg-emerald-600/10" sub="Clicks WhatsApp" trend={computeTrend(metrics.filter(m => m.tipo_evento === 'click_whatsapp'))} />
+                <StatCard icon={<BarChart3 className="h-5 w-5 text-amber-400" />}       label="Clicks CTA"          value={metrics.filter(m => m.tipo_evento === 'click_cta').length}          bg="bg-amber-600/10"   sub="Clicks Botones" trend={computeTrend(metrics.filter(m => m.tipo_evento === 'click_cta'))} />
               </div>
 
-              <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
-                <h3 className="text-white font-semibold mb-6">Actividad — Últimos 12 días</h3>
+              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-white font-semibold">Actividad — Últimos 12 días</h3>
+                  <span className="text-xs text-zinc-500 tabular-nums">{metrics.length} eventos totales</span>
+                </div>
                 {isLoadingMetrics ? (
                   <div className="h-64 flex items-center justify-center text-zinc-500 text-sm">Cargando métricas...</div>
                 ) : (
@@ -444,8 +459,8 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
                       }));
                       return (
                         <div key={i} className="flex-1 h-full flex flex-col justify-end items-center gap-2 group">
-                          <div className="w-full bg-blue-600/30 group-hover:bg-blue-600 transition-all rounded-t-sm relative" style={{ height: `${count > 0 ? (count / maxVal) * 100 : 2}%` }}>
-                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-[10px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition">{count}</div>
+                          <div className="w-full bg-gradient-to-t from-blue-600/40 to-blue-500/70 group-hover:from-blue-600 group-hover:to-blue-400 transition-all rounded-t-md relative" style={{ height: `${count > 0 ? (count / maxVal) * 100 : 2}%` }}>
+                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-zinc-800 text-white text-[10px] px-1.5 py-0.5 rounded opacity-0 group-hover:opacity-100 transition tabular-nums">{count}</div>
                           </div>
                           <span className="text-[10px] text-zinc-500 uppercase">{day.toLocaleDateString('es-DO', { weekday: 'narrow' })}</span>
                         </div>
@@ -456,7 +471,7 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+                <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
                   <h3 className="text-white font-semibold mb-4">Pipeline por Etapa</h3>
                   <div className="space-y-3">
                     {PIPELINE_COLUMNS.map((col) => {
@@ -466,16 +481,16 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
                         <div key={col.key} className="flex items-center gap-4">
                           <span className="text-sm text-zinc-400 w-24 capitalize">{col.label}</span>
                           <div className="flex-1 bg-zinc-800 rounded-full h-2">
-                            <div className={`h-2 rounded-full ${col.dot}`} style={{ width: `${pct}%` }} />
+                            <div className={`h-2 rounded-full ${col.dot} transition-all duration-500`} style={{ width: `${pct}%` }} />
                           </div>
-                          <span className="text-xs text-zinc-500 w-8 text-right">{count}</span>
+                          <span className="text-xs text-zinc-500 w-8 text-right tabular-nums">{count}</span>
                         </div>
                       );
                     })}
                   </div>
                 </div>
 
-                <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+                <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-6">
                   <h3 className="text-white font-semibold mb-4">Botones Más Clickeados (CTAs)</h3>
                   <div className="space-y-3">
                     {(() => {
@@ -602,13 +617,39 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
   );
 }
 
-function StatCard({ icon, label, value, bg, sub }: { icon: React.ReactNode; label: string; value: string | number; bg: string; sub: string }) {
+function StatCard({
+  icon, label, value, bg, sub, trend,
+}: {
+  icon: React.ReactNode; label: string; value: string | number; bg: string; sub: string;
+  trend?: { dir: 'up' | 'down' | 'flat'; label: string } | null;
+}) {
   return (
-    <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-      <div className={`inline-flex p-2 rounded-lg ${bg} mb-3`}>{icon}</div>
-      <p className="text-2xl font-bold text-white">{value}</p>
+    <div className="group relative bg-zinc-900 border border-zinc-800 rounded-2xl p-5 overflow-hidden transition-colors hover:border-zinc-700">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+      <div className="flex items-start justify-between">
+        <div className={`inline-flex p-2.5 rounded-xl ${bg} mb-3 ring-1 ring-inset ring-white/5`}>{icon}</div>
+        {trend && (
+          <span
+            className={`inline-flex items-center gap-1 text-[11px] font-medium px-2 py-1 rounded-full ${
+              trend.dir === 'up'
+                ? 'bg-emerald-500/10 text-emerald-400'
+                : trend.dir === 'down'
+                ? 'bg-red-500/10 text-red-400'
+                : 'bg-zinc-800 text-zinc-400'
+            }`}
+          >
+            {trend.dir === 'up' ? '▲' : trend.dir === 'down' ? '▼' : '–'}
+          </span>
+        )}
+      </div>
+      <p className="text-2xl font-bold text-white tabular-nums">{value}</p>
       <p className="text-sm font-medium text-zinc-300 mt-0.5">{label}</p>
       <p className="text-xs text-zinc-500 mt-1">{sub}</p>
+      {trend && (
+        <p className={`text-[11px] mt-2 ${trend.dir === 'up' ? 'text-emerald-400' : trend.dir === 'down' ? 'text-red-400' : 'text-zinc-500'}`}>
+          {trend.label}
+        </p>
+      )}
     </div>
   );
 }
