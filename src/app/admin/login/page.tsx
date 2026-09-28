@@ -19,19 +19,34 @@ export default function AdminLoginPage() {
     setError('');
 
     try {
-      const { error: authError } = await supabase.auth.signInWithPassword({
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password,
       });
 
-      if (authError) {
+      if (authError || !authData.user) {
         // Mensaje genérico para no revelar si el email existe o no
         setError('Credenciales incorrectas. Verifica tu email y contraseña.');
         setLoading(false);
-      } else {
-        router.push('/admin');
-        router.refresh();
+        return;
       }
+
+      const { data: adminRow } = await supabase
+        .from('usuarios_admin')
+        .select('rol')
+        .eq('user_id', authData.user.id)
+        .eq('rol', 'admin')
+        .maybeSingle();
+
+      if (!adminRow) {
+        await supabase.auth.signOut();
+        setError('Tu cuenta no tiene permisos de administrador.');
+        setLoading(false);
+        return;
+      }
+
+      router.push('/admin');
+      router.refresh();
     } catch (err: unknown) {
       setError('Ocurrió un error inesperado. Intenta de nuevo.');
       setLoading(false);
