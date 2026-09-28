@@ -60,12 +60,7 @@ export function AdvancedAnalytics({ metrics, leads }: AdvancedAnalyticsProps) {
       else if (m.metadata?.device === 'Desktop') desktop++;
       else unknown++;
     });
-    
-    // Add fake data if empty just to show the chart
-    if (mobile === 0 && desktop === 0) {
-      desktop = 60; mobile = 40;
-    }
-    
+
     return [
       { name: 'Escritorio', value: desktop, color: '#3b82f6' },
       { name: 'Móvil', value: mobile, color: '#10b981' },
@@ -129,37 +124,45 @@ export function AdvancedAnalytics({ metrics, leads }: AdvancedAnalyticsProps) {
       {/* 3. Distribución de Dispositivos */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
         <h3 className="text-white font-semibold mb-6">Tráfico por Dispositivo</h3>
-        <div className="h-64">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={deviceData}
-                cx="50%"
-                cy="50%"
-                innerRadius={60}
-                outerRadius={80}
-                paddingAngle={5}
-                dataKey="value"
-              >
-                {deviceData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <RechartsTooltip 
-                contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', color: '#fff', borderRadius: '8px' }}
-                itemStyle={{ color: '#fff' }}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="flex justify-center gap-4 mt-2">
-          {deviceData.map(d => (
-            <div key={d.name} className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full" style={{ backgroundColor: d.color }}></span>
-              <span className="text-xs text-zinc-400">{d.name} ({Math.round((d.value/Math.max(visitas,1))*100)}%)</span>
+        {deviceData.length === 0 ? (
+          <div className="h-64 flex items-center justify-center text-sm text-zinc-500">
+            Aún no hay datos suficientes de dispositivos.
+          </div>
+        ) : (
+          <>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={deviceData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={80}
+                    paddingAngle={5}
+                    dataKey="value"
+                  >
+                    {deviceData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                  </Pie>
+                  <RechartsTooltip
+                    contentStyle={{ backgroundColor: '#18181b', borderColor: '#27272a', color: '#fff', borderRadius: '8px' }}
+                    itemStyle={{ color: '#fff' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
             </div>
-          ))}
-        </div>
+            <div className="flex justify-center gap-4 mt-2">
+              {deviceData.map(d => (
+                <div key={d.name} className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full" style={{ backgroundColor: d.color }}></span>
+                  <span className="text-xs text-zinc-400">{d.name} ({Math.round((d.value/Math.max(visitas,1))*100)}%)</span>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* 2. Mapa de Calor (Heatmap) */}

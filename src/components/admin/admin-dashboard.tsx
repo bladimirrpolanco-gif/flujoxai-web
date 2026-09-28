@@ -423,7 +423,7 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
             <div className="space-y-8">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <StatCard icon={<MousePointer2 className="h-5 w-5 text-blue-400" />}    label="Visitas"             value={metrics.filter(m => m.tipo_evento === 'visita').length}            bg="bg-blue-600/10"   sub="Visitas al sitio" />
-                <StatCard icon={<TrendingUp className="h-5 w-5 text-cyan-400" />}     label="Cotizaciones"               value={metrics.filter(m => m.tipo_evento === 'lead_generado').length}      bg="bg-cyan-600/10"  sub="Formularios" />
+                <StatCard icon={<TrendingUp className="h-5 w-5 text-cyan-400" />}     label="Cotizaciones"               value={soloCotizaciones.length}      bg="bg-cyan-600/10"  sub="Formularios" />
                 <StatCard icon={<Phone className="h-5 w-5 text-emerald-400" />}         label="WhatsApp"            value={metrics.filter(m => m.tipo_evento === 'click_whatsapp').length}    bg="bg-emerald-600/10" sub="Clicks WhatsApp" />
                 <StatCard icon={<BarChart3 className="h-5 w-5 text-amber-400" />}       label="Clicks CTA"          value={metrics.filter(m => m.tipo_evento === 'click_cta').length}          bg="bg-amber-600/10"   sub="Clicks Botones" />
               </div>
