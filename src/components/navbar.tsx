@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Cpu, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles, LucideIcon } from "lucide-react";
+import { Cpu, Menu, X, ChevronDown, Zap, Plug, MessageSquare, Sparkles, Headset, LucideIcon } from "lucide-react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./theme-toggle";
@@ -55,8 +55,15 @@ const navLinks: NavLink[] = [
         icon: Cpu,
         color: 'bg-emerald-500/10 text-emerald-500 dark:bg-emerald-500/20'
       },
-      { 
-        href: '#servicios', 
+      {
+        href: '/agentes-voz',
+        label: 'Agentes de Voz',
+        desc: 'Contestan y hacen llamadas por teléfono con IA, 24/7.',
+        icon: Headset,
+        color: 'bg-[#0565E8]/10 text-[#0565E8] dark:bg-[#0565E8]/20'
+      },
+      {
+        href: '#servicios',
         label: 'Publicidad con AI', 
         desc: 'Optimiza tus anuncios en Meta y Google para más ventas.', 
         icon: Sparkles,
