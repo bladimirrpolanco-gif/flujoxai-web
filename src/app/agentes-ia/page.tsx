@@ -5,16 +5,15 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import {
   Sparkles, ArrowRight, Brain, MessageSquare, Calendar, Database,
-  UserCheck, Zap, Check, X, Bot,
+  UserCheck, Zap, Check, X, Bot, Clock, Workflow, ShieldCheck,
 } from "lucide-react";
 
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { Marquee } from "@/components/marquee";
-import { ChatbotSimulator } from "@/components/chatbot";
 import { Contact } from "@/components/contact";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { SectionFAQ } from "@/components/section-faq";
+import { AgentDecisionDemo } from "@/components/agent-decision-demo";
 import { trackEvent } from "@/lib/metrics";
 
 const CAPACIDADES = [
@@ -180,8 +179,6 @@ export default function AgentesIAPage() {
           </div>
         </section>
 
-        <Marquee />
-
         {/* CHATBOT vs AGENTE */}
         <section className="py-24 bg-background">
           <div className="container px-4 md:px-6 mx-auto max-w-5xl">
@@ -269,24 +266,34 @@ export default function AgentesIAPage() {
               </h2>
             </motion.div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {CAPACIDADES.map((cap, i) => (
-                <motion.div
-                  key={cap.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
-                  whileHover={{ y: -6 }}
-                  className="glass border border-border/50 rounded-3xl p-7 hover:border-primary/20 transition-colors"
-                >
-                  <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-[#0877f9] to-[#0565E8] flex items-center justify-center mb-5">
-                    <cap.icon className="h-6 w-6 text-white" />
-                  </div>
-                  <h3 className="font-bold text-lg text-foreground mb-2">{cap.title}</h3>
-                  <p className="text-sm text-muted-foreground leading-relaxed">{cap.desc}</p>
-                </motion.div>
-              ))}
+            <div className="grid grid-cols-2 lg:grid-cols-4 lg:grid-rows-2 gap-5">
+              {CAPACIDADES.map((cap, i) => {
+                // Bento layout: primeras dos tarjetas mas grandes para romper la grilla uniforme
+                const spanClass =
+                  i === 0 ? "col-span-2 lg:col-span-2 lg:row-span-2" :
+                  i === 1 ? "col-span-2 lg:col-span-2" :
+                  "col-span-2 sm:col-span-1 lg:col-span-1";
+                const isFeatured = i === 0;
+                return (
+                  <motion.div
+                    key={cap.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                    whileHover={{ y: -4 }}
+                    className={`glass border rounded-3xl p-6 md:p-7 hover:border-primary/30 transition-colors flex flex-col ${spanClass} ${
+                      isFeatured ? "border-primary/30 bg-gradient-to-br from-primary/5 to-transparent justify-center" : "border-border/50 justify-start"
+                    }`}
+                  >
+                    <div className={`rounded-xl bg-gradient-to-br from-[#0877f9] to-[#0565E8] flex items-center justify-center mb-5 ${isFeatured ? "h-14 w-14" : "h-11 w-11"}`}>
+                      <cap.icon className={isFeatured ? "h-7 w-7 text-white" : "h-5 w-5 text-white"} />
+                    </div>
+                    <h3 className={`font-bold text-foreground mb-2 ${isFeatured ? "text-2xl" : "text-base"}`}>{cap.title}</h3>
+                    <p className={`text-muted-foreground leading-relaxed ${isFeatured ? "text-base" : "text-sm"}`}>{cap.desc}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -347,8 +354,52 @@ export default function AgentesIAPage() {
           </div>
         </section>
 
-        {/* DEMO EN VIVO */}
-        <ChatbotSimulator />
+        {/* DEMO: COMO DECIDE EL AGENTE */}
+        <section className="py-24 bg-muted/20">
+          <div className="container px-4 md:px-6 mx-auto max-w-5xl">
+            <div className="grid md:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6 order-2 md:order-1">
+                <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary glass px-4 py-1.5 rounded-full border border-primary/20">
+                  Motor de decisión
+                </span>
+                <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
+                  No solo responde. <span className="gradient-text">Decide qué hacer.</span>
+                </h2>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Cada mensaje que llega pasa por un análisis de intención en tiempo real. El agente decide si debe
+                  responder, pedir un dato, agendar una cita o escalar a un humano — sin reglas rígidas, sin árboles
+                  de decisión que se rompen ante lo inesperado.
+                </p>
+
+                <div className="space-y-3 pt-2">
+                  {[
+                    { icon: Clock, text: "Analiza y responde en segundos" },
+                    { icon: Workflow, text: "Ejecuta la acción correcta, no solo texto" },
+                    { icon: ShieldCheck, text: "Escala a un humano cuando no está seguro" },
+                  ].map(({ icon: Icon, text }) => (
+                    <div key={text} className="flex items-center gap-3 text-sm text-foreground/80">
+                      <Icon className="h-4 w-4 text-primary flex-shrink-0" />
+                      {text}
+                    </div>
+                  ))}
+                </div>
+
+                <Link href="/cotizador">
+                  <button
+                    onClick={() => trackEvent('click_cta', { cta: 'Cotizar Proyecto (Agentes IA Demo)' })}
+                    className="mt-2 inline-flex items-center gap-2 h-12 px-8 rounded-2xl text-sm font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                  >
+                    Quiero uno para mi negocio
+                  </button>
+                </Link>
+              </div>
+
+              <div className="order-1 md:order-2">
+                <AgentDecisionDemo />
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* FAQ */}
         <SectionFAQ
