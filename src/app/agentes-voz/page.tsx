@@ -277,7 +277,7 @@ export default function AgentesVozPage() {
                 const spanClass =
                   i === 0 ? "col-span-2 lg:col-span-2 lg:row-span-2" :
                   i === 1 ? "col-span-2 lg:col-span-2" :
-                  "col-span-2 sm:col-span-1 lg:col-span-1";
+                  "col-span-1 lg:col-span-1";
                 const isFeatured = i === 0;
                 return (
                   <motion.div
