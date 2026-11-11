@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sendLeadNotification } from "@/lib/notifications";
+import { sendLeadToGestor } from "@/lib/gestor";
 
 // Sanitización para evitar Inyección de HTML / XSS
 function escapeHtml(unsafe: any): string {
@@ -39,6 +40,17 @@ export async function POST(req: NextRequest) {
       console.error("Error al registrar lead en Supabase:", dbError);
       return NextResponse.json({ error: "Ocurrió un error al guardar tu solicitud." }, { status: 500 });
     }
+
+    // Enviar el lead al Gestor (CRM central). Va con los datos originales:
+    // el Gestor escapa el texto al mostrarlo.
+    await sendLeadToGestor({
+      name: String(nombre),
+      whatsapp: String(telefono),
+      email: String(email),
+      business: empresa ? String(empresa) : "",
+      interest: "Asesoría (formulario web)",
+      message: mensaje ? String(mensaje) : "",
+    }, "web-contacto");
 
     // Disparar la notificación de sistema
     await sendLeadNotification(safeData);

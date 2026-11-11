@@ -7,7 +7,7 @@ import {
   Users, TrendingUp, LogOut, LayoutDashboard,
   Mail, Phone, Building2, MessageSquare, ChevronRight,
   Calendar, RefreshCw, Search, X, BarChart3, MousePointer2,
-  Download, Kanban, Menu, FileText, FileJson
+  Download, Kanban, Menu, FileText, FileJson, ExternalLink
 } from 'lucide-react';
 import { BarChart, Bar, XAxis, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 import { AdvancedAnalytics } from './advanced-analytics';
@@ -65,7 +65,7 @@ const ESTADO_STYLES: Record<Estado, string> = {
 };
 
 export function AdminDashboard({ user, leads, posts = [], comments = [], templates = [] }: AdminDashboardProps) {
-  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'leads' | 'cotizaciones' | 'analytics' | 'blog' | 'comentarios' | 'plantillas'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'pipeline' | 'leads' | 'cotizaciones' | 'analytics' | 'blog' | 'comentarios' | 'plantillas'>('analytics');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLead, setSelectedLead] = useState<Lead | null>(null);
@@ -230,10 +230,6 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
 
         <nav className="flex-1 p-4 space-y-1">
           {[
-            { id: 'overview',      icon: LayoutDashboard, label: 'Resumen' },
-            { id: 'pipeline',      icon: Kanban,          label: 'Pipeline' },
-            { id: 'leads',         icon: Users,           label: 'Leads', badge: soloLeads.length },
-            { id: 'cotizaciones',  icon: MessageSquare,   label: 'Cotizaciones', badge: soloCotizaciones.length },
             { id: 'analytics',     icon: BarChart3,       label: 'Analítica', onClick: fetchMetrics },
             { id: 'blog',          icon: FileText,        label: 'Blog', badge: posts.length },
             { id: 'comentarios',   icon: MessageSquare,   label: 'Comentarios', badge: comments.length },
@@ -254,6 +250,20 @@ export function AdminDashboard({ user, leads, posts = [], comments = [], templat
             </button>
           ))}
         </nav>
+
+        {/* Leads, cotizaciones y pipeline viven ahora en el Gestor (CRM central). */}
+        <div className="px-4 pb-4">
+          <a
+            href="https://gestor.flujoxai.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-blue-300 bg-blue-600/10 hover:bg-blue-600/20 transition"
+          >
+            <Users className="h-4 w-4 shrink-0" />
+            Leads y cotizaciones en el Gestor
+            <ExternalLink className="ml-auto h-3.5 w-3.5" />
+          </a>
+        </div>
 
         <div className="p-4 border-t border-zinc-800">
           <div className="flex items-center gap-3 mb-3">
