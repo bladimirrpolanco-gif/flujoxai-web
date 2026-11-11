@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { Resend } from "resend";
+import { sendLeadToGestor } from "@/lib/gestor";
 
 function escapeHtml(unsafe: any): string {
   if (typeof unsafe !== 'string') return unsafe;
@@ -143,6 +144,18 @@ export async function POST(req: NextRequest) {
     if (dbError) {
       console.error("❌ Error registering lead in Supabase:", dbError);
     }
+
+    // Enviar la cotización al Gestor (CRM central).
+    const decode = (v: string) => String(v || "")
+      .replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#039;/g, "'").replace(/&amp;/g, "&");
+    await sendLeadToGestor({
+      name: decode(lead.nombre),
+      whatsapp: decode(lead.telefono),
+      email: decode(lead.email),
+      business: decode(lead.empresa || ""),
+      interest: `Cotización: ${decode(titleSolucion)}`,
+      message: decode(mensajeCompleto),
+    }, "web-cotizador");
 
     let clientEmailHtml = "";
 
