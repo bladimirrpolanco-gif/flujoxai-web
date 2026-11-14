@@ -2,18 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { Resend } from "resend";
 import { sendLeadToGestor } from "@/lib/gestor";
+import { cleanList, cleanText, EMAIL_RE, escapeHtml, getClientIp, isAllowedOrigin, logSecurityEvent, PHONE_RE, rateLimit } from "@/lib/security";
 
-function escapeHtml(unsafe: any): string {
-  if (typeof unsafe !== 'string') return unsafe;
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+const CATEGORIAS = new Set(["automatizacion", "web", "app"]);
+const VOLUMENES = new Set(["0–100", "100–500", "500–2000", "+2000", ""]);
 
 const resendApiKey = process.env.RESEND_API_KEY || "re_dummy_key_for_local_testing";
+if (process.env.NODE_ENV === "production" && !process.env.RESEND_API_KEY) {
+  console.error("RESEND_API_KEY no está configurada en producción.");
+}
 const resend = new Resend(resendApiKey);
 
 const ADMIN_EMAIL = "soporte@flujoxai.com";
@@ -21,29 +18,53 @@ const FROM_EMAIL = "diagnostico@flujoxai.com";
 
 export async function POST(req: NextRequest) {
   try {
-    const data = await req.json();
-    let { categoriaServicio, tipoNegocio, problema, volumen, herramientas, funcionalidades, tieneDiseno, lead } = data;
+    const ip = getClientIp(req.headers);
+    if (!isAllowedOrigin(req.headers)) {
+      logSecurityEvent("cotizar.bad_origin", { ip, origin: req.headers.get("origin") });
+      return NextResponse.json({ error: "Origen no permitido." }, { status: 403 });
+    }
+    // Cada cotización dispara correos: límite estricto para evitar spam/abuso de Resend
+    if (!rateLimit(`cotizar:${ip}`, 3, 10 * 60 * 1000)) {
+      logSecurityEvent("cotizar.rate_limited", { ip });
+      return NextResponse.json({ error: "Demasiadas solicitudes. Intenta más tarde." }, { status: 429 });
+    }
 
-    if (!lead || !lead.nombre || !lead.email || !lead.telefono) {
+    const data = await req.json().catch(() => null);
+    if (!data || typeof data !== "object" || !data.lead || typeof data.lead !== "object") {
       return NextResponse.json({ error: "Faltan datos de contacto obligatorios." }, { status: 400 });
     }
 
-    // Sanitizar entradas para evitar Inyección HTML (XSS)
+    // Validación + saneado en el servidor. El precio se calcula SIEMPRE aquí,
+    // nunca se acepta un precio enviado por el navegador.
+    const lead = {
+      nombre: cleanText(data.lead.nombre, 120),
+      email: cleanText(data.lead.email, 254).toLowerCase(),
+      telefono: cleanText(data.lead.telefono, 30),
+      empresa: cleanText(data.lead.empresa, 150),
+    };
+    if (!lead.nombre || !lead.email || !lead.telefono) {
+      return NextResponse.json({ error: "Faltan datos de contacto obligatorios." }, { status: 400 });
+    }
+    if (!EMAIL_RE.test(lead.email) || !PHONE_RE.test(lead.telefono)) {
+      return NextResponse.json({ error: "Email o teléfono inválido." }, { status: 400 });
+    }
+    const categoriaServicio = cleanText(data.categoriaServicio, 30);
+    const volumenRaw = cleanText(data.volumen, 20);
+    if (!CATEGORIAS.has(categoriaServicio) || !VOLUMENES.has(volumenRaw)) {
+      return NextResponse.json({ error: "Datos de cotización inválidos." }, { status: 400 });
+    }
+
+    // Escapar todo lo que se inserta en los correos HTML (anti-XSS / inyección HTML)
     lead.nombre = escapeHtml(lead.nombre);
     lead.email = escapeHtml(lead.email);
     lead.telefono = escapeHtml(lead.telefono);
-    lead.empresa = escapeHtml(lead.empresa || "");
-    tipoNegocio = escapeHtml(tipoNegocio);
-    problema = escapeHtml(problema);
-    volumen = escapeHtml(volumen);
-    tieneDiseno = escapeHtml(tieneDiseno);
-    categoriaServicio = escapeHtml(categoriaServicio);
-    if (herramientas && Array.isArray(herramientas)) {
-      herramientas = herramientas.map(escapeHtml);
-    }
-    if (funcionalidades && Array.isArray(funcionalidades)) {
-      funcionalidades = funcionalidades.map(escapeHtml);
-    }
+    lead.empresa = escapeHtml(lead.empresa);
+    const tipoNegocio = escapeHtml(cleanText(data.tipoNegocio, 120));
+    const problema = escapeHtml(cleanText(data.problema, 300));
+    const volumen = escapeHtml(volumenRaw);
+    const tieneDiseno = escapeHtml(cleanText(data.tieneDiseno, 120));
+    const herramientas = cleanList(data.herramientas, 15, 60).map(escapeHtml);
+    const funcionalidades = cleanList(data.funcionalidades, 15, 80).map(escapeHtml);
 
     let precio = "";
     let titleSolucion = "";
@@ -345,7 +366,7 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("❌ Error in Quote API:", error);
     return NextResponse.json({ error: "Ocurrió un error inesperado." }, { status: 500 });
   }

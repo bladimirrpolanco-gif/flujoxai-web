@@ -2,26 +2,36 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { sendLeadNotification } from "@/lib/notifications";
 import { sendLeadToGestor } from "@/lib/gestor";
-
-// Sanitización para evitar Inyección de HTML / XSS
-function escapeHtml(unsafe: any): string {
-  if (typeof unsafe !== 'string') return unsafe;
-  return unsafe
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
+import { cleanText, EMAIL_RE, escapeHtml, getClientIp, isAllowedOrigin, logSecurityEvent, PHONE_RE, rateLimit } from "@/lib/security";
 
 export async function POST(req: NextRequest) {
   try {
-    const data = await req.json();
-    let { nombre, telefono, empresa, email, mensaje } = data;
+    const ip = getClientIp(req.headers);
+    if (!isAllowedOrigin(req.headers)) {
+      logSecurityEvent("contact.bad_origin", { ip, origin: req.headers.get("origin") });
+      return NextResponse.json({ error: "Origen no permitido." }, { status: 403 });
+    }
+    if (!rateLimit(`contact:${ip}`, 5, 10 * 60 * 1000)) {
+      logSecurityEvent("contact.rate_limited", { ip });
+      return NextResponse.json({ error: "Demasiadas solicitudes. Intenta más tarde." }, { status: 429 });
+    }
 
-    // Validación básica de campos requeridos
+    const data = await req.json().catch(() => null);
+    if (!data || typeof data !== "object") {
+      return NextResponse.json({ error: "Solicitud inválida." }, { status: 400 });
+    }
+    const nombre = cleanText(data.nombre, 120);
+    const telefono = cleanText(data.telefono, 30);
+    const empresa = cleanText(data.empresa, 150);
+    const email = cleanText(data.email, 254).toLowerCase();
+    const mensaje = cleanText(data.mensaje, 3000);
+
+    // Validación en el servidor (no confiar en el formulario del navegador)
     if (!nombre || !email || !telefono) {
       return NextResponse.json({ error: "Faltan campos obligatorios." }, { status: 400 });
+    }
+    if (!EMAIL_RE.test(email) || !PHONE_RE.test(telefono)) {
+      return NextResponse.json({ error: "Email o teléfono inválido." }, { status: 400 });
     }
 
     // Sanitizar los datos recibidos

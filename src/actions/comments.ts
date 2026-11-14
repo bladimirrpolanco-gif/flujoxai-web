@@ -3,15 +3,37 @@
 import { supabase } from '@/lib/supabase';
 import { revalidatePath } from 'next/cache';
 import { isAdminUser } from '@/lib/admin';
+import { headers } from 'next/headers';
+import { cleanText, getClientIp, logSecurityEvent, rateLimit } from '@/lib/security';
 
 export async function createComment(formData: FormData) {
-  const post_slug = formData.get('post_slug') as string;
-  const author_name = formData.get('author_name') as string;
+  const hdrs = await headers();
+  const ip = getClientIp(hdrs);
+  if (!rateLimit(`comment:${ip}`, 3, 10 * 60 * 1000)) {
+    logSecurityEvent("comment.rate_limited", { ip });
+    return { error: 'Demasiados comentarios seguidos. Intenta más tarde.' };
+  }
+
+  const post_slug = cleanText(formData.get('post_slug'), 200);
+  const author_name = cleanText(formData.get('author_name'), 80);
   const author_email = 'anonimo@flujoxai.com'; // Dummy email since UI doesn't ask for it anymore
-  const content = formData.get('content') as string;
+  const content = cleanText(formData.get('content'), 2000);
 
   if (!post_slug || !author_name || !content) {
     return { error: 'El nombre y el mensaje son requeridos' };
+  }
+  if (!/^[a-z0-9-]{1,200}$/i.test(post_slug)) {
+    return { error: 'Artículo inválido' };
+  }
+  // Solo se puede comentar en un artículo publicado que exista
+  const { data: post } = await supabase.from('posts').select('slug').eq('slug', post_slug).maybeSingle();
+  if (!post) {
+    return { error: 'Artículo no encontrado' };
+  }
+  // Filtro anti-spam básico: máximo 2 enlaces por comentario
+  if ((content.match(/https?:\/\//gi) || []).length > 2) {
+    logSecurityEvent("comment.spam_links", { ip, post_slug });
+    return { error: 'El comentario tiene demasiados enlaces' };
   }
 
   const { error } = await supabase.from('comments').insert({
@@ -80,7 +102,8 @@ export async function deleteComment(id: string) {
   return { success: true };
 }
 
-export async function replyToComment(id: string, reply: string) {
+export async function replyToComment(id: string, rawReply: string) {
+  const reply = cleanText(rawReply, 2000);
   const adminSupabase = await getAdminSupabase();
   const { data: { user } } = await adminSupabase.auth.getUser();
   if (!user || !(await isAdminUser(adminSupabase, user.id))) return { error: 'No autorizado' };

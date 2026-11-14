@@ -1,29 +1,30 @@
-const DANGEROUS_TAGS = /<(script|style|iframe|object|embed|link|meta|base|form|input|button|textarea|select|option|svg|math)\b[\s\S]*?<\/\1>/gi;
-const SELF_CLOSING_DANGEROUS_TAGS = /<(script|style|iframe|object|embed|link|meta|base|form|input|button|textarea|select|option|svg|math)\b[^>]*\/?>/gi;
-const EVENT_HANDLER_ATTRS = /\son[a-z]+\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi;
-const SRC_DOC_ATTR = /\ssrcdoc\s*=\s*(?:"[^"]*"|'[^']*'|[^\s>]+)/gi;
+import sanitizeHtml from 'sanitize-html';
 
-function cleanUrlAttributes(html: string) {
-  return html.replace(/\s(href|src)\s*=\s*(["'])(.*?)\2/gi, (full, attr, quote, value) => {
-    const trimmed = String(value).trim();
-    if (/^(https?:|mailto:|tel:|\/|#)/i.test(trimmed)) {
-      return ` ${attr}=${quote}${trimmed}${quote}`;
-    }
-    return ` ${attr}=${quote}#${quote}`;
-  });
-}
+// Lista blanca estricta para el contenido del blog (anti-XSS).
+// Todo lo que no esté aquí (scripts, iframes, eventos on*, javascript:, data:, estilos) se elimina.
+const OPTIONS: sanitizeHtml.IOptions = {
+  allowedTags: [
+    'p', 'br', 'hr', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'b', 'em', 'i', 'u', 's', 'strike',
+    'blockquote', 'code', 'pre', 'ul', 'ol', 'li', 'a', 'img', 'span', 'div', 'table', 'thead', 'tbody',
+    'tr', 'th', 'td', 'figure', 'figcaption', 'mark', 'sub', 'sup',
+  ],
+  allowedAttributes: {
+    a: ['href', 'title', 'target', 'rel'],
+    img: ['src', 'alt', 'title', 'width', 'height', 'loading'],
+    '*': ['class'],
+  },
+  allowedSchemes: ['https', 'http', 'mailto', 'tel'],
+  allowedSchemesByTag: { img: ['https', 'http'] },
+  allowProtocolRelative: false,
+  transformTags: {
+    a: (tagName, attribs) => ({
+      tagName,
+      attribs: { ...attribs, rel: 'noopener noreferrer nofollow' },
+    }),
+  },
+};
 
 export function sanitizeRichTextHtml(html: string) {
   if (!html) return '';
-
-  let cleaned = String(html);
-  cleaned = cleaned.replace(DANGEROUS_TAGS, '');
-  cleaned = cleaned.replace(SELF_CLOSING_DANGEROUS_TAGS, '');
-  cleaned = cleaned.replace(EVENT_HANDLER_ATTRS, '');
-  cleaned = cleaned.replace(SRC_DOC_ATTR, '');
-  cleaned = cleaned.replace(/javascript:/gi, '');
-  cleaned = cleaned.replace(/data:/gi, '');
-  cleaned = cleanUrlAttributes(cleaned);
-
-  return cleaned;
+  return sanitizeHtml(String(html), OPTIONS);
 }
