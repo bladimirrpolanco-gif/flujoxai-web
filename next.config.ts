@@ -16,6 +16,13 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      // La calculadora de WhatsApp API se eliminó: los enlaces viejos van al cotizador
+      { source: "/calculadora-whatsapp-api", destination: "/cotizador", permanent: true },
+      { source: "/calculadora-whatsapp-api-real.html", destination: "/cotizador", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {
