@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { validateEmail, validatePhone } from "@/lib/lead-validation";
 import { 
   Zap, Workflow, ArrowRight, ArrowLeft, CheckCircle2, 
   MessageSquare, Cpu, Sparkles, Building2, Utensils, 
@@ -35,6 +36,7 @@ export default function DiagnosticoPage() {
   const [analyzing, setAnalyzing] = useState(false);
   const [analyzeText, setAnalyzeText] = useState("Iniciando análisis del ecosistema...");
   const [errorMsg, setErrorMsg] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<{ telefono?: string; email?: string }>({});
 
   const [data, setData] = useState<DiagnosticoData>({
     categoriaServicio: null,
@@ -88,6 +90,13 @@ export default function DiagnosticoPage() {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setData(prev => ({ ...prev, lead: { ...prev.lead, [name]: value } }));
+    if (name === "telefono" || name === "email") setFieldErrors(prev => ({ ...prev, [name]: undefined }));
+  };
+
+  const validateField = (name: "telefono" | "email", value: string) => {
+    if (!value.trim()) return;
+    const r = name === "telefono" ? validatePhone(value) : validateEmail(value);
+    setFieldErrors(prev => ({ ...prev, [name]: r.ok ? undefined : r.error }));
   };
 
   const procesarDiagnostico = async (e: React.FormEvent) => {
@@ -96,6 +105,18 @@ export default function DiagnosticoPage() {
       setErrorMsg("Por favor, completa los campos requeridos.");
       return;
     }
+
+    const phoneCheck = validatePhone(data.lead.telefono);
+    const emailCheck = validateEmail(data.lead.email);
+    if (!phoneCheck.ok || !emailCheck.ok) {
+      setFieldErrors({
+        telefono: phoneCheck.ok ? undefined : phoneCheck.error,
+        email: emailCheck.ok ? undefined : emailCheck.error,
+      });
+      setErrorMsg("Revisa los datos marcados en rojo.");
+      return;
+    }
+    setFieldErrors({});
 
     setErrorMsg("");
     setAnalyzing(true);
@@ -130,7 +151,15 @@ export default function DiagnosticoPage() {
         body: JSON.stringify(data),
       });
 
-      if (!response.ok) throw new Error("Error en el servidor");
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        if (response.status === 400 && body?.error) {
+          if (body.field === "telefono" || body.field === "email") setFieldErrors({ [body.field]: body.error });
+          setErrorMsg(body.error);
+          return;
+        }
+        throw new Error("Error en el servidor");
+      }
       trackEvent("diagnostico_completado", { solucion: data.categoriaServicio });
       nextStep(); // Va a resultados
     } catch (err: any) {
@@ -420,10 +449,10 @@ export default function DiagnosticoPage() {
       <form onSubmit={procesarDiagnostico} className="space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div className="space-y-1.5"><label className="text-xs font-semibold text-foreground/80 uppercase">Nombre Completo</label><input name="nombre" required value={data.lead.nombre} onChange={handleInputChange} className="w-full h-12 rounded-xl bg-background/50 border border-border/50 px-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Juan Pérez" /></div>
-          <div className="space-y-1.5"><label className="text-xs font-semibold text-foreground/80 uppercase">WhatsApp</label><input name="telefono" required type="tel" value={data.lead.telefono} onChange={handleInputChange} className="w-full h-12 rounded-xl bg-background/50 border border-border/50 px-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="+1 (809) 000-0000" /></div>
+          <div className="space-y-1.5"><label className="text-xs font-semibold text-foreground/80 uppercase">WhatsApp</label><input name="telefono" required type="tel" inputMode="tel" autoComplete="tel" value={data.lead.telefono} onChange={handleInputChange} onBlur={e => validateField("telefono", e.target.value)} aria-invalid={!!fieldErrors.telefono} className={`w-full h-12 rounded-xl bg-background/50 border border-border/50 px-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all ${fieldErrors.telefono ? "border-destructive focus:border-destructive focus:ring-destructive" : ""}`} placeholder="809 555 1234" />{fieldErrors.telefono && <p className="text-xs text-destructive">{fieldErrors.telefono}</p>}</div>
         </div>
         <div className="space-y-1.5"><label className="text-xs font-semibold text-foreground/80 uppercase">Nombre de la Empresa</label><input name="empresa" required value={data.lead.empresa} onChange={handleInputChange} className="w-full h-12 rounded-xl bg-background/50 border border-border/50 px-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="Mi Empresa S.R.L" /></div>
-        <div className="space-y-1.5"><label className="text-xs font-semibold text-foreground/80 uppercase">Email Corporativo</label><input name="email" required type="email" value={data.lead.email} onChange={handleInputChange} className="w-full h-12 rounded-xl bg-background/50 border border-border/50 px-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all" placeholder="juan@miempresa.com" /></div>
+        <div className="space-y-1.5"><label className="text-xs font-semibold text-foreground/80 uppercase">Email Corporativo</label><input name="email" required type="email" autoComplete="email" value={data.lead.email} onChange={handleInputChange} onBlur={e => validateField("email", e.target.value)} aria-invalid={!!fieldErrors.email} className={`w-full h-12 rounded-xl bg-background/50 border border-border/50 px-4 text-sm focus:border-primary focus:ring-1 focus:ring-primary transition-all ${fieldErrors.email ? "border-destructive focus:border-destructive focus:ring-destructive" : ""}`} placeholder="tucorreo@empresa.com" />{fieldErrors.email && <p className="text-xs text-destructive">{fieldErrors.email}</p>}</div>
         {errorMsg && <p className="text-sm text-destructive">{errorMsg}</p>}
         <div className="flex justify-between items-center pt-4 border-t border-border/50">
           <button type="button" onClick={prevStep} className="text-muted-foreground hover:text-foreground text-sm flex items-center gap-2"><ArrowLeft className="w-4 h-4"/> Atrás</button>
