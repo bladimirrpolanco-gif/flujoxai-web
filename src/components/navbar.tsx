@@ -74,7 +74,6 @@ const navLinks: NavLink[] = [
   { href: '/blog', label: 'Blog' },
   { href: '/recursos', label: 'Recursos' },
   { href: '/cotizador', label: 'Cotizador' },
-  { href: '/calculadora-whatsapp-api', label: 'Calculadora WhatsApp' },
   { href: '#faq', label: 'FAQ' },
   { href: '#contacto', label: 'Contacto' },
 ];
