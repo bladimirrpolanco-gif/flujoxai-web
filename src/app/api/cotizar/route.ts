@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-admin";
 import { Resend } from "resend";
 import { sendLeadToGestor } from "@/lib/gestor";
+import { validateEmail, validatePhone } from "@/lib/lead-validation";
+import { emailDomainAcceptsMail } from "@/lib/email-domain-check";
 
 function escapeHtml(unsafe: any): string {
   if (typeof unsafe !== 'string') return unsafe;
@@ -27,6 +29,21 @@ export async function POST(req: NextRequest) {
     if (!lead || !lead.nombre || !lead.email || !lead.telefono) {
       return NextResponse.json({ error: "Faltan datos de contacto obligatorios." }, { status: 400 });
     }
+
+    // Rechazar teléfonos inventados y correos inválidos / temporales / sin servidor de correo
+    const phoneCheck = validatePhone(lead.telefono);
+    if (!phoneCheck.ok) {
+      return NextResponse.json({ error: phoneCheck.error, field: "telefono" }, { status: 400 });
+    }
+    const emailCheck = validateEmail(lead.email);
+    if (!emailCheck.ok) {
+      return NextResponse.json({ error: emailCheck.error, field: "email" }, { status: 400 });
+    }
+    if (!(await emailDomainAcceptsMail(emailCheck.value))) {
+      return NextResponse.json({ error: "Ese dominio de correo no existe o no recibe correos. Revisa tu email.", field: "email" }, { status: 400 });
+    }
+    lead.telefono = phoneCheck.value;
+    lead.email = emailCheck.value;
 
     // Sanitizar entradas para evitar Inyección HTML (XSS)
     lead.nombre = escapeHtml(lead.nombre);
