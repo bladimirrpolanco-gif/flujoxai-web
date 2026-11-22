@@ -10,8 +10,8 @@ export default function AppleIcon() {
         style={{
           width: 180,
           height: 180,
-          borderRadius: '50%',
-          background: 'linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%)',
+          borderRadius: 40,
+          background: '#0866D9',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -20,7 +20,7 @@ export default function AppleIcon() {
         <span
           style={{
             color: 'white',
-            fontSize: 110,
+            fontSize: 120,
             fontWeight: 800,
             fontFamily: 'sans-serif',
             letterSpacing: '-4px',
