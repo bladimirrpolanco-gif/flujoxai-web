@@ -67,25 +67,25 @@ export async function POST(req: NextRequest) {
     let mensajeCompleto = "";
 
     if (categoriaServicio === "automatizacion") {
-      let basePrice = 190;
-      let maxPrice = 350;
+      let basePrice = 380;
+      let maxPrice = 700;
       titleSolucion = "Chatbot Inteligente de Atención";
 
       if (volumen === "100–500") {
-        basePrice += 60; maxPrice += 100;
+        basePrice += 120; maxPrice += 200;
       } else if (volumen === "500–2000") {
-        basePrice += 160; maxPrice += 250;
+        basePrice += 320; maxPrice += 500;
         titleSolucion = "Asistente IA + Gestión Empresarial";
       } else if (volumen === "+2000") {
-        basePrice += 310; maxPrice += 450;
+        basePrice += 620; maxPrice += 900;
         titleSolucion = "Arquitectura Avanzada de Agentes IA";
       }
 
       const herramientasList = herramientas || [];
       const integraciones = herramientasList.filter((h: string) => h !== "Ninguna" && h !== "WhatsApp");
       if (integraciones.length > 0) {
-        basePrice += (integraciones.length * 30);
-        maxPrice += (integraciones.length * 50);
+        basePrice += (integraciones.length * 60);
+        maxPrice += (integraciones.length * 100);
         if (integraciones.length >= 2 && volumen !== "+2000") {
           titleSolucion = "Ecosistema Integrado Inteligente";
         }
@@ -103,33 +103,33 @@ export async function POST(req: NextRequest) {
 - Presupuesto: ${precio} (50/50)`;
     } else {
       if (categoriaServicio === "web") {
-        let basePrice = 300;
-        let maxPrice = 350;
+        let basePrice = 600;
+        let maxPrice = 700;
         titleSolucion = "Landing Page / Sitio Corporativo";
 
         const funcList = funcionalidades || [];
         if (!funcList.includes("Ninguna, busco algo informativo")) {
           if (funcList.includes("Tienda Online / E-commerce")) {
-            basePrice += 250; maxPrice += 350;
+            basePrice += 500; maxPrice += 700;
             titleSolucion = "E-commerce Avanzado";
           }
           if (funcList.includes("Sistema de Reservas")) {
-            basePrice += 150; maxPrice += 200;
+            basePrice += 300; maxPrice += 400;
             if (titleSolucion === "Landing Page / Sitio Corporativo") titleSolucion = "Plataforma de Gestión y Reservas";
           }
           if (funcList.includes("Panel de Administración")) {
-            basePrice += 200; maxPrice += 300;
+            basePrice += 400; maxPrice += 600;
           }
           if (funcList.includes("Pasarela de Pagos")) {
-            basePrice += 100; maxPrice += 150;
+            basePrice += 200; maxPrice += 300;
           }
           if (funcList.includes("Área Privada de Usuarios")) {
-            basePrice += 250; maxPrice += 350;
+            basePrice += 500; maxPrice += 700;
           }
         }
 
         if (tieneDiseno === "No, necesito diseño desde cero") {
-          basePrice += 150; maxPrice += 200;
+          basePrice += 300; maxPrice += 400;
         }
         precio = `$${basePrice} - $${maxPrice} USD`;
       } else {
