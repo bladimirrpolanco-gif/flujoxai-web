@@ -57,12 +57,7 @@ export default async function BlogIndexPage({
           </span>
           <h1 className="font-sans font-bold tracking-tight leading-[1.1] mb-6 text-4xl md:text-5xl lg:text-7xl">
             Insights &{' '}
-            <span
-              className="font-light italic"
-              style={{ fontFamily: 'var(--font-playfair)', opacity: 0.9 }}
-            >
-              Automatización
-            </span>
+            <span className="text-blue-200">Automatización</span>
           </h1>
           <p className="text-blue-100/90 text-lg md:text-xl max-w-2xl mx-auto font-medium leading-relaxed">
             Las últimas estrategias, guías prácticas y casos de éxito para transformar tu negocio usando Inteligencia Artificial y automatización.

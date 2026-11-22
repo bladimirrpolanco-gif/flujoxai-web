@@ -60,9 +60,9 @@ const ICON_MAP: Record<string, LucideIcon> = {
 };
 
 const stats = [
-  { value: "60%", label: "Reducción en Costos" },
-  { value: "3x", label: "Más Leads Capturados" },
-  { value: "24/7", label: "Disponibilidad Total" },
+  { value: "72h", label: "Chatbot básico listo" },
+  { value: "24/7", label: "Disponibilidad total" },
+  { value: "0", label: "Mensualidades: pago único" },
 ];
 
 const STATIC_SERVICES = [
@@ -243,7 +243,7 @@ export function Services() {
         >
           <div className="text-center mb-8">
             <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary glass px-4 py-1.5 rounded-full border border-primary/20">
-              Resultados comprobados
+              Cómo trabajamos
             </span>
           </div>
           <div className="grid grid-cols-3 gap-8">
