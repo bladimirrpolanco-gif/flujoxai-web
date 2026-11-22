@@ -58,8 +58,11 @@ export function ChatbotSimulator() {
 
           {/* Left — copy */}
           <div className="space-y-6">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary glass px-4 py-1.5 rounded-full border border-primary/20">
+              Demo en vivo
+            </span>
             <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-foreground">
-              Así habla tu <span className="text-primary">Agente IA</span>
+              Así habla tu <span className="gradient-text">Agente IA</span>
             </h2>
             <p className="text-lg text-muted-foreground">
               Una conversación real con un cliente. El bot entiende, responde y captura el lead — todo en segundos, sin que tú hagas nada.

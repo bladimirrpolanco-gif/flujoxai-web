@@ -3,7 +3,7 @@
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import Link from "next/link";
 import { trackEvent } from "@/lib/metrics";
-import { ArrowRight, Workflow, Zap, Sparkles, Star } from "lucide-react";
+import { ArrowRight, Workflow, Zap, Sparkles, BadgeCheck } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { AutomationDiagram } from "./automation-diagram";
 
@@ -101,9 +101,9 @@ export function Hero() {
           </motion.div>
 
           {/* Headline */}
-          <h1 className="font-sans mb-6 leading-[0.95] perspective-1000 text-[clamp(2.5rem,4.5vw,4.5rem)]">
+          <h1 className="font-sans mb-6 leading-[1.02] perspective-1000 text-[clamp(2.5rem,4.5vw,4.5rem)] font-bold tracking-[-0.035em]">
             <motion.span 
-              className="block text-foreground font-black tracking-tight"
+              className="block text-foreground"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
@@ -111,16 +111,15 @@ export function Hero() {
               Automatiza tu
             </motion.span>
             <motion.span 
-              className="block text-foreground font-black tracking-tight"
+              className="block text-foreground"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              Empresa con
+              empresa con
             </motion.span>
             <motion.span 
-              className="block text-[#0877f9] italic font-light tracking-normal mt-2 md:mt-3 whitespace-nowrap text-[0.85em] md:text-[0.9em]"
-              style={{ fontFamily: 'var(--font-playfair)' }}
+              className="block gradient-text"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -181,28 +180,12 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 1.5 }}
-            className="mt-16 flex flex-col sm:flex-row items-center sm:justify-start gap-4"
+            className="mt-12"
           >
-            <div className="flex -space-x-2">
-              <div className="h-9 w-9 rounded-full bg-[#10B981] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-40">M</div>
-              <div className="h-9 w-9 rounded-full bg-[#8B5CF6] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-30">A</div>
-              <div className="h-9 w-9 rounded-full bg-[#F59E0B] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-20">B</div>
-              <div className="h-9 w-9 rounded-full bg-[#EF4444] flex items-center justify-center border-2 border-background text-[13px] font-bold text-white shadow-sm z-10">E</div>
-            </div>
-            <div className="flex flex-col items-center sm:items-start gap-0.5">
-              <div className="flex items-center gap-1.5">
-                <div className="flex gap-0.5 text-[#F59E0B]">
-                  <Star className="w-3.5 h-3.5 fill-current" />
-                  <Star className="w-3.5 h-3.5 fill-current" />
-                  <Star className="w-3.5 h-3.5 fill-current" />
-                  <Star className="w-3.5 h-3.5 fill-current" />
-                  <Star className="w-3.5 h-3.5 fill-current" />
-                </div>
-                <span className="text-[13px] font-bold text-foreground mt-0.5">4.9/5</span>
-              </div>
-              <p className="text-[13px] text-muted-foreground font-medium">
-                <strong className="text-foreground font-bold">+50 negocios</strong> en LATAM nos eligen
-              </p>
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-2 text-[13px] text-muted-foreground font-medium">
+              <span className="inline-flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-primary" />Partner oficial de Meta</span>
+              <span className="inline-flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-primary" /><strong className="text-foreground font-semibold">+50 negocios</strong> en LATAM</span>
+              <span className="inline-flex items-center gap-2"><BadgeCheck className="w-4 h-4 text-primary" />Pago único, sin mensualidades</span>
             </div>
           </motion.div>
 

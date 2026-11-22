@@ -6,19 +6,19 @@ import { Cpu, CheckCircle2, ArrowRight, Workflow, Target, MonitorSmartphone, Sla
 import { BrandIcon } from "./brand-icon";
 
 const OUTPUT_NODES = [
-  { slug: "hubspot",        label: "CRM",          sub: "Lead registrado",  from: "from-[#FF7A59]", to: "to-[#ff9b82]",  glow: "shadow-[#FF7A59]/40",  border: "border-[#FF7A59]/30"  },
-  { slug: "googlecalendar", label: "Calendario",   sub: "Cita agendada",    from: "from-[#4285F4]", to: "to-[#6ba3ff]",  glow: "shadow-[#4285F4]/40",  border: "border-[#4285F4]/30"  },
-  { slug: "gmail",          label: "Notificación", sub: "Email enviado",    from: "from-[#EA4335]", to: "to-[#ff6f63]",  glow: "shadow-[#EA4335]/40",  border: "border-[#EA4335]/30"  },
+  { slug: "hubspot",        label: "CRM",          sub: "Lead registrado",  from: "", to: "", glow: "", border: "border-border"  },
+  { slug: "googlecalendar", label: "Calendario",   sub: "Cita agendada",    from: "", to: "", glow: "", border: "border-border"  },
+  { slug: "gmail",          label: "Notificación", sub: "Email enviado",    from: "", to: "", glow: "", border: "border-border"  },
 ];
 
 const HERO_NODES = [
-  { icon: MonitorSmartphone, label: "Web & App",     sub: "Desarrollo",        from: "from-emerald-500", to: "to-green-400",  glow: "shadow-emerald-500/40", x: 50, y: 10, type: "in",  delay: 0.1 },
-  { slug: "whatsapp",        label: "Chatbot",       sub: "Respuestas 24/7",   from: "from-[#25D366]",   to: "to-[#1DA851]",  glow: "shadow-[#25D366]/40",   x: 18, y: 25, type: "in",  delay: 0 },
-  { icon: Workflow,          label: "Integraciones", sub: "APIs & Sistemas",   from: "from-[#0877f9]",  to: "to-[#0565E8]",   glow: "shadow-[#0877f9]/40",  x: 82, y: 25, type: "in",  delay: 0.2 },
-  { slug: "gmail",           label: "Email",         sub: "Confirma",          from: "from-[#EA4335]",   to: "to-[#ff6f63]",  glow: "shadow-[#EA4335]/40",   x: 12, y: 60, type: "out", delay: 0.6 },
-  { icon: Slack,             label: "Slack",         sub: "Notifica",          from: "from-[#E01E5A]",   to: "to-[#36C5F0]",  glow: "shadow-[#E01E5A]/40",   x: 88, y: 60, type: "out", delay: 0 },
-  { icon: Target,            label: "Publicidad IA", sub: "Campañas",          from: "from-orange-500",  to: "to-amber-400",  glow: "shadow-orange-500/40",  x: 28, y: 90, type: "out", delay: 0.4 },
-  { slug: "hubspot",         label: "CRM",           sub: "Registra",          from: "from-[#FF7A59]",   to: "to-[#ff9b82]",  glow: "shadow-[#FF7A59]/40",   x: 72, y: 90, type: "out", delay: 0.2 },
+  { icon: MonitorSmartphone, label: "Web & App",     sub: "Desarrollo",        from: "", to: "", glow: "", x: 50, y: 10, type: "in",  delay: 0.1 },
+  { slug: "whatsapp",        label: "Chatbot",       sub: "Respuestas 24/7",   from: "", to: "", glow: "",   x: 18, y: 25, type: "in",  delay: 0 },
+  { icon: Workflow,          label: "Integraciones", sub: "APIs & Sistemas",   from: "", to: "", glow: "",  x: 82, y: 25, type: "in",  delay: 0.2 },
+  { slug: "gmail",           label: "Email",         sub: "Confirma",          from: "", to: "", glow: "",   x: 12, y: 60, type: "out", delay: 0.6 },
+  { icon: Slack,             label: "Slack",         sub: "Notifica",          from: "", to: "", glow: "",   x: 88, y: 60, type: "out", delay: 0 },
+  { icon: Target,            label: "Publicidad IA", sub: "Campañas",          from: "", to: "", glow: "",  x: 28, y: 90, type: "out", delay: 0.4 },
+  { slug: "hubspot",         label: "CRM",           sub: "Registra",          from: "", to: "", glow: "",   x: 72, y: 90, type: "out", delay: 0.2 },
 ];
 
 export function AutomationDiagram({ className, showCard = true, layout = "horizontal" }: { className?: string; showCard?: boolean; layout?: "horizontal" | "hero" }) {
@@ -51,8 +51,8 @@ export function AutomationDiagram({ className, showCard = true, layout = "horizo
         slug="whatsapp"
         label="WhatsApp"
         sub="Cliente escribe"
-        gradient="from-[#25D366] to-[#1DA851]"
-        glow="shadow-[#25D366]/40"
+        gradient=""
+        glow=""
         active={phase >= 0}
         pulsing={phase === 0}
       />
@@ -225,13 +225,15 @@ function MainNode({
   icon?: LucideIcon; slug?: string; label: string; sub: string; gradient: string; glow: string;
   active: boolean; pulsing?: boolean; processing?: boolean; layout?: string;
 }) {
+  // Sin gradiente = nodo neutro: fondo de tarjeta y el color solo en el logo de la marca
+  const neutral = !gradient.trim();
   return (
     <div className={`flex flex-col items-center min-w-[120px] ${layout === "hero" ? "justify-center relative" : "gap-3"}`}>
       <div className="relative z-10">
         {/* Pulse ring */}
         {pulsing && (
           <motion.div
-            className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${gradient} opacity-30`}
+            className={`absolute inset-0 rounded-2xl ${neutral ? "bg-primary" : `bg-gradient-to-br ${gradient}`} opacity-30`}
             animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0, 0.3] }}
             transition={{ duration: 1.8, repeat: Infinity }}
           />
@@ -239,7 +241,7 @@ function MainNode({
         {/* Spinning ring when processing */}
         {processing && (
           <motion.div
-            className={`absolute -inset-1.5 rounded-2xl border-2 border-transparent bg-gradient-to-br ${gradient}`}
+            className={`absolute -inset-1.5 rounded-2xl border-2 border-transparent ${neutral ? "bg-primary" : `bg-gradient-to-br ${gradient}`}`}
             style={{ WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)", WebkitMaskComposite: "xor", maskComposite: "exclude", padding: "2px" }}
             animate={{ rotate: 360 }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
@@ -248,9 +250,11 @@ function MainNode({
         <motion.div
           animate={active ? { scale: 1, opacity: 1 } : { scale: 0.9, opacity: 0.4 }}
           transition={{ duration: 0.4 }}
-          className={`h-16 w-16 rounded-2xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-xl ${glow}`}
+          className={`h-16 w-16 rounded-2xl flex items-center justify-center ${neutral ? "bg-card border border-border shadow-lg" : `bg-gradient-to-br ${gradient} shadow-xl ${glow}`}`}
         >
-          {slug ? <BrandIcon slug={slug} className="h-8 w-8 text-white" /> : Icon && <Icon className="h-8 w-8 text-white" />}
+          {slug
+            ? <BrandIcon slug={slug} color={neutral ? "brand" : "white"} className="h-8 w-8" />
+            : Icon && <Icon className={`h-8 w-8 ${neutral ? "text-foreground/80" : "text-white"}`} strokeWidth={neutral ? 1.75 : 2} />}
         </motion.div>
       </div>
       <div className={`text-center mt-1 pointer-events-none ${layout === "hero" ? "absolute top-[75px] w-[140px]" : ""}`}>
@@ -300,10 +304,10 @@ function OutputNode({
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.4, delay }}
-          className={`flex items-center gap-3 px-4 py-3 rounded-2xl glass border ${border} transition-all duration-500 ${done ? `shadow-lg ${glow}` : ""}`}
+          className={`flex items-center gap-3 px-4 py-3 rounded-2xl glass border transition-all duration-500 ${done ? "border-primary/30" : border}`}
         >
-          <div className={`h-9 w-9 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center flex-shrink-0 shadow-md`}>
-            <BrandIcon slug={slug} className="h-4.5 w-4.5 text-white" />
+          <div className="h-9 w-9 rounded-xl bg-card border border-border flex items-center justify-center flex-shrink-0">
+            <BrandIcon slug={slug} color="brand" className="h-4.5 w-4.5" />
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-bold text-foreground leading-none">{label}</p>

@@ -241,9 +241,11 @@ export function Services() {
           transition={{ duration: 0.6, delay: 0.3 }}
           className="mt-16 glass border border-white/10 rounded-3xl p-8 md:p-12 max-w-4xl mx-auto hidden sm:block"
         >
-          <p className="text-center text-sm font-semibold uppercase tracking-widest text-primary mb-8 opacity-80">
-            Resultados Comprobados
-          </p>
+          <div className="text-center mb-8">
+            <span className="inline-block text-xs font-semibold uppercase tracking-widest text-primary glass px-4 py-1.5 rounded-full border border-primary/20">
+              Resultados comprobados
+            </span>
+          </div>
           <div className="grid grid-cols-3 gap-8">
             {stats.map(({ value, label }: { value: string; label: string }, i: number) => (
               <AnimatedStat key={i} value={value} label={label} />

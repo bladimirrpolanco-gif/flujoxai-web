@@ -120,17 +120,17 @@ export function Navbar() {
 
   const backgroundColor = useTransform(
     scrollY,
-    [0, 100],
+    [0, 60],
     [
       "rgba(var(--nav-bg), 0)", 
-      "rgba(var(--nav-bg), 0.8)"
+      "rgba(var(--nav-bg), 0.92)"
     ]
   );
   
-  const width = useTransform(scrollY, [0, 100], ["100%", "fit-content"]);
-  const paddingX = useTransform(scrollY, [0, 100], ["0px", "12px"]);
-  const marginTop = useTransform(scrollY, [0, 100], ["0px", "20px"]);
-  const borderRadius = useTransform(scrollY, [0, 100], ["0px", "99px"]);
+  const width = useTransform(scrollY, [0, 60], ["100%", "fit-content"]);
+  const paddingX = useTransform(scrollY, [0, 60], ["0px", "12px"]);
+  const marginTop = useTransform(scrollY, [0, 60], ["0px", "20px"]);
+  const borderRadius = useTransform(scrollY, [0, 60], ["0px", "99px"]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

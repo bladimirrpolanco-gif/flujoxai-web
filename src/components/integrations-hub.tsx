@@ -185,19 +185,20 @@ function HubCenter({ hubPulse }: { hubPulse: boolean }) {
   );
 }
 
-function ToolNode({ slug, label, color, glow, active, side }: {
-  slug: string; label: string; color: string; glow: string; active: boolean; side: "left" | "right";
+function ToolNode({ slug, label, active, side }: {
+  slug: string; label: string; color?: string; glow?: string; active: boolean; side: "left" | "right";
 }) {
   return (
     <motion.div
       animate={active ? { scale: 1.05 } : { scale: 1 }}
       transition={{ duration: 0.3 }}
       className={`flex items-center gap-2 px-3 py-2.5 rounded-2xl glass border transition-all duration-300 ${
-        active ? `border-white/20 shadow-lg ${glow}` : "border-border/30 opacity-50"
+        active ? "border-primary/40 shadow-lg shadow-primary/10" : "border-border/30 opacity-50"
       } ${side === "right" ? "md:flex-row-reverse" : ""}`}
     >
-      <div className={`h-8 w-8 rounded-xl ${color} flex items-center justify-center flex-shrink-0 shadow-md`}>
-        <BrandIcon slug={slug} className="h-4 w-4" />
+      {/* Fondo blanco neutro: el color queda solo en el logo de la marca */}
+      <div className="h-8 w-8 rounded-xl bg-white border border-black/5 flex items-center justify-center flex-shrink-0">
+        <BrandIcon slug={slug} color="brand" className="h-4 w-4" />
       </div>
       <span className="text-xs font-semibold text-foreground whitespace-nowrap">{label}</span>
     </motion.div>
