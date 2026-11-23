@@ -71,6 +71,7 @@ const navLinks: NavLink[] = [
       },
     ]
   },
+  { href: '#productos', label: 'Productos' },
   { href: '/blog', label: 'Blog' },
   { href: '/recursos', label: 'Recursos' },
   { href: '/cotizador', label: 'Cotizador' },

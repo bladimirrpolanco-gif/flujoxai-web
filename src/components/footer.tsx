@@ -116,7 +116,7 @@ export function Footer() {
 
           {/* Producto */}
           <div className="flex flex-col gap-5">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-300">Producto</h4>
+            <h4 className="text-xs font-bold uppercase tracking-widest text-zinc-300">Productos</h4>
             <ul className="flex flex-col gap-3">
               <li>
                 <a 
@@ -127,6 +127,39 @@ export function Footer() {
                 >
                   <span className="h-px w-3 bg-zinc-700 group-hover:bg-primary group-hover:w-4 transition-all" />
                   Flujobot
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://despachia.flujoxai.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-zinc-500 hover:text-white transition-colors flex items-center gap-1.5 group"
+                >
+                  <span className="h-px w-3 bg-zinc-700 group-hover:bg-primary group-hover:w-4 transition-all" />
+                  DespachIA
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://clipper.flujoxai.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-zinc-500 hover:text-white transition-colors flex items-center gap-1.5 group"
+                >
+                  <span className="h-px w-3 bg-zinc-700 group-hover:bg-primary group-hover:w-4 transition-all" />
+                  Clipper
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://travia.flujoxai.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-zinc-500 hover:text-white transition-colors flex items-center gap-1.5 group"
+                >
+                  <span className="h-px w-3 bg-zinc-700 group-hover:bg-primary group-hover:w-4 transition-all" />
+                  TravIA
                 </a>
               </li>
               <li>
