@@ -602,12 +602,7 @@ export default function RecursosPage() {
           >
             Plantillas <span className="gradient-text">n8n</span>
             <br />
-            <span
-              className="font-light italic text-foreground/90"
-              style={{ fontFamily: 'var(--font-playfair)' }}
-            >
-              reales de la comunidad
-            </span>
+            <span className="text-foreground/70">reales de la comunidad</span>
           </motion.h1>
 
           <motion.p
